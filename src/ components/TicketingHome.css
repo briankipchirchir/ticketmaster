@@ -19,10 +19,17 @@
   top: 0;
   z-index: 1000;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.top-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .top-links span {
-  margin-left: 16px;
   cursor: pointer;
   font-size: 12px;
 }
@@ -32,7 +39,6 @@
   background: #026cdf;
   padding: 20px 24px 28px;
   color: white;
- 
 }
 
 .nav {
@@ -40,7 +46,7 @@
   align-items: center;
   gap: 22px;
   flex-wrap: wrap;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 
 .logo {
@@ -78,6 +84,7 @@
   font-size: 14px;
   border-right: 1px solid #e0e0e0;
   min-width: 80px;
+  box-sizing: border-box;
 }
 
 .search-bar input:last-of-type {
@@ -88,11 +95,11 @@
   background: #026cdf;
   color: white;
   border: none;
-  padding: 0 26px;
+  padding: 10px 26px;
   font-size: 15px;
   cursor: pointer;
   flex: 0 0 auto;
-  margin-top: 0;
+  margin: 0;
 }
 
 /* Hero */
@@ -141,7 +148,7 @@
 }
 
 .card {
-  aspect-ratio: 16 / 9; /* makes card height proportional to width */
+  aspect-ratio: 16 / 9;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -249,26 +256,51 @@
 }
 
 @media (max-width: 768px) {
+  /* Top bar stacked */
   .top-bar {
     flex-direction: column;
     align-items: flex-start;
     padding: 6px 12px;
+    gap: 4px;
   }
 
+  .top-links {
+    gap: 6px;
+  }
+
+  .top-links span {
+    font-size: 11px;
+  }
+
+  /* Nav stacked vertically */
   .nav {
     flex-direction: column;
-    gap: 10px;
+    gap: 6px;
+    align-items: flex-start;
   }
 
-  .search-bar input {
-    flex: 1 1 100%;
-    margin-bottom: 8px;
+  .nav a {
+    font-size: 13px;
   }
 
+  .nav-right {
+    margin-left: 0;
+    font-size: 13px;
+  }
+
+  /* Search bar inputs and button stack */
+  .search-bar {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .search-bar input,
   .search-bar button {
     width: 100%;
+    margin: 0;
   }
 
+  /* Cards stack */
   .cards {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -290,6 +322,11 @@
 
   .featured-box {
     flex: 1 1 100%;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+  }
+
+  .top-bar,
+  .nav {
+    gap: 4px;
   }
 }
