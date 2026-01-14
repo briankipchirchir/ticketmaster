@@ -2,6 +2,9 @@
 .app {
   font-family: Arial, Helvetica, sans-serif;
   color: #111;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* Top bar */
@@ -14,12 +17,14 @@
   justify-content: space-between;
   position: sticky;
   top: 0;
-  z-index: 1000; 
+  z-index: 1000;
+  flex-wrap: wrap;
 }
 
 .top-links span {
   margin-left: 16px;
   cursor: pointer;
+  font-size: 12px;
 }
 
 /* Header */
@@ -27,7 +32,7 @@
   background: #026cdf;
   padding: 20px 24px 28px;
   color: white;
-   position: sticky;
+  position: sticky;
   top: 32px; /* height of top-bar */
   z-index: 999;
 }
@@ -36,6 +41,7 @@
   display: flex;
   align-items: center;
   gap: 22px;
+  flex-wrap: wrap;
   margin-bottom: 18px;
 }
 
@@ -47,10 +53,12 @@
 .nav a {
   cursor: pointer;
   font-weight: 500;
+  font-size: 14px;
 }
 
 .nav-right {
   margin-left: auto;
+  font-size: 14px;
 }
 
 /* Search bar */
@@ -60,15 +68,18 @@
   display: flex;
   max-width: 980px;
   overflow: hidden;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .search-bar input {
-  flex: 1;
-  padding: 14px 16px;
+  flex: 1 1 150px;
+  padding: 12px 16px;
   border: none;
   outline: none;
   font-size: 14px;
   border-right: 1px solid #e0e0e0;
+  min-width: 80px;
 }
 
 .search-bar input:last-of-type {
@@ -82,27 +93,35 @@
   padding: 0 26px;
   font-size: 15px;
   cursor: pointer;
+  flex: 0 0 auto;
+  margin-top: 0;
 }
 
 /* Hero */
 .hero {
-  height: 420px;
-  background:
-    linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
-    url("./assets/singapore.jpeg")
-    center/cover no-repeat;
+  min-height: 300px;
   display: flex;
   align-items: flex-end;
+  justify-content: center;
+  padding: 2rem;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .hero-content {
-  padding: 40px 24px;
   color: white;
+  text-align: center;
 }
 
 .hero-content h2 {
-  font-size: 34px;
+  font-size: clamp(20px, 5vw, 34px);
   margin-bottom: 10px;
+}
+
+.hero-content p {
+  font-size: clamp(14px, 3vw, 18px);
+  margin-bottom: 12px;
 }
 
 .hero-content button {
@@ -112,28 +131,41 @@
   padding: 10px 18px;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 /* Cards */
 .cards {
-  padding: 40px 24px;
+  padding: 20px 24px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
 }
 
 .card {
-  height: 180px;
-  background: #f5f5f5;
+  aspect-ratio: 16 / 9; /* makes card height proportional to width */
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  background-size: cover;
+  background-position: center;
 }
 
-
+.card span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7);
+  font-size: clamp(14px, 4vw, 20px);
+  font-weight: bold;
+}
 
 /* Featured Events Section */
 .featured-events {
@@ -141,13 +173,13 @@
   gap: 1rem;
   margin-top: 2rem;
   padding: 1rem;
+  flex-wrap: wrap;
 }
 
-/* Left side: event images */
 .featured-left {
   flex: 3;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
 }
 
@@ -161,6 +193,7 @@
 
 .featured-left .event img {
   width: 100%;
+  height: auto;
   display: block;
 }
 
@@ -170,7 +203,6 @@
   font-size: 0.9rem;
 }
 
-/* Right side: ads and featured boxes */
 .featured-right {
   flex: 1;
   display: flex;
@@ -192,22 +224,11 @@
   font-weight: 600;
 }
 
-.featured-box.purple {
-  background-color: #a855f7; /* purple */
-}
+.featured-box.purple { background-color: #a855f7; }
+.featured-box.blue { background-color: #2563eb; text-align: center; }
+.featured-box.vip { background-color: #dc2626; text-align: center; font-size: 0.85rem; }
 
-.featured-box.blue {
-  background-color: #2563eb; /* blue */
-  text-align: center;
-}
-
-.featured-box.vip {
-  background-color: #dc2626; /* red for VIP */
-  text-align: center;
-  font-size: 0.85rem;
-}
-
-/* Responsive for smaller screens */
+/* Responsive Media Queries */
 @media (max-width: 1024px) {
   .featured-events {
     flex-direction: column;
@@ -225,6 +246,52 @@
 
   .featured-box {
     flex: 1 1 calc(50% - 0.5rem);
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 6px 12px;
+  }
+
+  .nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-bar input {
+    flex: 1 1 100%;
+    margin-bottom: 8px;
+  }
+
+  .search-bar button {
+    width: 100%;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 1rem;
+  }
+
+  .hero-content h2 {
+    font-size: clamp(18px, 6vw, 28px);
+  }
+
+  .hero-content p {
+    font-size: clamp(12px, 4vw, 16px);
+  }
+
+  .featured-box {
+    flex: 1 1 100%;
     font-size: 0.8rem;
   }
 }
