@@ -32,9 +32,7 @@
   background: #026cdf;
   padding: 20px 24px 28px;
   color: white;
-  position: sticky;
-  top: 32px; /* height of top-bar */
-  z-index: 999;
+ 
 }
 
 .nav {
