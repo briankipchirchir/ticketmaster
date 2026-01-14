@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 
 const TicketsPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState<string>("");
+  const [ticketCounts, setTicketCounts] = useState<Record<string, number>>({});
 
   const tickets = [
     { name: "VIP", price: "$399" },
@@ -18,24 +18,26 @@ const TicketsPage: React.FC = () => {
   ];
 
   const handleConfirm = () => {
-    if (!selectedTicket) {
+    const selectedTickets = Object.entries(ticketCounts).filter(([_, qty]) => qty > 0);
+    if (selectedTickets.length === 0) {
       Swal.fire({
         icon: "warning",
         title: "Select a ticket",
-        text: "Please choose a ticket before confirming",
+        text: "Please choose at least one ticket before confirming",
         confirmButtonColor: "#026cdf",
       });
       return;
     }
 
-    // Ticket selected notification
+    const ticketSummary = selectedTickets.map(([name, qty]) => `${name} x${qty}`).join(", ");
+
     Swal.fire({
       icon: "success",
-      title: "Ticket Selected!",
-      text: `You selected ticket: ${selectedTicket}`,
+      title: "Tickets Selected!",
+      text: `You selected: ${ticketSummary}`,
       confirmButtonColor: "#026cdf",
     }).then(() => {
-      // Professional payment modal
+      // Payment method modal
       Swal.fire({
         title: "Choose Payment Method",
         html: `
@@ -183,47 +185,58 @@ const TicketsPage: React.FC = () => {
               backgroundColor: "#ffffff",
               padding: "2rem",
               borderRadius: "12px",
-              width: "320px",
+              width: "360px",
               textAlign: "center",
               boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
               fontFamily: "Arial, Helvetica, sans-serif",
             }}
           >
             <h2 style={{ marginBottom: "1rem", color: "#026cdf" }}>
-              Select Your Ticket
+              Select Your Tickets
             </h2>
             <ul style={{ listStyle: "none", padding: 0 }}>
-              {tickets.map((ticket) => (
-                <li key={ticket.name} style={{ margin: "8px 0" }}>
-                  <button
+              {tickets.map((ticket) => {
+                const count = ticketCounts[ticket.name] || 0;
+                return (
+                  <li
+                    key={ticket.name}
                     style={{
-                      width: "100%",
-                      padding: "10px 0",
-                      border:
-                        selectedTicket === ticket.name
-                          ? "2px solid #026cdf"
-                          : "1px solid #ddd",
-                      borderRadius: "6px",
-                      cursor: "pointer",
-                      backgroundColor:
-                        selectedTicket === ticket.name ? "#e6f0ff" : "#f9f9f9",
-                      color: "#111",
-                      fontWeight: 500,
-                      transition: "all 0.2s",
+                      margin: "8px 0",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: "8px",
                     }}
-                    onClick={() => setSelectedTicket(ticket.name)}
-                    onMouseOver={(e) =>
-                      (e.currentTarget.style.backgroundColor = "#e0f0ff")
-                    }
-                    onMouseOut={(e) =>
-                      (e.currentTarget.style.backgroundColor =
-                        selectedTicket === ticket.name ? "#e6f0ff" : "#f9f9f9")
-                    }
                   >
-                    {ticket.name} - {ticket.price}
-                  </button>
-                </li>
-              ))}
+                    <span style={{ flex: 1, textAlign: "left" }}>
+                      {ticket.name} - {ticket.price}
+                    </span>
+                    <button
+                      style={{ padding: "4px 8px" }}
+                      onClick={() =>
+                        setTicketCounts((prev) => ({
+                          ...prev,
+                          [ticket.name]: Math.max((prev[ticket.name] || 0) - 1, 0),
+                        }))
+                      }
+                    >
+                      -
+                    </button>
+                    <span>{count}</span>
+                    <button
+                      style={{ padding: "4px 8px" }}
+                      onClick={() =>
+                        setTicketCounts((prev) => ({
+                          ...prev,
+                          [ticket.name]: (prev[ticket.name] || 0) + 1,
+                        }))
+                      }
+                    >
+                      +
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
 
             <div
@@ -244,14 +257,7 @@ const TicketsPage: React.FC = () => {
                   borderRadius: "6px",
                   cursor: "pointer",
                   fontWeight: 600,
-                  transition: "background 0.2s",
                 }}
-                onMouseOver={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#024aa3")
-                }
-                onMouseOut={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#026cdf")
-                }
                 onClick={handleConfirm}
               >
                 Confirm
@@ -267,14 +273,7 @@ const TicketsPage: React.FC = () => {
                   borderRadius: "6px",
                   cursor: "pointer",
                   fontWeight: 600,
-                  transition: "background 0.2s",
                 }}
-                onMouseOver={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#e0e0e0")
-                }
-                onMouseOut={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#f1f1f1")
-                }
                 onClick={() => setIsModalOpen(false)}
               >
                 Close
