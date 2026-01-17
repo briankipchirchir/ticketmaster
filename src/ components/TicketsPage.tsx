@@ -17,6 +17,9 @@ const TicketsPage: React.FC = () => {
     { name: "CAT6", price: "$199" },
   ];
 
+  const isMobile = window.innerWidth <= 768;
+
+
   const handleConfirm = () => {
     const selectedTickets = Object.entries(ticketCounts).filter(([_, qty]) => qty > 0);
     if (selectedTickets.length === 0) {
@@ -141,25 +144,27 @@ const TicketsPage: React.FC = () => {
             alt="Ticket 1"
             style={{ width: "100%", display: "block" }}
           />
-          <button
-            style={{
-              position: "absolute",
-              bottom: "16px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              padding: "12px 24px",
-              backgroundColor: "#026cdf",
-              color: "white",
-              border: "none",
-              borderRadius: "6px",
-              cursor: "pointer",
-              fontSize: "16px",
-              opacity: 0.95,
-            }}
-            onClick={() => setIsModalOpen(true)}
-          >
-            GET TICKET
-          </button>
+       <button
+  style={{
+    position: "absolute",
+    bottom: isMobile ? "-24px" : "16px",
+    left: "50%",
+    transform: "translateX(-50%)",
+    padding: "12px 24px",
+    backgroundColor: "#026cdf",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontSize: "16px",
+    opacity: 0.95,
+    boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
+  }}
+  onClick={() => setIsModalOpen(true)}
+>
+  GET TICKET
+</button>
+
         </div>
       </section>
 
