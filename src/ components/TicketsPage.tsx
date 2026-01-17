@@ -119,15 +119,15 @@ const TicketsPage: React.FC = () => {
                   <span style="font-weight:600;font-size:16px">${method}</span>
                 </div>
                 <p><strong>Your Tickets:</strong> ${ticketSummary}</p>
-                <p><strong>Total Amount:</strong> $${totalAmount}</p>
-                <p><strong>Email:</strong> ${result.value.name} (${result.value.email})</p>
+                <p style="font-weight:600;font-size:16px colour:green"><strong>Total Amount:</strong> $${totalAmount}</p>
+                <p><strong>Your Email :</strong> ${result.value.name} (${result.value.email})</p>
                 ${
                   method === "Bank"
                     ? "<p><strong>Account:</strong> 123456789, Global Bank</p>"
-                    : `<p><strong>PayPal Email:</strong> ${paypalEmail}</p>`
+                    : `<p><strong>PayPal Email Account to pay to:</strong> ${paypalEmail}</p>`
                 }
                 <input type="file" id="proofInput" accept="image/*" style="margin-top:10px;width:100%;"/>
-                <p style="font-size:12px;color:#555">Upload proof of payment here</p>
+                <p style="font-size:12px;color:#555">After paying Upload proof of payment here</p>
               `,
               confirmButtonText: "Upload Proof",
               confirmButtonColor: "#026cdf",
