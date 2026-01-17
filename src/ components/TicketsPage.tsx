@@ -39,91 +39,34 @@ const TicketsPage: React.FC = () => {
 
     // 🔹 STEP 1: COLLECT NAME & EMAIL
     Swal.fire({
-      title: "Enter Ticket Details",
-      html: `
-        <input id="name" class="swal2-input" placeholder="Full Name" />
-        <input id="email" type="email" class="swal2-input" placeholder="Email Address" />
-        <p style="font-size:13px;color:#666">
-          Tickets will be sent to this email
-        </p>
-      `,
-      confirmButtonText: "Continue",
-      confirmButtonColor: "#026cdf",
-      focusConfirm: false,
-      preConfirm: () => {
-        const name = (document.getElementById("name") as HTMLInputElement).value;
-        const email = (document.getElementById("email") as HTMLInputElement).value;
+  title: "Enter Ticket Details",
+  html: `
+    <input id="name" class="swal2-input" placeholder="Full Name" />
+    <input id="email" type="email" class="swal2-input" placeholder="Email Address" />
+    <p style="font-size:13px;color:#666">
+      Tickets will be sent to this email
+    </p>
+  `,
+  confirmButtonText: "Continue",
+  confirmButtonColor: "#026cdf",
+  focusConfirm: false,
+  width: '90%', // ✅ makes it adapt on mobile
+  customClass: {
+    popup: 'swal2-popup-mobile' // optional for extra CSS
+  },
+  preConfirm: () => {
+    const name = (document.getElementById("name") as HTMLInputElement).value;
+    const email = (document.getElementById("email") as HTMLInputElement).value;
 
-        if (!name || !email) {
-          Swal.showValidationMessage("Please enter name and email");
-          return;
-        }
+    if (!name || !email) {
+      Swal.showValidationMessage("Please enter name and email");
+      return;
+    }
 
-        return { name, email };
-      },
-    }).then((result) => {
-      if (!result.isConfirmed) return;
+    return { name, email };
+  },
+});
 
-      setUserDetails(result.value);
-
-      // 🔹 STEP 2: PAYMENT METHOD
-      Swal.fire({
-        title: "Choose Payment Method",
-        html: `
-          <div style="display:flex;flex-direction:column;gap:1rem">
-            <button id="paypalBtn" style="
-              display:flex;align-items:center;gap:1rem;
-              padding:12px;border:none;border-radius:8px;
-              background:#003087;color:white;font-weight:600;
-              cursor:pointer">
-              <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" height="30"/>
-              Pay with PayPal
-            </button>
-
-            <button id="bankBtn" style="
-              display:flex;align-items:center;gap:1rem;
-              padding:12px;border:none;border-radius:8px;
-              background:#16a34a;color:white;font-weight:600;
-              cursor:pointer">
-              <img src="https://cdn-icons-png.flaticon.com/512/338/338391.png" height="30"/>
-              Bank Transfer
-            </button>
-          </div>
-        `,
-        showConfirmButton: false,
-        showCloseButton: true,
-        width: 360,
-      }).then(() => {
-        document.getElementById("paypalBtn")?.addEventListener("click", () => {
-          Swal.fire({
-            icon: "success",
-            title: "Payment Successful",
-            html: `
-              <p>Thank you <strong>${result.value.name}</strong></p>
-              <p>Your tickets:</p>
-              <p><strong>${ticketSummary}</strong></p>
-              <p>Sent to:</p>
-              <p><strong>${result.value.email}</strong></p>
-            `,
-            confirmButtonColor: "#003087",
-          });
-        });
-
-        document.getElementById("bankBtn")?.addEventListener("click", () => {
-          Swal.fire({
-            icon: "info",
-            title: "Bank Transfer Details",
-            html: `
-              <p><strong>Account Name:</strong> TicketMaster Ltd</p>
-              <p><strong>Account Number:</strong> 123456789</p>
-              <p><strong>Bank:</strong> Global Bank</p>
-              <p>Use your email as reference</p>
-            `,
-            confirmButtonColor: "#16a34a",
-          });
-        });
-      });
-    });
 
     setIsModalOpen(false);
   };
@@ -181,7 +124,7 @@ const TicketsPage: React.FC = () => {
 
            {/* Display booked user info */}
   {userDetails.name && (
-    <p style={{ marginTop: "1rem", fontWeight: 600, textAlign: "center", width: "100%" }}>
+    <p style={{ marginTop: "3rem", fontWeight: 600, textAlign: "center", width: "100%" }}>
       Booking for: {userDetails.name} ({userDetails.email})
     </p>
   )}
