@@ -178,6 +178,13 @@ const TicketsPage: React.FC = () => {
           >
             GET TICKET
           </button>
+
+           {/* Display booked user info */}
+  {userDetails.name && (
+    <p style={{ marginTop: "1rem", fontWeight: 600, textAlign: "center", width: "100%" }}>
+      Booking for: {userDetails.name} ({userDetails.email})
+    </p>
+  )}
         </div>
       </section>
 
