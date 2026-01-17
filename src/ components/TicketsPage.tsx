@@ -31,7 +31,6 @@ const TicketsPage: React.FC = () => {
 
   const handleConfirm = () => {
     const selectedTickets = Object.entries(ticketCounts).filter(([_, qty]) => qty > 0);
-
     if (selectedTickets.length === 0) {
       Swal.fire({
         icon: "warning",
@@ -46,9 +45,11 @@ const TicketsPage: React.FC = () => {
     Swal.fire({
       title: "Enter Ticket Details",
       html: `
-        <input id="name" class="swal2-input" placeholder="Full Name" />
-        <input id="email" type="email" class="swal2-input" placeholder="Email Address" />
-        <p style="font-size:13px;color:#666">Tickets will be sent to this email</p>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;width:100%;">
+          <input id="name" class="swal2-input" placeholder="Full Name" style="width:100%; box-sizing:border-box; font-size:14px; padding:10px;" />
+          <input id="email" type="email" class="swal2-input" placeholder="Email Address" style="width:100%; box-sizing:border-box; font-size:14px; padding:10px;" />
+          <p style="font-size:13px;color:#666; margin:0;">Tickets will be sent to this email</p>
+        </div>
       `,
       confirmButtonText: "Continue",
       confirmButtonColor: "#026cdf",
@@ -56,8 +57,8 @@ const TicketsPage: React.FC = () => {
       width: "90%",
       customClass: { popup: "swal2-popup-mobile" },
       preConfirm: () => {
-        const name = (document.getElementById("name") as HTMLInputElement).value;
-        const email = (document.getElementById("email") as HTMLInputElement).value;
+        const name = (document.getElementById("name") as HTMLInputElement).value.trim();
+        const email = (document.getElementById("email") as HTMLInputElement).value.trim();
         if (!name || !email) {
           Swal.showValidationMessage("Please enter name and email");
           return;
@@ -84,7 +85,7 @@ const TicketsPage: React.FC = () => {
               display:flex;align-items:center;gap:1rem;
               padding:12px;border:none;border-radius:8px;
               background:#003087;color:white;font-weight:600;
-              cursor:pointer">
+              cursor:pointer; width:100%;">
               <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" height="30"/>
               Pay with PayPal
             </button>
@@ -93,7 +94,7 @@ const TicketsPage: React.FC = () => {
               display:flex;align-items:center;gap:1rem;
               padding:12px;border:none;border-radius:8px;
               background:#16a34a;color:white;font-weight:600;
-              cursor:pointer">
+              cursor:pointer; width:100%;">
               <img src="https://cdn-icons-png.flaticon.com/512/338/338391.png" height="30"/>
               Bank Transfer
             </button>
@@ -101,32 +102,42 @@ const TicketsPage: React.FC = () => {
         `,
         showConfirmButton: false,
         showCloseButton: true,
-        width: 360,
+        width: "90%",
         didOpen: () => {
           const showPaymentDetails = (method: "PayPal" | "Bank") => {
+            const paymentIcon = method === "PayPal"
+              ? "https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg"
+              : "https://cdn-icons-png.flaticon.com/512/338/338391.png";
+
+            const paypalEmail = "payments@ticketmaster.com";
+
             Swal.fire({
-              title: `${method} Payment`,
+              title: `<span style="color:#026cdf">${method} Payment</span>`,
               html: `
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                  <img src="${paymentIcon}" height="40" />
+                  <span style="font-weight:600;font-size:16px">${method}</span>
+                </div>
                 <p><strong>Your Tickets:</strong> ${ticketSummary}</p>
                 <p><strong>Total Amount:</strong> $${totalAmount}</p>
-                <p><strong>Payment Method:</strong> ${method}</p>
                 <p><strong>Email:</strong> ${result.value.name} (${result.value.email})</p>
                 ${
                   method === "Bank"
                     ? "<p><strong>Account:</strong> 123456789, Global Bank</p>"
-                    : ""
+                    : `<p><strong>PayPal Email:</strong> ${paypalEmail}</p>`
                 }
-                <input type="file" id="proofInput" accept="image/*" style="margin-top:10px"/>
+                <input type="file" id="proofInput" accept="image/*" style="margin-top:10px;width:100%;"/>
                 <p style="font-size:12px;color:#555">Upload proof of payment here</p>
               `,
               confirmButtonText: "Upload Proof",
               confirmButtonColor: "#026cdf",
+              width: "90%",
               preConfirm: () => {
                 const fileInput = document.getElementById("proofInput") as HTMLInputElement;
                 if (fileInput?.files && fileInput.files[0]) return fileInput.files[0];
                 Swal.showValidationMessage("Please select a file to upload");
                 return;
-              },
+              }
             }).then((uploadResult) => {
               if (uploadResult.isConfirmed && uploadResult.value) {
                 setProofOfPayment(uploadResult.value as File);
@@ -230,6 +241,8 @@ const TicketsPage: React.FC = () => {
               maxWidth: "360px",
               boxShadow: "0 20px 40px rgba(0,0,0,0.25)",
               fontFamily: "Inter, Arial, sans-serif",
+              maxHeight: "90vh",
+              overflowY: "auto",
             }}
           >
             <h2 style={{ marginBottom: "1rem", color: "#026cdf", fontSize: "20px", fontWeight: 700, textAlign: "center" }}>
