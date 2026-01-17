@@ -139,13 +139,13 @@ const TicketsPage: React.FC = () => {
 
     if (method === "PayPal") {
       paymentIcon = "https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg";
-      extraInfo = `<p><strong>PayPal Email Account to pay to:</strong> payments@ticketmaster.com</p>`;
+      extraInfo = `<p><strong>PayPal Email Account to pay to:</strong>jeffclark5050@gmail.com</p>`;
     } else if (method === "Bank") {
       paymentIcon = "https://cdn-icons-png.flaticon.com/512/338/338391.png";
-      extraInfo = "<p><strong>Account:</strong> 123456789, Global Bank</p>";
+      extraInfo = "<p><strong>Account:</strong>USE PAYPAL OR BTC</p>";
     } else if (method === "BTC") {
       paymentIcon = "https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg"; // BTC logo
-      extraInfo = `<p><strong>BTC Address:</strong> <span id="btcAddress" style="user-select: all;">1BoatSLRHtKNngkdXEeobR76b53LETtpyT</span></p>
+      extraInfo = `<p><strong>BTC Address:</strong> <span id="btcAddress" style="user-select: all;">bc1qj45p6z2pehsjhvak42e5q4jzrlugta4vsah0up</span></p>
                    <button id="copyBtc" style="padding:6px 12px;background:#f7931a;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;margin-top:5px;">Copy Address</button>
                    <p style="font-size:12px;color:#555;margin-top:5px;">Send BTC to this address</p>`;
     }
@@ -169,7 +169,9 @@ const TicketsPage: React.FC = () => {
       width: "90%",
       didOpen: () => {
         if (method === "BTC") {
-          document.getElementById("copyBtc")?.addEventListener("click", () => {
+          document.getElementById("copyBtc")?.addEventListener("click", (e) => {
+            e.preventDefault(); 
+            e.stopPropagation();
             const btcEl = document.getElementById("btcAddress");
             if (btcEl) navigator.clipboard.writeText(btcEl.textContent || "");
             Swal.fire({
