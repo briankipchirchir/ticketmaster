@@ -99,9 +99,32 @@ const TicketsPage: React.FC = () => {
               Bank Transfer
             </button>
 
-             <button id="btcBtn" style="margin-bottom:10px;width:100%;padding:12px;background:#f7931a;color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;">
-            Pay with Bitcoin (BTC)
-          </button>
+          <button
+  id="btcBtn"
+  style="
+    margin-bottom:10px;
+    width:100%;
+    padding:12px;
+    background:#f7931a;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    justify-content:center;
+  "
+>
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg"
+    height="24"
+    alt="BTC"
+  />
+  Pay with Bitcoin (BTC)
+</button>
+
           </div>
         `,
         showConfirmButton: false,
