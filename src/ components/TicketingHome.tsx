@@ -9,14 +9,33 @@ const TicketingHome: React.FC = () => {
     <div className="app">
       {/* Top Bar */}
       <div className="top-bar">
-        <div>US</div>
+       <div className="country">
+  <img 
+    src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" 
+    alt="US Flag" 
+    height={16} 
+    style={{ marginRight: "6px", verticalAlign: "middle" }}
+  />
+  US
+</div>
+
         <div className="top-links">
           <span>Hotels</span>
           <span>Sell</span>
           <span>Gift Cards</span>
           <span>Help</span>
           <span>VIP</span>
-          <span>Paypal</span>
+          <span className="paypal-con">
+  {/* PayPal */}
+  <img
+    src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg"
+    alt="PayPal"
+    height={20}
+    style={{ marginRight: "6px", verticalAlign: "middle" }}
+  />
+  PayPal
+</span>
+
         </div>
       </div>
 
