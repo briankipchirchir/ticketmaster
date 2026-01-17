@@ -98,63 +98,111 @@ const TicketsPage: React.FC = () => {
               <img src="https://cdn-icons-png.flaticon.com/512/338/338391.png" height="30"/>
               Bank Transfer
             </button>
+
+             <button id="btcBtn" style="margin-bottom:10px;width:100%;padding:12px;background:#f7931a;color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;">
+            Pay with Bitcoin (BTC)
+          </button>
           </div>
         `,
         showConfirmButton: false,
         showCloseButton: true,
         width: "90%",
-        didOpen: () => {
-          const showPaymentDetails = (method: "PayPal" | "Bank") => {
-            const paymentIcon = method === "PayPal"
-              ? "https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg"
-              : "https://cdn-icons-png.flaticon.com/512/338/338391.png";
+       didOpen: () => {
+  const showPaymentDetails = (method: "PayPal" | "Bank" | "BTC") => {
+    // Determine payment info
+    let title = method === "BTC" ? "Bitcoin Payment" : `${method} Payment`;
+    let paymentIcon = "";
+    let extraInfo = "";
 
-            const paypalEmail = "payments@ticketmaster.com";
+    if (method === "PayPal") {
+      paymentIcon = "https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg";
+      extraInfo = `<p><strong>PayPal Email Account to pay to:</strong> payments@ticketmaster.com</p>`;
+    } else if (method === "Bank") {
+      paymentIcon = "https://cdn-icons-png.flaticon.com/512/338/338391.png";
+      extraInfo = "<p><strong>Account:</strong> 123456789, Global Bank</p>";
+    } else if (method === "BTC") {
+      paymentIcon = "https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg"; // BTC logo
+      extraInfo = `<p><strong>BTC Address:</strong> <span id="btcAddress" style="user-select: all;">1BoatSLRHtKNngkdXEeobR76b53LETtpyT</span></p>
+                   <button id="copyBtc" style="padding:6px 12px;background:#f7931a;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;margin-top:5px;">Copy Address</button>
+                   <p style="font-size:12px;color:#555;margin-top:5px;">Send BTC to this address</p>`;
+    }
 
+    Swal.fire({
+      title: `<span style="color:#026cdf">${title}</span>`,
+      html: `
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <img src="${paymentIcon}" height="40" />
+          <span style="font-weight:600;font-size:16px">${method}</span>
+        </div>
+        <p><strong>Your Tickets:</strong> ${ticketSummary}</p>
+        <p style="font-weight:600;font-size:16px;color:green;"><strong>Total Amount:</strong> $${totalAmount}</p>
+        <p><strong>Email :</strong> ${result.value.name} (${result.value.email})</p>
+        ${extraInfo}
+        <input type="file" id="proofInput" accept="image/*" style="margin-top:10px;width:100%;" />
+        <p style="font-size:12px;color:#555">After paying, upload proof of payment here</p>
+      `,
+      confirmButtonText: "Upload Proof",
+      confirmButtonColor: "#026cdf",
+      width: "90%",
+      didOpen: () => {
+        if (method === "BTC") {
+          document.getElementById("copyBtc")?.addEventListener("click", () => {
+            const btcEl = document.getElementById("btcAddress");
+            if (btcEl) navigator.clipboard.writeText(btcEl.textContent || "");
             Swal.fire({
-              title: `<span style="color:#026cdf">${method} Payment</span>`,
-              html: `
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-                  <img src="${paymentIcon}" height="40" />
-                  <span style="font-weight:600;font-size:16px">${method}</span>
-                </div>
-                <p><strong>Your Tickets:</strong> ${ticketSummary}</p>
-                <p style="font-weight:600;font-size:16px colour:green"><strong>Total Amount:</strong> $${totalAmount}</p>
-                <p><strong>Your Email :</strong> ${result.value.name} (${result.value.email})</p>
-                ${
-                  method === "Bank"
-                    ? "<p><strong>Account:</strong> 123456789, Global Bank</p>"
-                    : `<p><strong>PayPal Email Account to pay to:</strong> ${paypalEmail}</p>`
-                }
-                <input type="file" id="proofInput" accept="image/*" style="margin-top:10px;width:100%;"/>
-                <p style="font-size:12px;color:#555">After paying Upload proof of payment here</p>
-              `,
-              confirmButtonText: "Upload Proof",
+              icon: "success",
+              title: "Copied!",
+              text: "BTC address copied to clipboard",
               confirmButtonColor: "#026cdf",
-              width: "90%",
-              preConfirm: () => {
-                const fileInput = document.getElementById("proofInput") as HTMLInputElement;
-                if (fileInput?.files && fileInput.files[0]) return fileInput.files[0];
-                Swal.showValidationMessage("Please select a file to upload");
-                return;
-              }
-            }).then((uploadResult) => {
-              if (uploadResult.isConfirmed && uploadResult.value) {
-                setProofOfPayment(uploadResult.value as File);
-                Swal.fire({
-                  icon: "success",
-                  title: "Proof Uploaded",
-                  text: "Your proof of payment has been uploaded successfully!",
-                  confirmButtonColor: "#026cdf",
-                });
-              }
             });
-          };
+          });
+        }
+      },
+      preConfirm: async () => {
+        const fileInput = document.getElementById("proofInput") as HTMLInputElement;
+        if (fileInput?.files && fileInput.files[0]) {
+          const file = fileInput.files[0];
+          const formData = new FormData();
+          formData.append("name", result.value.name);
+          formData.append("email", result.value.email);
+          formData.append("tickets", ticketSummary);
+          formData.append("amount", totalAmount.toString());
+          formData.append("file", file);
 
-          // Attach events
-          document.getElementById("paypalBtn")?.addEventListener("click", () => showPaymentDetails("PayPal"));
-          document.getElementById("bankBtn")?.addEventListener("click", () => showPaymentDetails("Bank"));
-        },
+          try {
+            const res = await fetch("http://localhost:8080/api/proof", {
+              method: "POST",
+              body: formData,
+            });
+            if (!res.ok) throw new Error("Upload failed");
+            await res.json();
+            return file;
+          } catch (err) {
+            Swal.showValidationMessage("Failed to upload proof. Try again.");
+          }
+        } else {
+          Swal.showValidationMessage("Please select a file to upload");
+        }
+      },
+    }).then((uploadResult) => {
+      if (uploadResult.isConfirmed && uploadResult.value) {
+        setProofOfPayment(uploadResult.value as File);
+        Swal.fire({
+          icon: "success",
+          title: "Proof Uploaded",
+          text: "Your proof of payment has been uploaded successfully!",
+          confirmButtonColor: "#026cdf",
+        });
+      }
+    });
+  };
+
+  // Attach click events
+  document.getElementById("paypalBtn")?.addEventListener("click", () => showPaymentDetails("PayPal"));
+  document.getElementById("bankBtn")?.addEventListener("click", () => showPaymentDetails("Bank"));
+  document.getElementById("btcBtn")?.addEventListener("click", () => showPaymentDetails("BTC"));
+},
+
       });
     });
 
