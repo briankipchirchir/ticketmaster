@@ -42,7 +42,7 @@ const TicketingHome: React.FC = () => {
       {/* Header */}
       <header className="header">
         <nav className="nav">
-          <h1 className="logo">ticketmaster</h1>
+          <h1 className="logo">Ticketmaster</h1>
           <a>Concerts</a>
           <a>Sports</a>
           <a>Arts & Theatre</a>
