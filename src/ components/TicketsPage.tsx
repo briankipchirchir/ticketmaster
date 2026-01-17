@@ -10,13 +10,13 @@ const TicketsPage: React.FC = () => {
   const [proofOfPayment, setProofOfPayment] = useState<File | null>(null);
 
   const tickets = [
-    { name: "VIP", price: "$399" },
-    { name: "CAT1", price: "$349" },
-    { name: "CAT2", price: "$319" },
-    { name: "CAT3", price: "$289" },
-    { name: "CAT4", price: "$259" },
-    { name: "CAT5", price: "$229" },
-    { name: "CAT6", price: "$199" },
+    { name: "VIP", price: "$379" },
+    { name: "CAT1", price: "$329" },
+    { name: "CAT2", price: "$299" },
+    { name: "CAT3", price: "$269" },
+    { name: "CAT4", price: "$239" },
+    { name: "CAT5", price: "$209" },
+    { name: "CAT6", price: "$179" },
   ];
 
   const counterBtn = {
