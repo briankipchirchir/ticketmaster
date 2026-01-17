@@ -7,6 +7,7 @@ const TicketsPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ticketCounts, setTicketCounts] = useState<Record<string, number>>({});
   const [userDetails, setUserDetails] = useState({ name: "", email: "" });
+  const [proofOfPayment, setProofOfPayment] = useState<File | null>(null);
 
   const tickets = [
     { name: "VIP", price: "$399" },
@@ -17,6 +18,16 @@ const TicketsPage: React.FC = () => {
     { name: "CAT5", price: "$229" },
     { name: "CAT6", price: "$199" },
   ];
+
+  const counterBtn = {
+    width: "28px",
+    height: "28px",
+    borderRadius: "6px",
+    border: "1px solid #ddd",
+    background: "#fff",
+    cursor: "pointer",
+    fontWeight: 700,
+  };
 
   const handleConfirm = () => {
     const selectedTickets = Object.entries(ticketCounts).filter(([_, qty]) => qty > 0);
@@ -31,15 +42,13 @@ const TicketsPage: React.FC = () => {
       return;
     }
 
-    // 🔹 STEP 1: COLLECT NAME & EMAIL
+    // Step 1: Collect name & email
     Swal.fire({
       title: "Enter Ticket Details",
       html: `
         <input id="name" class="swal2-input" placeholder="Full Name" />
         <input id="email" type="email" class="swal2-input" placeholder="Email Address" />
-        <p style="font-size:13px;color:#666">
-          Tickets will be sent to this email
-        </p>
+        <p style="font-size:13px;color:#666">Tickets will be sent to this email</p>
       `,
       confirmButtonText: "Continue",
       confirmButtonColor: "#026cdf",
@@ -58,15 +67,15 @@ const TicketsPage: React.FC = () => {
     }).then((result) => {
       if (!result.isConfirmed || !result.value) return;
 
-      // ✅ Save user details
       setUserDetails(result.value);
 
-      // ✅ Use ticketSummary inside Swal
-      const ticketSummary = selectedTickets
-        .map(([name, qty]) => `${name} x${qty}`)
-        .join(", ");
+      const ticketSummary = selectedTickets.map(([name, qty]) => `${name} x${qty}`).join(", ");
+      const totalAmount = selectedTickets.reduce((sum, [name, qty]) => {
+        const price = parseInt(tickets.find(t => t.name === name)!.price.replace("$", ""));
+        return sum + price * qty;
+      }, 0);
 
-      // 🔹 STEP 2: PAYMENT METHOD
+      // Step 2: Payment method
       Swal.fire({
         title: "Choose Payment Method",
         html: `
@@ -93,49 +102,52 @@ const TicketsPage: React.FC = () => {
         showConfirmButton: false,
         showCloseButton: true,
         width: 360,
-      }).then(() => {
-        document.getElementById("paypalBtn")?.addEventListener("click", () => {
-          Swal.fire({
-            icon: "success",
-            title: "Payment Successful",
-            html: `
-              <p>Thank you <strong>${result.value?.name}</strong></p>
-              <p>Your tickets:</p>
-              <p><strong>${ticketSummary}</strong></p>
-              <p>Sent to:</p>
-              <p><strong>${result.value?.email}</strong></p>
-            `,
-            confirmButtonColor: "#003087",
-          });
-        });
+        didOpen: () => {
+          const showPaymentDetails = (method: "PayPal" | "Bank") => {
+            Swal.fire({
+              title: `${method} Payment`,
+              html: `
+                <p><strong>Your Tickets:</strong> ${ticketSummary}</p>
+                <p><strong>Total Amount:</strong> $${totalAmount}</p>
+                <p><strong>Payment Method:</strong> ${method}</p>
+                <p><strong>Email:</strong> ${result.value.name} (${result.value.email})</p>
+                ${
+                  method === "Bank"
+                    ? "<p><strong>Account:</strong> 123456789, Global Bank</p>"
+                    : ""
+                }
+                <input type="file" id="proofInput" accept="image/*" style="margin-top:10px"/>
+                <p style="font-size:12px;color:#555">Upload proof of payment here</p>
+              `,
+              confirmButtonText: "Upload Proof",
+              confirmButtonColor: "#026cdf",
+              preConfirm: () => {
+                const fileInput = document.getElementById("proofInput") as HTMLInputElement;
+                if (fileInput?.files && fileInput.files[0]) return fileInput.files[0];
+                Swal.showValidationMessage("Please select a file to upload");
+                return;
+              },
+            }).then((uploadResult) => {
+              if (uploadResult.isConfirmed && uploadResult.value) {
+                setProofOfPayment(uploadResult.value as File);
+                Swal.fire({
+                  icon: "success",
+                  title: "Proof Uploaded",
+                  text: "Your proof of payment has been uploaded successfully!",
+                  confirmButtonColor: "#026cdf",
+                });
+              }
+            });
+          };
 
-        document.getElementById("bankBtn")?.addEventListener("click", () => {
-          Swal.fire({
-            icon: "info",
-            title: "Bank Transfer Details",
-            html: `
-              <p><strong>Account Name:</strong> TicketMaster Ltd</p>
-              <p><strong>Account Number:</strong> 123456789</p>
-              <p><strong>Bank:</strong> Global Bank</p>
-              <p>Use your email as reference</p>
-            `,
-            confirmButtonColor: "#16a34a",
-          });
-        });
+          // Attach events
+          document.getElementById("paypalBtn")?.addEventListener("click", () => showPaymentDetails("PayPal"));
+          document.getElementById("bankBtn")?.addEventListener("click", () => showPaymentDetails("Bank"));
+        },
       });
     });
 
     setIsModalOpen(false);
-  };
-
-  const counterBtn = {
-    width: "28px",
-    height: "28px",
-    borderRadius: "6px",
-    border: "1px solid #ddd",
-    background: "#fff",
-    cursor: "pointer",
-    fontWeight: 700,
   };
 
   return (
@@ -159,7 +171,7 @@ const TicketsPage: React.FC = () => {
 
       {/* Ticket Image */}
       <section style={{ padding: "2rem", display: "flex", justifyContent: "center" }}>
-        <div style={{ width: "800px", position: "relative" }}>
+        <div style={{ width: "100%", maxWidth: "800px", position: "relative" }}>
           <img src={ticket1} style={{ width: "100%", borderRadius: "8px" }} />
           <button
             onClick={() => setIsModalOpen(true)}
@@ -181,8 +193,15 @@ const TicketsPage: React.FC = () => {
 
           {/* Display booked user info */}
           {userDetails.name && (
-            <p style={{ marginTop: "3rem", fontWeight: 600, textAlign: "center", width: "100%" }}>
+            <p style={{ marginTop: "2rem", fontWeight: 600, textAlign: "center" }}>
               Booking for: {userDetails.name} ({userDetails.email})
+            </p>
+          )}
+
+          {/* Display uploaded proof info */}
+          {proofOfPayment && (
+            <p style={{ marginTop: "1rem", textAlign: "center", color: "#16a34a" }}>
+              Proof of payment uploaded: {proofOfPayment.name}
             </p>
           )}
         </div>
@@ -207,21 +226,13 @@ const TicketsPage: React.FC = () => {
               background: "#fff",
               padding: "1.75rem",
               borderRadius: "14px",
-              width: "360px",
+              width: "90%",
+              maxWidth: "360px",
               boxShadow: "0 20px 40px rgba(0,0,0,0.25)",
               fontFamily: "Inter, Arial, sans-serif",
             }}
           >
-            {/* Header */}
-            <h2
-              style={{
-                marginBottom: "1rem",
-                color: "#026cdf",
-                fontSize: "20px",
-                fontWeight: 700,
-                textAlign: "center",
-              }}
-            >
+            <h2 style={{ marginBottom: "1rem", color: "#026cdf", fontSize: "20px", fontWeight: 700, textAlign: "center" }}>
               Select Your Tickets
             </h2>
 
@@ -230,83 +241,37 @@ const TicketsPage: React.FC = () => {
               {tickets.map((t) => {
                 const count = ticketCounts[t.name] || 0;
                 return (
-                  <li
-                    key={t.name}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      padding: "10px 0",
-                      borderBottom: "1px solid #eee",
-                    }}
-                  >
+                  <li key={t.name} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid #eee" }}>
                     <div>
                       <div style={{ fontWeight: 600 }}>{t.name}</div>
                       <div style={{ fontSize: "13px", color: "#666" }}>{t.price}</div>
                     </div>
 
-                    {/* Counter */}
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <button
-                        onClick={() =>
-                          setTicketCounts((p) => ({ ...p, [t.name]: Math.max(count - 1, 0) }))
-                        }
-                        style={counterBtn}
-                      >
-                        −
-                      </button>
-
-                      <span style={{ minWidth: "20px", textAlign: "center", fontWeight: 600 }}>
-                        {count}
-                      </span>
-
-                      <button
-                        onClick={() =>
-                          setTicketCounts((p) => ({ ...p, [t.name]: count + 1 }))
-                        }
-                        style={{ ...counterBtn, background: "#026cdf", color: "#fff" }}
-                      >
-                        +
-                      </button>
+                      <button onClick={() => setTicketCounts((p) => ({ ...p, [t.name]: Math.max(count - 1, 0) }))} style={counterBtn}>−</button>
+                      <span style={{ minWidth: "20px", textAlign: "center", fontWeight: 600 }}>{count}</span>
+                      <button onClick={() => setTicketCounts((p) => ({ ...p, [t.name]: count + 1 }))} style={{ ...counterBtn, background: "#026cdf", color: "#fff" }}>+</button>
                     </div>
                   </li>
                 );
               })}
             </ul>
 
-            {/* Actions */}
-            <div style={{ marginTop: "1.5rem", display: "flex", gap: "0.75rem" }}>
-              <button
-                onClick={handleConfirm}
-                style={{
-                  flex: 1,
-                  padding: "12px",
-                  background: "#026cdf",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "8px",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                Confirm
-              </button>
+            {/* Live total */}
+            {Object.values(ticketCounts).some(q => q > 0) && (
+              <p style={{ fontWeight: 600, marginTop: "1rem", textAlign: "center" }}>
+                Total: $
+                {Object.entries(ticketCounts)
+                  .reduce((sum, [name, qty]) => {
+                    const price = parseInt(tickets.find(t => t.name === name)!.price.replace("$", ""));
+                    return sum + price * qty;
+                  }, 0)}
+              </p>
+            )}
 
-              <button
-                onClick={() => setIsModalOpen(false)}
-                style={{
-                  flex: 1,
-                  padding: "12px",
-                  background: "#f1f1f1",
-                  color: "#333",
-                  border: "none",
-                  borderRadius: "8px",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                Cancel
-              </button>
+            <div style={{ marginTop: "1.5rem", display: "flex", gap: "0.75rem" }}>
+              <button onClick={handleConfirm} style={{ flex: 1, padding: "12px", background: "#026cdf", color: "#fff", border: "none", borderRadius: "8px", fontWeight: 600, cursor: "pointer" }}>Confirm</button>
+              <button onClick={() => setIsModalOpen(false)} style={{ flex: 1, padding: "12px", background: "#f1f1f1", color: "#333", border: "none", borderRadius: "8px", fontWeight: 600, cursor: "pointer" }}>Cancel</button>
             </div>
           </div>
         </div>
