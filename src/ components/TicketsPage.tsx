@@ -147,7 +147,7 @@ const TicketsPage: React.FC = () => {
               bottom: "10px",
               left: "50%",
               transform: "translateX(-50%)",
-              padding: "12px 24px",
+              padding: "10px 15px",
               backgroundColor: "#026cdf",
               color: "white",
               border: "none",
