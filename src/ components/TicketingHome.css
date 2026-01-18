@@ -172,6 +172,59 @@
   font-weight: bold;
 }
 
+/* First Event */
+.hero-first-event {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 2rem;
+  background-color: #f5f5f5; /* subtle background */
+}
+
+.hero-first-content {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  max-width: 1200px;
+}
+
+.hero-first-event .event-image {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.hero-first-event .event-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hero-first-event .badge {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+/* Second Event Hero (same as before) */
+.hero-second-event {
+  height: 420px;
+  display: flex;
+  align-items: flex-end;
+  text-align: center;
+  padding: 2rem;
+}
+
+.hero-second-event .hero-content h2,
+.hero-second-event .hero-content p {
+  color: white;
+}
+
+
 /* Featured Events Section */
 .featured-events {
   display: flex;

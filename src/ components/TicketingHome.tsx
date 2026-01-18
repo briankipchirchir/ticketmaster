@@ -1,6 +1,7 @@
 
 import "./TicketingHome.css";
-import heroImage from "../assets/singapore.jpeg"; // correct relative path from components folder
+import heroImage from "../assets/singapore.jpeg";
+import williImage from "../assets/willi.jpeg";  // correct relative path from components folder
 import { useNavigate } from "react-router-dom";
 
 const TicketingHome: React.FC = () => {
@@ -66,23 +67,48 @@ const TicketingHome: React.FC = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section
-        className="hero"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${heroImage})`,
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="hero-content">
-          <h2>Featured Event</h2>
-          <h2>Seventeen World Tour Singapore</h2>
-          <p>Theatre · Live · Touring</p>
-           <button onClick={() => navigate("/tickets")}>Find Tickets</button>
-        </div>
-      </section>
+    {/* First Event Section */}
+<section className="hero-first-event">
+  <div className="hero-first-content">
+    {/* Event Image */}
+    <img 
+      src={williImage} // import at top
+      alt="Coldplay Music of the Spheres"
+      className="event-image"
+    />
+
+    {/* Event Text */}
+    <div className="event-text">
+      <span className="badge">Happening Soon</span>
+      <h2>WILLIAMEST _1st FAN MEETING “ECHO RESONANCE” IN SINGAPORE 🇸🇬</h2>
+      <p>Concert · Live · Singapore</p>
+      <button onClick={() => navigate("/tickets")}>
+        Get Tickets
+      </button>
+    </div>
+  </div>
+</section>
+
+{/* Second Event Section (Hero Background) */}
+<section
+  className="hero-second-event"
+  style={{
+    backgroundImage: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${heroImage})`,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+  }}
+>
+  <div className="hero-content">
+    <h2>Featured Event</h2>
+    <h2>Seventeen World Tour Singapore</h2>
+    <p>Theatre · Live · Touring</p>
+    <button onClick={() => navigate("/tickets")}>
+      Find Tickets
+    </button>
+  </div>
+</section>
+
 
      {/* Cards Section */}
 <section className="cards">
