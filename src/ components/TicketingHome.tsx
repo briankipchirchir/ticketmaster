@@ -48,7 +48,14 @@ const TicketingHome: React.FC = () => {
           <a>Arts & Theatre</a>
           <a>Family</a>
           <a>Cities</a>
-          <div className="nav-right">Sign In / Register</div>
+          <div
+  className="nav-right"
+  style={{ cursor: "pointer" }}
+  onClick={() => navigate("/admin-login")}
+>
+  Sign In / Register
+</div>
+
         </nav>
 
         <div className="search-bar">

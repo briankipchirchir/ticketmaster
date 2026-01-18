@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Proof {
   id: number;
@@ -14,6 +15,16 @@ interface Proof {
 const AdminPage: React.FC = () => {
   const [proofs, setProofs] = useState<Proof[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+
+useEffect(() => {
+  const isAdmin = sessionStorage.getItem("isAdmin");
+  if (!isAdmin) {
+    navigate("/admin-login");
+  }
+}, []);
+
 
   useEffect(() => {
     fetch("https://ticketmasterb.onrender.com/api/proofs")

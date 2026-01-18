@@ -4,6 +4,7 @@ import TicketingHome from "./ components/TicketingHome";
 import { Footer } from "./ components/Footer";
 import TicketsPage from "./ components/TicketsPage";
 import AdminPage from "./ components/AdminPage";
+import AdminLogin from "./ components/AdminLogin";
 
 function App() {
   return (
@@ -38,6 +39,15 @@ function App() {
           }
         />
         
+         <Route
+          path="/admin-login"
+          element={
+            <>
+              <AdminLogin />
+              <Footer />
+            </>
+          }
+        />
       </Routes>
     </Router>
   );
