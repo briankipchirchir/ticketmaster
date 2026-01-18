@@ -82,7 +82,7 @@ const TicketingHome: React.FC = () => {
       <span className="badge">Happening Soon</span>
       <h2>WILLIAMEST _1st FAN MEETING “ECHO RESONANCE” IN SINGAPORE 🇸🇬</h2>
       <p>Concert · Live · Singapore</p>
-      <button onClick={() => navigate("/tickets")}>
+      <button onClick={() => navigate("/tickets/willi")}>
         Get Tickets
       </button>
     </div>
@@ -103,7 +103,7 @@ const TicketingHome: React.FC = () => {
     <h2>Featured Event</h2>
     <h2>Seventeen World Tour Singapore</h2>
     <p>Theatre · Live · Touring</p>
-    <button onClick={() => navigate("/tickets")}>
+    <button onClick={() => navigate("/tickets/seventeen")}>
       Find Tickets
     </button>
   </div>

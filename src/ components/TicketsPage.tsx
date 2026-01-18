@@ -2,22 +2,61 @@ import heroImage from "../assets/singapore.jpeg";
 import ticket1 from "../assets/SING1.jpeg";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import williHero from "../assets/willi.jpeg";
+import { useParams } from "react-router-dom";
+
+
+const EVENTS = {
+  seventeen: {
+    title: "Seventeen World Tour Singapore",
+    heroImage: heroImage,
+    ticketImage: ticket1,
+    tickets: [
+      { name: "VIP", price: "$379" },
+      { name: "CAT1", price: "$329" },
+      { name: "CAT2", price: "$299" },
+      { name: "CAT3", price: "$269" },
+      { name: "CAT4", price: "$239" },
+      { name: "CAT5", price: "$209" },
+      { name: "CAT6", price: "$179" },
+    ],
+  },
+
+  willi: {
+    title: "WILLIAMEST – 1st Fan Meeting “Echo Resonance”",
+    heroImage: williHero,
+    ticketImage: williHero,
+    tickets: [
+      { name: "VIP", price: "$320" },
+      { name: "CAT1", price: "$250" },
+      { name: "CAT2", price: "$200" },
+      { name: "CAT3", price: "$99" },
+    ],
+  },
+};
+
 
 const TicketsPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ticketCounts, setTicketCounts] = useState<Record<string, number>>({});
   const [userDetails, setUserDetails] = useState({ name: "", email: "" });
   const [proofOfPayment, setProofOfPayment] = useState<File | null>(null);
+  const { eventId } = useParams<{ eventId: keyof typeof EVENTS }>();
+const event = EVENTS[eventId || "seventeen"];
 
-  const tickets = [
-    { name: "VIP", price: "$379" },
-    { name: "CAT1", price: "$329" },
-    { name: "CAT2", price: "$299" },
-    { name: "CAT3", price: "$269" },
-    { name: "CAT4", price: "$239" },
-    { name: "CAT5", price: "$209" },
-    { name: "CAT6", price: "$179" },
-  ];
+
+  // const tickets = [
+  //   { name: "VIP", price: "$379" },
+  //   { name: "CAT1", price: "$329" },
+  //   { name: "CAT2", price: "$299" },
+  //   { name: "CAT3", price: "$269" },
+  //   { name: "CAT4", price: "$239" },
+  //   { name: "CAT5", price: "$209" },
+  //   { name: "CAT6", price: "$179" },
+  // ];
+
+  const tickets = event.tickets;
+
 
   const counterBtn = {
     width: "28px",
@@ -248,7 +287,8 @@ const TicketsPage: React.FC = () => {
         }}
       >
         <div>
-          <h1>Tickets for Seventeen World Tour Singapore</h1>
+          <h1>Tickets for {event.title}</h1>
+
           <p>Get your tickets below</p>
         </div>
       </section>
@@ -256,7 +296,7 @@ const TicketsPage: React.FC = () => {
       {/* Ticket Image */}
       <section style={{ padding: "2rem", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "100%", maxWidth: "800px", position: "relative" }}>
-          <img src={ticket1} style={{ width: "100%", borderRadius: "8px" }} />
+          <img src={event.ticketImage} style={{ width: "100%", borderRadius: "8px" }} />
           <button
             onClick={() => setIsModalOpen(true)}
             style={{

@@ -20,7 +20,7 @@ function App() {
           }
         />
         <Route
-          path="/tickets"
+          path="/tickets/:eventId"
           element={
             <>
               <TicketsPage />
