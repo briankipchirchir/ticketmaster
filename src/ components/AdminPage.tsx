@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 interface Proof {
   id: number;
@@ -39,6 +40,31 @@ useEffect(() => {
       });
   }, []);
 
+  const handleDelete = async (id: number) => {
+  const confirm = await Swal.fire({
+    title: "Delete proof?",
+    text: "This action cannot be undone",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#dc2626",
+  });
+
+  if (!confirm.isConfirmed) return;
+
+  const res = await fetch(
+    `https://ticketmasterb.onrender.com/api/proofs/${id}`,
+    { method: "DELETE" }
+  );
+
+  if (res.ok) {
+    setProofs(prev => prev.filter(p => p.id !== id));
+    Swal.fire("Deleted", "Proof removed successfully", "success");
+  } else {
+    Swal.fire("Error", "Failed to delete proof", "error");
+  }
+};
+
+
   if (loading) return <p style={{ padding: "2rem" }}>Loading proofs...</p>;
 
   return (
@@ -74,6 +100,23 @@ useEffect(() => {
                 border: "1px solid #ccc",
               }}
             />
+
+            <button
+  onClick={() => handleDelete(proof.id)}
+  style={{
+    marginTop: "10px",
+    padding: "8px 12px",
+    background: "#dc2626",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontWeight: 600,
+  }}
+>
+  Delete Proof
+</button>
+
           </div>
         ))}
       </div>
