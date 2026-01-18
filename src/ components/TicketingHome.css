@@ -415,3 +415,29 @@
   }
 }
 
+
+.hero-first-event .event-text button {
+  background: linear-gradient(135deg, #026cdf, #1e90ff); /* gradient for a modern look */
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px; /* rounded corners */
+  cursor: pointer;
+  transition: all 0.3s ease; /* smooth hover effect */
+  box-shadow: 0 4px 12px rgba(2, 108, 223, 0.3); /* subtle shadow for depth */
+}
+
+.hero-first-event .event-text button:hover {
+  transform: translateY(-2px); /* lift effect on hover */
+  box-shadow: 0 6px 16px rgba(2, 108, 223, 0.4);
+  background: linear-gradient(135deg, #1e90ff, #026cdf); /* slightly reversed gradient */
+}
+
+.hero-first-event .event-text button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(2, 108, 223, 0.3);
+}
+
+
