@@ -254,7 +254,7 @@ const event = EVENTS[eventId || "seventeen"];
         Swal.fire({
           icon: "success",
           title: "Proof Uploaded",
-          text: "Your proof of payment has been uploaded successfully!",
+          text: "Your proof of payment has been uploaded successfully your ticket wil be to your email after verification!",
           confirmButtonColor: "#026cdf",
         });
       }
