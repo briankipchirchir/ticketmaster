@@ -385,3 +385,33 @@
     gap: 4px;
   }
 }
+
+
+/* Mobile responsiveness for first event */
+@media (max-width: 768px) {
+  .hero-first-content {
+    flex-direction: column; /* stack image above text */
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-first-event .event-image {
+    width: 80%;  /* smaller width for mobile */
+    height: auto; /* maintain aspect ratio */
+    margin-bottom: 1rem;
+  }
+
+  .hero-first-event .event-text {
+    gap: 0.5rem; /* reduce spacing */
+  }
+
+  .hero-first-event .badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .hero-first-event .event-text button {
+    width: 100%; /* make button full width */
+  }
+}
+
