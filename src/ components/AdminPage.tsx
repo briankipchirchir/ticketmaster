@@ -16,7 +16,7 @@ const AdminPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/proofs")
+    fetch("https://ticketmasterb.onrender.com/api/proofs")
       .then(res => res.json())
       .then(data => {
         setProofs(data);
@@ -53,7 +53,7 @@ const AdminPage: React.FC = () => {
 
 
             <img
-              src={`http://localhost:8080/${proof.filePath}`}
+              src={`https://ticketmasterb.onrender.com/${proof.filePath}`}
               alt="Proof"
               style={{
                 maxWidth: "100%",
