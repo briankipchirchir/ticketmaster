@@ -178,7 +178,7 @@ const event = EVENTS[eventId || "seventeen"];
 
     if (method === "PayPal") {
       paymentIcon = "https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg";
-      extraInfo = `<p><strong>PayPal Email Account to pay to:</strong>jeffclark5050@gmail.com</p>`;
+      extraInfo = `<p><strong>PayPal Email Account to pay to:</strong>patriciakithao@gmail.com</p>`;
     } else if (method === "Bank") {
       paymentIcon = "https://cdn-icons-png.flaticon.com/512/338/338391.png";
       extraInfo = "<p><strong>Account:</strong>USE PAYPAL OR BTC</p>";
