@@ -10,6 +10,7 @@ interface Proof {
   amount: number;
   fileName: string;
   filePath: string;
+  paymentMethod: string; 
 }
 
 
@@ -87,6 +88,8 @@ useEffect(() => {
             <p><strong>Email:</strong> {proof.userEmail}</p>
             <p><strong>Tickets:</strong> {proof.tickets}</p>
 <p><strong>Total Paid:</strong> ${proof.amount}</p>
+<p><strong>Payment Method:</strong> {proof.paymentMethod}</p>
+
 
 
             <img

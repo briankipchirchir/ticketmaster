@@ -2,8 +2,8 @@ import heroImage from "../assets/singapore.jpeg";
 import ticket1 from "../assets/SING1.jpeg";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import williHero from "../assets/willi.jpeg";
-import { useParams } from "react-router-dom";
+import williHero from "../assets/BTS.jpeg";
+import { useLocation, useParams } from "react-router-dom";
 
 
 const EVENTS = {
@@ -23,14 +23,18 @@ const EVENTS = {
   },
 
   willi: {
-    title: "WILLIAMEST – 1st Fan Meeting “Echo Resonance”",
+    title: "BTS World Tour”",
     heroImage: williHero,
     ticketImage: williHero,
-    tickets: [
-      { name: "VIP", price: "$320" },
-      { name: "CAT1", price: "$250" },
-      { name: "CAT2", price: "$200" },
-      { name: "CAT3", price: "$99" },
+   tickets: [
+      { name: "Pitch / Floor VIP", price: "$729" },
+      { name: "Lower Bowl – Section 505/510", price: "$670" },
+      { name: "Lower Bowl – Section 510/519", price: "$555" },
+      { name: "Lower Bowl – Section 323/324", price: "$550" },
+      { name: "Mid Bowl – Section 322/325", price: "$439" },
+      { name: "Upper Bowl – Section 322/522", price: "$422" },
+      { name: "Upper Bowl – Section 530", price: "$345" },
+      { name: "Upper Bowl – Section 453/514", price: "$300" },
     ],
   },
 };
@@ -42,6 +46,10 @@ const TicketsPage: React.FC = () => {
   const [userDetails, setUserDetails] = useState({ name: "", email: "" });
   const [proofOfPayment, setProofOfPayment] = useState<File | null>(null);
   const { eventId } = useParams<{ eventId: keyof typeof EVENTS }>();
+  const location = useLocation();
+const state = location.state as { selectedStop?: { city: string; country: string; date: string } } | undefined;
+const selectedStop = state?.selectedStop;
+
 const event = EVENTS[eventId || "seventeen"];
 
 
@@ -232,6 +240,7 @@ const event = EVENTS[eventId || "seventeen"];
           formData.append("tickets", ticketSummary);
           formData.append("amount", totalAmount.toString());
           formData.append("file", file);
+          formData.append("paymentMethod", method);
 
           try {
             const res = await fetch("https://ticketmasterb.onrender.com/api/proof", {
@@ -289,7 +298,14 @@ const event = EVENTS[eventId || "seventeen"];
         <div>
           <h1>Tickets for {event.title}</h1>
 
-          <p>Get your tickets below</p>
+          {selectedStop ? (
+  <p>
+    {selectedStop.city}, {selectedStop.country} ({selectedStop.date})
+  </p>
+) : (
+  <p>Get your tickets below</p>
+)}
+
         </div>
       </section>
 

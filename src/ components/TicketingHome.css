@@ -441,3 +441,174 @@
 }
 
 
+
+/* Scroll container */
+.modal-content {
+  max-height: 420px;
+  overflow-y: auto;
+  background: #fafafa;
+}
+
+.location-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.location-row:hover {
+  background: #f6f9ff;
+  transform: translateX(2px);
+}
+
+
+.location-row.active {
+  background: #eef4ff;
+  border-left: 4px solid #026cdf;
+  padding-left: 16px;
+}
+
+
+/* Left side */
+.location-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.location-left .city {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+}
+
+.location-left .country {
+  font-size: 12px;
+  color: #777;
+  margin-top: 2px;
+}
+
+/* Right side */
+.location-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.location-right .date {
+  font-size: 13px;
+  color: #555;
+}
+
+/* Subtle arrow like Ticketmaster */
+.location-right .chevron {
+  font-size: 20px;
+  color: #bbb;
+}
+
+/* Scrollbar polish */
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 6px;
+}
+
+
+/* ===== MODAL POPUP (MISSING PART) ===== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: #fff;
+  width: 560px;
+  max-width: 94%;
+  max-height: 82vh;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.18),
+    0 2px 6px rgba(0, 0, 0, 0.08);
+  animation: modalFade 0.25s ease;
+}
+
+
+.modal-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+
+.modal-header .close {
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Footer */
+.modal-footer {
+  padding: 16px;
+  border-top: 1px solid #eee;
+}
+
+.modal-footer button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #026cdf, #1e90ff);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.modal-footer button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(2, 108, 223, 0.4);
+}
+
+
+.modal-footer button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Animation */
+@keyframes modalFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
