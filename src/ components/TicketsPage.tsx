@@ -90,7 +90,7 @@ const event = EVENTS[eventId || "seventeen"];
 
     // Step 1: Collect name & email
     Swal.fire({
-      title: "Enter Ticket Details",
+      title: `<span style="color:#026cdf">Enter Ticket Details</span>`,
       html: `
         <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
       <input id="name" class="swal2-input" placeholder="Full Name" style="width:280px; max-width:90%; font-size:14px; padding:10px; box-sizing:border-box;" />
