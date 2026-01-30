@@ -31,7 +31,7 @@ const EVENTS = {
       { name: "Lower Bowl – Section 505/510", price: "$570" },
       { name: "Lower Bowl – Section 510/519", price: "$455" },
       { name: "Lower Bowl – Section 323/324", price: "$450" },
-      { name: "Mid Bowl – Section 322/325", price: "$4339" },
+      { name: "Mid Bowl – Section 322/325", price: "$439" },
       { name: "Upper Bowl – Section 322/522", price: "$322" },
       { name: "Upper Bowl – Section 530", price: "$245" },
       { name: "Upper Bowl – Section 453/514", price: "$200" },
