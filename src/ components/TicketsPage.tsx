@@ -92,16 +92,16 @@ const event = EVENTS[eventId || "seventeen"];
     Swal.fire({
       title: "Enter Ticket Details",
       html: `
-        <div style="display:flex;flex-direction:column;gap:0.75rem;width:100%;">
-          <input id="name" class="swal2-input" placeholder="Full Name" style="width:100%; box-sizing:border-box; font-size:14px; padding:10px;" />
-          <input id="email" type="email" class="swal2-input" placeholder="Email Address" style="width:100%; box-sizing:border-box; font-size:14px; padding:10px;" />
-          <p style="font-size:13px;color:#666; margin:0;">Tickets will be sent to this email</p>
-        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <input id="name" class="swal2-input" placeholder="Full Name" style="width:280px; max-width:90%; font-size:14px; padding:10px; box-sizing:border-box;" />
+      <input id="email" type="email" class="swal2-input" placeholder="Email Address" style="width:280px; max-width:90%; font-size:14px; padding:10px; box-sizing:border-box;" />
+      <p style="font-size:13px;color:#666; margin:0;">Tickets will be sent to this email</p>
+    </div>
       `,
       confirmButtonText: "Continue",
       confirmButtonColor: "#026cdf",
       focusConfirm: false,
-      width: "90%",
+      width: "350px",
       customClass: { popup: "swal2-popup-mobile" },
       preConfirm: () => {
         const name = (document.getElementById("name") as HTMLInputElement).value.trim();
