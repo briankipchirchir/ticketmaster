@@ -288,7 +288,7 @@ const event = EVENTS[eventId || "seventeen"];
       <section
         style={{
           height: "300px",
-          background: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${heroImage}) center/cover`,
+          background: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${williHero}) center/cover`,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
