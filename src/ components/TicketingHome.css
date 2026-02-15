@@ -516,3 +516,29 @@
   }
   .featured-box { font-size: 0.75rem; }
 }
+
+
+.hero-second-event .hero-content button {
+  background: linear-gradient(135deg, #026cdf, #1e90ff);
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(2, 108, 223, 0.3);
+}
+
+.hero-second-event .hero-content button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(2, 108, 223, 0.4);
+  background: linear-gradient(135deg, #1e90ff, #026cdf);
+}
+
+.hero-second-event .hero-content button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(2, 108, 223, 0.3);
+}
+
