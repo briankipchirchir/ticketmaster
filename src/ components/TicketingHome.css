@@ -40,13 +40,13 @@
 .top-links span {
   cursor: pointer;
   font-size: 12px;
-  padding: 2px 4px;
+  padding: 2px 6px;
   border-radius: 4px;
   transition: background 0.2s ease;
 }
 
 .top-links span:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .top-links .paypal-con img {
@@ -58,20 +58,20 @@
 /* ================== HEADER / NAV ================== */
 .header {
   background: #026cdf;
-  padding: 20px 24px 28px;
+  padding: 16px 24px 20px;
   color: white;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 18px;
   flex-wrap: wrap;
   margin-bottom: 12px;
 }
 
 .logo {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
 }
 
@@ -79,6 +79,7 @@
   cursor: pointer;
   font-weight: 500;
   font-size: 14px;
+  padding: 6px 0;
 }
 
 .nav-right {
@@ -184,11 +185,6 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(2, 108, 223, 0.4);
   background: linear-gradient(135deg, #1e90ff, #026cdf);
-}
-
-.hero-first-event .event-text button:active {
-  transform: translateY(0);
-  box-shadow: 0 3px 8px rgba(2, 108, 223, 0.3);
 }
 
 .hero-second-event {
@@ -443,67 +439,80 @@
 
 /* ================== RESPONSIVE MOBILE ================== */
 @media (max-width: 768px) {
-  /* Top bar stacked */
   .top-bar {
     flex-direction: column;
     align-items: flex-start;
-    padding: 6px 12px;
+    padding: 8px 16px;
     gap: 4px;
   }
 
   .top-links {
     gap: 6px;
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .nav {
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     align-items: flex-start;
   }
 
-  .nav a { font-size: 13px; }
+  .nav a {
+    font-size: 13px;
+    padding: 6px 0;
+  }
 
-  .nav-right { font-size: 13px; margin-left: 0; }
+  .nav-right {
+    margin-left: 0;
+    font-size: 13px;
+  }
 
   .search-bar {
     flex-direction: column;
     gap: 6px;
   }
 
-  .search-bar input { height: 40px; padding: 8px 12px; }
-  .search-bar button { height: 40px; padding: 0 12px; }
+  .search-bar input {
+    height: 40px;
+    padding: 8px 12px;
+  }
 
-  .cards { grid-template-columns: 1fr; gap: 12px; padding: 16px 12px; }
-
-  .hero-first-content { flex-direction: column; align-items: center; text-align: center; }
-  .hero-first-event .event-image { width: 90%; height: auto; margin-bottom: 12px; }
-  .hero-first-event .event-text button { width: 100%; font-size: 14px; }
-
-  .hero-second-event { height: auto; padding: 1.5rem 1rem; }
-
-  .hero-second-event .hero-content h2 { font-size: clamp(18px, 6vw, 28px); }
-  .hero-second-event .hero-content p { font-size: clamp(12px, 4vw, 16px); }
-
-  .featured-events { flex-direction: column; gap: 12px; }
-  .featured-left { grid-template-columns: 1fr; gap: 12px; }
-  .featured-right { flex-direction: column; gap: 12px; }
-  .featured-box { font-size: 0.8rem; padding: 12px; }
-
-  .modal { width: 95%; max-height: 90vh; }
-  .modal-content { max-height: 60vh; padding: 0; }
-  .location-row { padding: 12px 14px; }
-  .location-left .city { font-size: 14px; }
-  .location-left .country { font-size: 11px; }
-  .location-right .date { font-size: 12px; }
-  .location-right .chevron { font-size: 18px; }
-  .modal-footer button { font-size: 14px; padding: 12px; }
+  .search-bar button {
+    height: 40px;
+    padding: 0 12px;
+  }
 }
 
-/* ================== SMALL MOBILE ================== */
 @media (max-width: 480px) {
-  .hero-content h2 { font-size: clamp(16px, 6vw, 24px); }
-  .hero-content p { font-size: clamp(12px, 4vw, 14px); }
+  .top-bar, .nav {
+    gap: 4px;
+  }
+  .nav a {
+    font-size: 12px;
+  }
+  .hero-first-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .hero-first-event .event-image {
+    width: 90%;
+    height: auto;
+    margin-bottom: 12px;
+  }
+  .hero-first-event .event-text button {
+    width: 100%;
+    font-size: 14px;
+  }
+  .hero-second-event {
+    height: auto;
+    padding: 1.5rem 1rem;
+  }
+  .hero-second-event .hero-content h2 {
+    font-size: clamp(18px, 6vw, 26px);
+  }
+  .hero-second-event .hero-content p {
+    font-size: clamp(12px, 4vw, 16px);
+  }
   .featured-box { font-size: 0.75rem; }
-  .top-bar, .nav { gap: 4px; }
 }
