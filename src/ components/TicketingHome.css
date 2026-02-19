@@ -88,47 +88,40 @@
   cursor: pointer;
 }
 
-/* ================== SEARCH BAR ================== */
 .search-bar {
   background: white;
   border-radius: 6px;
   display: flex;
-  max-width: 980px;
+  max-width: 600px; /* limit width */
   overflow: hidden;
-  flex-wrap: wrap;
-  margin-top: 10px;
+  margin: 10px auto; /* center horizontally */
 }
 
 .search-bar input {
-  flex: 1 1 150px;
-  padding: 12px 16px;
+  flex: 1; /* takes remaining space */
+  padding: 10px 14px;
   border: none;
   outline: none;
   font-size: 14px;
-  border-right: 1px solid #e0e0e0;
-  min-width: 80px;
-  box-sizing: border-box;
-}
-
-.search-bar input:last-of-type {
-  border-right: none;
 }
 
 .search-bar button {
+  padding: 10px 20px;
   background: #026cdf;
   color: white;
   border: none;
-  padding: 10px 26px;
-  font-size: 15px;
   cursor: pointer;
-  flex: 0 0 auto;
-  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
   transition: all 0.3s ease;
 }
 
 .search-bar button:hover {
   background: #1e90ff;
 }
+
+
+
 
 /* ================== HERO SECTIONS ================== */
 .hero-first-event {

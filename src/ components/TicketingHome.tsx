@@ -114,8 +114,6 @@ const [selectedStop, setSelectedStop] = useState<any>(null);
         </nav>
 
         <div className="search-bar">
-          <input placeholder="City or Zip Code" />
-          <input placeholder="All Dates" />
           <input placeholder="Artist, Event or Venue" />
           <button>Search</button>
         </div>
