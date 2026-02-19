@@ -93,7 +93,7 @@ useEffect(() => {
 
 
             <img
-              src={`https://ticketmasterb.onrender.com/${proof.filePath}`}
+              src={proof.filePath}
               alt="Proof"
               style={{
                 maxWidth: "100%",
