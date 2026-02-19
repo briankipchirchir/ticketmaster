@@ -11,6 +11,8 @@ interface Proof {
   fileName: string;
   filePath: string;
   paymentMethod: string; 
+  eventName: string;        // ← new
+  uploadedAt: string;
 }
 
 const AdminPage: React.FC = () => {
@@ -173,6 +175,8 @@ const AdminPage: React.FC = () => {
               <p><strong>Tickets:</strong> {proof.tickets}</p>
               <p><strong>Total Paid:</strong> ${proof.amount}</p>
               <p><strong>Payment Method:</strong> {proof.paymentMethod}</p>
+              <p><strong>Event:</strong> {proof.eventName}</p>
+<p><strong>Uploaded At:</strong> {new Date(proof.uploadedAt).toLocaleString()}</p>
 
               {/* Proof Image */}
               <img

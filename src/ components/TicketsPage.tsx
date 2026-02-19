@@ -246,6 +246,7 @@ const TicketsPage: React.FC = () => {
           formData.append("amount", totalAmount.toString());
           formData.append("file", file);
           formData.append("paymentMethod", method);
+          formData.append("eventName", event.title); 
 
           try {
             const res = await fetch("https://ticketmasterb.onrender.com/api/proof", {
