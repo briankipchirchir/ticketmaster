@@ -535,3 +535,6 @@
   box-shadow: 0 3px 8px rgba(2, 108, 223, 0.3);
 }
 
+.hero-second-event + .hero-second-event {
+  margin-top: 2rem;
+}

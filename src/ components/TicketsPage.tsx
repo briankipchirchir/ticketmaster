@@ -1,24 +1,27 @@
 
-import heroImage from "../assets/singapore.jpeg";
-import ticket1 from "../assets/SING1.jpeg";
+import decadeImage from "../assets/Decade.jpeg";
 import williHero from "../assets/BTS.jpeg";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { useLocation, useParams } from "react-router-dom";
 
+import kualarImage from "../assets/kualar.jpeg"
+
 const EVENTS = {
   seventeen: {
-    title: "Seventeen World Tour Singapore",
-    heroImage,
-    ticketImage: ticket1,
+    title: "The Decade 10th Anniversary Singapore",
+    heroImage:decadeImage,
+    ticketImage: decadeImage,
     tickets: [
-      { name: "VIP", price: "$379" },
-      { name: "CAT1", price: "$329" },
-      { name: "CAT2", price: "$299" },
-      { name: "CAT3", price: "$269" },
-      { name: "CAT4", price: "$239" },
-      { name: "CAT5", price: "$209" },
-      { name: "CAT6", price: "$179" },
+      { name: "VIP Standing", price: "$280" },
+      { name: "Vip Seated", price: "$250" },
+      { name: "CAT1", price: "$238" },
+      { name: "CAT2", price: "$228" },
+      { name: "CAT3", price: "$220" },
+      { name: "CAT4", price: "$200" },
+      { name: "CAT5", price: "$120" },
+      { name: "CAT6 Restricted view", price: "$180" },
+      { name: "CAT7", price: "$100" },
     ],
   },
   willi: {
@@ -36,6 +39,18 @@ const EVENTS = {
       { name: "Upper Bowl – Section 453/514", price: "$200" },
     ],
   },
+    kualar: {
+    title: "The Decade 10th Anniversary Singapore",
+    heroImage:kualarImage,
+    ticketImage: kualarImage,
+    tickets: [
+      { name: "VIP Standing", price: "RM700" },
+      { name: "CAT1 Front Standing", price: "RM600" },
+      { name: "CAT2 Standing ", price: "RM400" },
+      { name: "CAT3 Premium Seating (Upper Level)", price: "RM450" },
+      { name: "CAT4 Seating(Upper Level)", price: "RM250" },
+    ],
+  }
 };
 
 const TicketsPage: React.FC = () => {

@@ -1,9 +1,12 @@
 
 import "./TicketingHome.css";
-import heroImage from "../assets/singapore.jpeg";
+import decadeImage from "../assets/Decade.jpeg";
 import williImage from "../assets/BTS.jpeg";  // correct relative path from components folder
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+
+import kualarImage from "../assets/kualar.jpeg"
+
 
 const btsTourStops = [
   { city: "Tampa", country: "USA", date: "Apr 25–26, 2026" },
@@ -11,8 +14,8 @@ const btsTourStops = [
   { city: "Mexico City", country: "Mexico", date: "May 15–17, 2026" },
   { city: "Stanford", country: "USA", date: "May 21–23, 2026" },
   { city: "Las Vegas", country: "USA", date: "Jun 13–14, 2026" },
-  { city: "London", country: "UK", date: "Jul 10–11, 2026" },
-  { city: "Munich", country: "Germany", date: "Jul 10–11, 2026" },
+  { city: "London", country: "UK", date: "Jul 6–7, 2026" },
+  { city: "Munich", country: "Germany", date: "Jul 6–7, 2026" },
   { city: "Paris", country: "France", date: "Jul 18–19, 2026" },
   { city: "Goyang", country: "South Korea", date: "Apr 9–12, 2026" },
 
@@ -97,7 +100,7 @@ const [selectedStop, setSelectedStop] = useState<any>(null);
       {/* Header */}
       <header className="header">
         <nav className="nav">
-          <h1 className="logo">Ticketmaster</h1>
+          <h1 className="logo">Ticketmaster Official Tickets Resales</h1>
           <a>Concerts</a>
           <a>Sports</a>
           <a>Arts & Theatre</a>
@@ -146,7 +149,7 @@ const [selectedStop, setSelectedStop] = useState<any>(null);
 <section
   className="hero-second-event"
   style={{
-    backgroundImage: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${heroImage})`,
+    backgroundImage: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${decadeImage})`,
     backgroundPosition: "center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -154,9 +157,30 @@ const [selectedStop, setSelectedStop] = useState<any>(null);
 >
   <div className="hero-content">
     <h2>Featured Event</h2>
-    <h2>Seventeen World Tour Singapore</h2>
+    <h2>The Decade 10th Anniversary Singapore</h2>
     <p>Theatre · Live · Touring</p>
     <button onClick={() => navigate("/tickets/seventeen")}>
+      Find Tickets
+    </button>
+  </div>
+</section>
+
+
+{/* Second Event Section (Hero Background) */}
+<section
+  className="hero-second-event"
+  style={{
+    backgroundImage: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${kualarImage})`,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+  }}
+>
+  <div className="hero-content">
+    <h2>Featured Event</h2>
+    <h2>CHEN CONCERT TOUR  in KUALA LUMPUR</h2>
+    <p>Theatre · Live · Touring</p>
+    <button onClick={() => navigate("/tickets/kualar")}>
       Find Tickets
     </button>
   </div>
