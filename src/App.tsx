@@ -5,10 +5,12 @@ import { Footer } from "./ components/Footer";
 import TicketsPage from "./ components/TicketsPage";
 import AdminPage from "./ components/AdminPage";
 import AdminLogin from "./ components/AdminLogin";
+import ScrollToTop from "./ components/ScrollToTop";
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"
