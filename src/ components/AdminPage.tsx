@@ -13,6 +13,7 @@ interface Proof {
   paymentMethod: string; 
   eventName: string;        // ← new
   uploadedAt: string;
+  approved: boolean;
 }
 
 const AdminPage: React.FC = () => {
@@ -75,6 +76,32 @@ const AdminPage: React.FC = () => {
       p.userEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.paymentMethod.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleApprove = async (id: number) => {
+  const confirm = await Swal.fire({
+    title: "Approve & Send Ticket?",
+    text: "This will send the ticket to the client's email",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#16a34a",
+    confirmButtonText: "Yes, Send Ticket",
+  });
+
+  if (!confirm.isConfirmed) return;
+
+  const res = await fetch(`https://ticketmasterb.onrender.com/api/proofs/${id}/approve`, {
+    method: "POST",
+  });
+
+  if (res.ok) {
+    setProofs(prev =>
+      prev.map(p => p.id === id ? { ...p, approved: true } : p)
+    );
+    Swal.fire("Sent!", "Ticket has been sent to the client's email", "success");
+  } else {
+    Swal.fire("Error", "Failed to approve and send ticket", "error");
+  }
+};
 
   return (
     <div style={{ padding: "2rem" }}>
@@ -232,6 +259,25 @@ const AdminPage: React.FC = () => {
               >
                 Delete Proof
               </button>
+
+              {/* Approve Button */}
+<button
+  onClick={() => handleApprove(proof.id)}
+  disabled={proof.approved}
+  style={{
+    marginTop: "10px",
+    padding: "8px 12px",
+    background: proof.approved ? "#6b7280" : "#16a34a",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    cursor: proof.approved ? "not-allowed" : "pointer",
+    fontWeight: 600,
+    width: "100%",
+  }}
+>
+  {proof.approved ? "✓ Ticket Sent" : "✅ Approve & Send Ticket"}
+</button>
             </div>
           ))}
         </div>

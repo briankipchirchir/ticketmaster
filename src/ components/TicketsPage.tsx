@@ -81,212 +81,210 @@ const TicketsPage: React.FC = () => {
     justifyContent: "center",
   };
 
- const handleConfirm = () => {
-    const selectedTickets = Object.entries(ticketCounts).filter(([_, qty]) => qty > 0);
-    if (selectedTickets.length === 0) {
-      Swal.fire({
-        icon: "warning",
-        title: "Select a ticket",
-        text: "Please choose at least one ticket before confirming",
-        confirmButtonColor: "#026cdf",
-      });
-      return;
-    }
+ const parsePrice = (priceStr: string): number => {
+  return parseInt(priceStr.replace(/[^0-9]/g, "")) || 0;
+};
 
-    // Step 1: Collect name & email
+const handleConfirm = () => {
+  const selectedTickets = Object.entries(ticketCounts).filter(([_, qty]) => qty > 0);
+  if (selectedTickets.length === 0) {
     Swal.fire({
-      title: `<span style="color:#026cdf">Enter Ticket Details</span>`,
-      html: `
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
-      <input id="name" class="swal2-input" placeholder="Full Name" style="width:280px; max-width:90%; font-size:14px; padding:10px; box-sizing:border-box;" />
-      <input id="email" type="email" class="swal2-input" placeholder="Email Address" style="width:280px; max-width:90%; font-size:14px; padding:10px; box-sizing:border-box;" />
-      <p style="font-size:13px;color:#666; margin:0;">Tickets will be sent to this email</p>
-    </div>
-      `,
-      confirmButtonText: "Continue",
+      icon: "warning",
+      title: "Select a ticket",
+      text: "Please choose at least one ticket before confirming",
       confirmButtonColor: "#026cdf",
-      focusConfirm: false,
-      width: "350px",
-      customClass: { popup: "swal2-popup-mobile" },
-      preConfirm: () => {
-        const name = (document.getElementById("name") as HTMLInputElement).value.trim();
-        const email = (document.getElementById("email") as HTMLInputElement).value.trim();
-        if (!name || !email) {
-          Swal.showValidationMessage("Please enter name and email");
-          return;
-        }
-        return { name, email };
-      },
-    }).then((result) => {
-      if (!result.isConfirmed || !result.value) return;
+    });
+    return;
+  }
 
-      setUserDetails(result.value);
+  Swal.fire({
+    title: `<span style="color:#026cdf">Enter Ticket Details</span>`,
+    html: `
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+        <input id="name" class="swal2-input" placeholder="Full Name" style="width:280px; max-width:90%; font-size:14px; padding:10px; box-sizing:border-box;" />
+        <input id="email" type="email" class="swal2-input" placeholder="Email Address" style="width:280px; max-width:90%; font-size:14px; padding:10px; box-sizing:border-box;" />
+        <p style="font-size:13px;color:#666; margin:0;">Tickets will be sent to this email</p>
+      </div>
+    `,
+    confirmButtonText: "Continue",
+    confirmButtonColor: "#026cdf",
+    focusConfirm: false,
+    width: "350px",
+    customClass: { popup: "swal2-popup-mobile" },
+    preConfirm: () => {
+      const name = (document.getElementById("name") as HTMLInputElement).value.trim();
+      const email = (document.getElementById("email") as HTMLInputElement).value.trim();
+      if (!name || !email) {
+        Swal.showValidationMessage("Please enter name and email");
+        return;
+      }
+      return { name, email };
+    },
+  }).then((result) => {
+    if (!result.isConfirmed || !result.value) return;
 
-      const ticketSummary = selectedTickets.map(([name, qty]) => `${name} x${qty}`).join(", ");
-      const totalAmount = selectedTickets.reduce((sum, [name, qty]) => {
-        const price = parseInt(tickets.find(t => t.name === name)!.price.replace("$", ""));
-        return sum + price * qty;
-      }, 0);
+    setUserDetails(result.value);
 
-      // Step 2: Payment method
-      Swal.fire({
-        title: "Choose Payment Method",
-        html: `
-          <div style="display:flex;flex-direction:column;gap:1rem">
-            <button id="paypalBtn" style="
-              display:flex;align-items:center;gap:1rem;
-              padding:12px;border:none;border-radius:8px;
-              background:#003087;color:white;font-weight:600;
-              cursor:pointer; width:100%;">
-              <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" height="30"/>
-              Pay with PayPal
-            </button>
+    const ticketSummary = selectedTickets.map(([name, qty]) => `${name} x${qty}`).join(", ");
 
-            <button id="bankBtn" style="
-              display:flex;align-items:center;gap:1rem;
-              padding:12px;border:none;border-radius:8px;
-              background:#16a34a;color:white;font-weight:600;
-              cursor:pointer; width:100%;">
-              <img src="https://cdn-icons-png.flaticon.com/512/338/338391.png" height="30"/>
-              Bank Transfer
-            </button>
+    // ✅ Fixed: uses parsePrice instead of .replace("$", "")
+    const totalAmount = selectedTickets.reduce((sum, [name, qty]) => {
+      const price = parsePrice(tickets.find(t => t.name === name)!.price);
+      return sum + price * qty;
+    }, 0);
 
-          <button
-  id="btcBtn"
-  style="
-    margin-bottom:10px;
-    width:100%;
-    padding:12px;
-    background:#f7931a;
-    color:white;
-    border:none;
-    border-radius:8px;
-    font-weight:600;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    justify-content:center;
-  "
->
-  <img
-    src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg"
-    height="24"
-    alt="BTC"
-  />
-  Pay with Bitcoin (BTC)
-</button>
-
-          </div>
-        `,
-        showConfirmButton: false,
-        showCloseButton: true,
-        width: "90%",
-       didOpen: () => {
-  const showPaymentDetails = (method: "PayPal" | "Bank" | "BTC") => {
-    // Determine payment info
-    let title = method === "BTC" ? "Bitcoin Payment" : `${method} Payment`;
-    let paymentIcon = "";
-    let extraInfo = "";
-
-    if (method === "PayPal") {
-      paymentIcon = "https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg";
-      extraInfo = `<p><strong>PayPal Email Account to pay to:</strong>patriciakithao@gmail.com</p>`;
-    } else if (method === "Bank") {
-      paymentIcon = "https://cdn-icons-png.flaticon.com/512/338/338391.png";
-      extraInfo = "<p><strong>Account:</strong>USE PAYPAL OR BTC</p>";
-    } else if (method === "BTC") {
-      paymentIcon = "https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg"; // BTC logo
-      extraInfo = `<p><strong>BTC Address:</strong> <span id="btcAddress" style="user-select: all;">bc1qj45p6z2pehsjhvak42e5q4jzrlugta4vsah0up</span></p>
-                   <button id="copyBtc" style="padding:6px 12px;background:#f7931a;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;margin-top:5px;">Copy Address</button>
-                   <p style="font-size:12px;color:#555;margin-top:5px;">Send BTC to this address</p>`;
-    }
+    // Detect currency symbol from first ticket price
+    const firstPrice = tickets[0]?.price || "$";
+    const currencySymbol = firstPrice.startsWith("RM") ? "RM" : "$";
 
     Swal.fire({
-      title: `<span style="color:#026cdf">${title}</span>`,
+      title: "Choose Payment Method",
       html: `
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-          <img src="${paymentIcon}" height="40" />
-          <span style="font-weight:600;font-size:16px">${method}</span>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <button id="paypalBtn" style="
+            display:flex;align-items:center;gap:1rem;
+            padding:12px;border:none;border-radius:8px;
+            background:#003087;color:white;font-weight:600;
+            cursor:pointer; width:100%;">
+            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" height="30"/>
+            Pay with PayPal
+          </button>
+          <button id="bankBtn" style="
+            display:flex;align-items:center;gap:1rem;
+            padding:12px;border:none;border-radius:8px;
+            background:#16a34a;color:white;font-weight:600;
+            cursor:pointer; width:100%;">
+            <img src="https://cdn-icons-png.flaticon.com/512/338/338391.png" height="30"/>
+            Bank Transfer
+          </button>
+          <button id="btcBtn" style="
+            margin-bottom:10px;
+            width:100%;
+            padding:12px;
+            background:#f7931a;
+            color:white;
+            border:none;
+            border-radius:8px;
+            font-weight:600;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            justify-content:center;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" height="24" alt="BTC"/>
+            Pay with Bitcoin (BTC)
+          </button>
         </div>
-        <p><strong>Your Tickets:</strong> ${ticketSummary}</p>
-        <p style="font-weight:600;font-size:16px;color:green;"><strong>Total Amount:</strong> $${totalAmount}</p>
-        <p><strong>Email :</strong> ${result.value.name} (${result.value.email})</p>
-        ${extraInfo}
-        <input type="file" id="proofInput" accept="image/*" style="margin-top:10px;width:100%;" />
-        <p style="font-size:12px;color:#555">After paying, upload proof of payment here</p>
       `,
-      confirmButtonText: "Upload Proof",
-      confirmButtonColor: "#026cdf",
+      showConfirmButton: false,
+      showCloseButton: true,
       width: "90%",
       didOpen: () => {
-        if (method === "BTC") {
-          document.getElementById("copyBtc")?.addEventListener("click", (e) => {
-            e.preventDefault(); 
-            e.stopPropagation();
-            const btcEl = document.getElementById("btcAddress");
-            if (btcEl) navigator.clipboard.writeText(btcEl.textContent || "");
-            Swal.fire({
-              icon: "success",
-              title: "Copied!",
-              text: "BTC address copied to clipboard",
-              confirmButtonColor: "#026cdf",
-            });
-          });
-        }
-      },
-      preConfirm: async () => {
-        const fileInput = document.getElementById("proofInput") as HTMLInputElement;
-        if (fileInput?.files && fileInput.files[0]) {
-          const file = fileInput.files[0];
-          const formData = new FormData();
-          formData.append("name", result.value.name);
-          formData.append("email", result.value.email);
-          formData.append("tickets", ticketSummary);
-          formData.append("amount", totalAmount.toString());
-          formData.append("file", file);
-          formData.append("paymentMethod", method);
-          formData.append("eventName", event.title); 
+        const showPaymentDetails = (method: "PayPal" | "Bank" | "BTC") => {
+          let title = method === "BTC" ? "Bitcoin Payment" : `${method} Payment`;
+          let paymentIcon = "";
+          let extraInfo = "";
 
-          try {
-            const res = await fetch("https://ticketmasterb.onrender.com/api/proof", {
-              method: "POST",
-              body: formData,
-            });
-            if (!res.ok) throw new Error("Upload failed");
-            await res.json();
-            return file;
-          } catch (err) {
-            Swal.showValidationMessage("Failed to upload proof. Try again.");
+          if (method === "PayPal") {
+            paymentIcon = "https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg";
+            extraInfo = `<p><strong>PayPal Email Account to pay to:</strong> patriciakithao@gmail.com</p>`;
+          } else if (method === "Bank") {
+            paymentIcon = "https://cdn-icons-png.flaticon.com/512/338/338391.png";
+            extraInfo = "<p><strong>Account:</strong> USE PAYPAL OR BTC</p>";
+          } else if (method === "BTC") {
+            paymentIcon = "https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg";
+            extraInfo = `
+              <p><strong>BTC Address:</strong> <span id="btcAddress" style="user-select:all;">bc1qj45p6z2pehsjhvak42e5q4jzrlugta4vsah0up</span></p>
+              <button id="copyBtc" style="padding:6px 12px;background:#f7931a;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;margin-top:5px;">Copy Address</button>
+              <p style="font-size:12px;color:#555;margin-top:5px;">Send BTC to this address</p>`;
           }
-        } else {
-          Swal.showValidationMessage("Please select a file to upload");
-        }
+
+          Swal.fire({
+            title: `<span style="color:#026cdf">${title}</span>`,
+            html: `
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                <img src="${paymentIcon}" height="40" />
+                <span style="font-weight:600;font-size:16px">${method}</span>
+              </div>
+              <p><strong>Event:</strong> ${event.title}</p>
+              <p><strong>Your Tickets:</strong> ${ticketSummary}</p>
+              <p style="font-weight:600;font-size:16px;color:green;">
+                <strong>Total Amount:</strong> ${currencySymbol}${totalAmount}
+              </p>
+              <p><strong>Name:</strong> ${result.value.name} (${result.value.email})</p>
+              ${extraInfo}
+              <input type="file" id="proofInput" accept="image/*" style="margin-top:10px;width:100%;" />
+              <p style="font-size:12px;color:#555">After paying, upload proof of payment here</p>
+            `,
+            confirmButtonText: "Upload Proof",
+            confirmButtonColor: "#026cdf",
+            width: "90%",
+            didOpen: () => {
+              if (method === "BTC") {
+                document.getElementById("copyBtc")?.addEventListener("click", (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const btcEl = document.getElementById("btcAddress");
+                  if (btcEl) navigator.clipboard.writeText(btcEl.textContent || "");
+                  Swal.fire({
+                    icon: "success",
+                    title: "Copied!",
+                    text: "BTC address copied to clipboard",
+                    confirmButtonColor: "#026cdf",
+                  });
+                });
+              }
+            },
+            preConfirm: async () => {
+              const fileInput = document.getElementById("proofInput") as HTMLInputElement;
+              if (fileInput?.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                const formData = new FormData();
+                formData.append("name", result.value.name);
+                formData.append("email", result.value.email);
+                formData.append("tickets", ticketSummary);
+                formData.append("amount", totalAmount.toString());
+                formData.append("file", file);
+                formData.append("paymentMethod", method);
+                formData.append("eventName", event.title); // ✅ event name included
+
+                try {
+                  const res = await fetch("https://ticketmasterb.onrender.com/api/proof", {
+                    method: "POST",
+                    body: formData,
+                  });
+                  if (!res.ok) throw new Error("Upload failed");
+                  await res.json();
+                  return file;
+                } catch (err) {
+                  Swal.showValidationMessage("Failed to upload proof. Try again.");
+                }
+              } else {
+                Swal.showValidationMessage("Please select a file to upload");
+              }
+            },
+          }).then((uploadResult) => {
+            if (uploadResult.isConfirmed && uploadResult.value) {
+              setProofOfPayment(uploadResult.value as File);
+              Swal.fire({
+                icon: "success",
+                title: "Proof Uploaded",
+                text: "Your proof of payment has been uploaded successfully. Your ticket will be sent to your email after verification!",
+                confirmButtonColor: "#026cdf",
+              });
+            }
+          });
+        };
+
+        document.getElementById("paypalBtn")?.addEventListener("click", () => showPaymentDetails("PayPal"));
+        document.getElementById("bankBtn")?.addEventListener("click", () => showPaymentDetails("Bank"));
+        document.getElementById("btcBtn")?.addEventListener("click", () => showPaymentDetails("BTC"));
       },
-    }).then((uploadResult) => {
-      if (uploadResult.isConfirmed && uploadResult.value) {
-        setProofOfPayment(uploadResult.value as File);
-        Swal.fire({
-          icon: "success",
-          title: "Proof Uploaded",
-          text: "Your proof of payment has been uploaded successfully your ticket wil be to your email after verification!",
-          confirmButtonColor: "#026cdf",
-        });
-      }
     });
-  };
+  });
 
-  // Attach click events
-  document.getElementById("paypalBtn")?.addEventListener("click", () => showPaymentDetails("PayPal"));
-  document.getElementById("bankBtn")?.addEventListener("click", () => showPaymentDetails("Bank"));
-  document.getElementById("btcBtn")?.addEventListener("click", () => showPaymentDetails("BTC"));
-},
-
-      });
-    });
-
-    setIsModalOpen(false);
-  };
+  setIsModalOpen(false);
+};
 
   return (
     <div style={{ paddingTop: "100px", fontFamily: "Inter, Arial, sans-serif" }}>
@@ -439,16 +437,16 @@ const TicketsPage: React.FC = () => {
               })}
             </ul>
 
-            {/* Live total */}
-            {Object.values(ticketCounts).some((q) => q > 0) && (
-              <p style={{ fontWeight: 600, marginTop: "1rem", textAlign: "center" }}>
-                Total: $
-                {Object.entries(ticketCounts).reduce((sum, [name, qty]) => {
-                  const price = parseInt(tickets.find((t) => t.name === name)!.price.replace("$", ""));
-                  return sum + price * qty;
-                }, 0)}
-              </p>
-            )}
+           {/* Live total */}
+{Object.values(ticketCounts).some((q) => q > 0) && (
+  <p style={{ fontWeight: 600, marginTop: "1rem", textAlign: "center" }}>
+    Total: {tickets[0]?.price.startsWith("RM") ? "RM" : "$"}
+    {Object.entries(ticketCounts).reduce((sum, [name, qty]) => {
+      const price = parsePrice(tickets.find((t) => t.name === name)!.price); // ✅ fixed
+      return sum + price * qty;
+    }, 0)}
+  </p>
+)}
 
             {/* Modal Buttons */}
             <div style={{ marginTop: "1.5rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
