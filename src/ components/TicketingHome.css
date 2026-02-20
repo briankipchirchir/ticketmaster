@@ -538,3 +538,38 @@
 .hero-second-event + .hero-second-event {
   margin-top: 2rem;
 }
+
+.hero-second-event + .hero-second-event + .hero-second-event {
+  margin-top: 2rem;
+}
+
+
+
+
+/* ================== HERO EVENTS GRID ================== */
+.hero-events-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 per row */
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* Make hero cards adapt nicely inside grid */
+.hero-events-grid .hero-second-event {
+  height: 380px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+
+@media (max-width: 768px) {
+  .hero-events-grid {
+    grid-template-columns: 1fr; /* 1 per row on mobile */
+    padding: 1rem;
+  }
+
+  .hero-events-grid .hero-second-event {
+    height: auto;
+    min-height: 300px;
+  }
+}

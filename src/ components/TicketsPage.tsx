@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useLocation, useParams } from "react-router-dom";
 
 import kualarImage from "../assets/kualar.jpeg"
+import singaporeImage from "../assets/Singapore.jpeg"
 
 const EVENTS = {
   seventeen: {
@@ -49,6 +50,18 @@ const EVENTS = {
       { name: "CAT2 Standing ", price: "RM400" },
       { name: "CAT3 Premium Seating (Upper Level)", price: "RM450" },
       { name: "CAT4 Seating(Upper Level)", price: "RM250" },
+    ],
+  },
+    singa: {
+    title: "Together As One Fan Con Singapore",
+    heroImage:singaporeImage,
+    ticketImage: singaporeImage,
+    tickets: [
+      { name: "ZONE A", price: "SGD290" },
+      { name: "ZONE B", price: "SGD200" },
+      { name: "ZONE C", price: "SGD130" },
+      { name: "ZONE D", price: "SGD89" },
+     
     ],
   }
 };

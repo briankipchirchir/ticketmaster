@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import kualarImage from "../assets/kualar.jpeg"
+import SingaporeImage from "../assets/Singapore.jpeg"
 
 
 const btsTourStops = [
@@ -145,45 +146,55 @@ const [selectedStop, setSelectedStop] = useState<any>(null);
   </div>
 </section>
 
-{/* Second Event Section (Hero Background) */}
-<section
-  className="hero-second-event"
-  style={{
-    backgroundImage: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${decadeImage})`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-  }}
->
-  <div className="hero-content">
-    <h2>Featured Event</h2>
-    <h2>The Decade 10th Anniversary Singapore</h2>
-    <p>Theatre · Live · Touring</p>
-    <button onClick={() => navigate("/tickets/seventeen")}>
-      Find Tickets
-    </button>
-  </div>
-</section>
+{/* Featured Events Grid */}
+<section className="hero-events-grid">
+  <section
+    className="hero-second-event"
+    style={{
+      backgroundImage: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${decadeImage})`,
+    }}
+  >
+    <div className="hero-content">
+      <h2>Featured Event</h2>
+      <h2>The Decade 10th Anniversary Singapore</h2>
+      <p>Theatre · Live · Touring</p>
+      <button onClick={() => navigate("/tickets/seventeen")}>
+        Find Tickets
+      </button>
+    </div>
+  </section>
 
+  <section
+    className="hero-second-event"
+    style={{
+      backgroundImage: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${kualarImage})`,
+    }}
+  >
+    <div className="hero-content">
+      <h2>Featured Event</h2>
+      <h2>CHEN CONCERT TOUR in KUALA LUMPUR</h2>
+      <p>Theatre · Live · Touring</p>
+      <button onClick={() => navigate("/tickets/kualar")}>
+        Find Tickets
+      </button>
+    </div>
+  </section>
 
-{/* Second Event Section (Hero Background) */}
-<section
-  className="hero-second-event"
-  style={{
-    backgroundImage: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${kualarImage})`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-  }}
->
-  <div className="hero-content">
-    <h2>Featured Event</h2>
-    <h2>CHEN CONCERT TOUR  in KUALA LUMPUR</h2>
-    <p>Theatre · Live · Touring</p>
-    <button onClick={() => navigate("/tickets/kualar")}>
-      Find Tickets
-    </button>
-  </div>
+  <section
+    className="hero-second-event"
+    style={{
+      backgroundImage: `linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${SingaporeImage})`,
+    }}
+  >
+    <div className="hero-content">
+      <h2>Featured Event</h2>
+      <h2>Together As One Fan Con Singapore</h2>
+      <p>Theatre · Live · Touring</p>
+      <button onClick={() => navigate("/tickets/singa")}>
+        Find Tickets
+      </button>
+    </div>
+  </section>
 </section>
 
 
