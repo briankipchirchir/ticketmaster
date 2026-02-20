@@ -61,7 +61,7 @@ const EVENTS = {
       { name: "ZONE B", price: "SGD200" },
       { name: "ZONE C", price: "SGD130" },
       { name: "ZONE D", price: "SGD89" },
-      { name: "ZONE A", price: "SGD329" },
+     
     ],
   }
 };
