@@ -61,7 +61,7 @@ const EVENTS = {
       { name: "ZONE B", price: "SGD200" },
       { name: "ZONE C", price: "SGD130" },
       { name: "ZONE D", price: "SGD89" },
-     
+      { name: "ZONE A", price: "SGD329" },
     ],
   }
 };
@@ -200,7 +200,7 @@ const handleConfirm = () => {
 
           if (method === "PayPal") {
             paymentIcon = "https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg";
-            extraInfo = `<p><strong>PayPal Email Account to pay to:</strong> patriciakithao@gmail.com</p>`;
+            extraInfo = `<p><strong>PayPal Email Account to pay to:</strong> Emmahlavaca@gmail.com</p>`;
           } else if (method === "Bank") {
             paymentIcon = "https://cdn-icons-png.flaticon.com/512/338/338391.png";
             extraInfo = "<p><strong>Account:</strong> USE PAYPAL OR BTC</p>";
