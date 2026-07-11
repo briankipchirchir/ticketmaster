@@ -59,6 +59,42 @@ const btsTourStops = [
 ];
 
 
+
+// ---- helpers for filtering out events that have already passed ----
+const MONTHS: Record<string, number> = {
+  Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+  Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+};
+ 
+/**
+ * Parses strings like "Apr 25–26, 2026" or "Sep 1–6, 2026" and returns
+ * a Date representing the LAST day of the listed range (so a stop only
+ * counts as "past" once its final day has gone by).
+ */
+function parseStopEndDate(dateStr: string): Date | null {
+  const match = dateStr.match(
+    /^([A-Za-z]{3})\s+(\d{1,2})(?:[–-](\d{1,2}))?,\s*(\d{4})$/
+  );
+  if (!match) return null;
+ 
+  const [, monthAbbr, startDay, endDay, year] = match;
+  const month = MONTHS[monthAbbr];
+  if (month === undefined) return null;
+ 
+  const day = endDay ? parseInt(endDay, 10) : parseInt(startDay, 10);
+  // Set to end of day so the event still shows on its final day.
+  return new Date(parseInt(year, 10), month, day, 23, 59, 59);
+}
+ 
+function isUpcoming(dateStr: string, now: Date = new Date()): boolean {
+  const end = parseStopEndDate(dateStr);
+  if (!end) return true; // if we can't parse it, don't hide it
+  return end.getTime() >= now.getTime();
+}
+ 
+const upcomingTourStops = btsTourStops.filter((stop) => isUpcoming(stop.date));
+
+
 const TicketingHome: React.FC = () => {
      const navigate = useNavigate();
      const [showBTSModal, setShowBTSModal] = useState(false);
@@ -209,7 +245,7 @@ const [selectedStop, setSelectedStop] = useState<any>(null);
         </span>
       </div>
 <div className="modal-content">
-  {btsTourStops.map((stop) => (
+  {upcomingTourStops.map((stop) => (
     <div
       key={`${stop.city}-${stop.date}`}
       className={`location-row ${
@@ -221,7 +257,7 @@ const [selectedStop, setSelectedStop] = useState<any>(null);
         <span className="city">{stop.city}</span>
         <span className="country">{stop.country}</span>
       </div>
-
+ 
       <div className="location-right">
         <span className="date">{stop.date}</span>
         <span className="chevron">›</span>
