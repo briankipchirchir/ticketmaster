@@ -132,7 +132,31 @@ const AdminPage: React.FC = () => {
 
   return (
     <div style={{ padding: "2rem" }}>
-      <h2>Admin – Proof of Payments</h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "0.75rem",
+        }}
+      >
+        <h2>Admin – Proof of Payments</h2>
+        <button
+          onClick={() => navigate("/my-tickets")}
+          style={{
+            padding: "8px 16px",
+            background: "#026cdf",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          View My Tickets →
+        </button>
+      </div>
 
       {/* Search Bar */}
       <input

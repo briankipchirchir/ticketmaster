@@ -6,6 +6,7 @@ import { Footer } from "./components/Footer";
 import TicketsPage from "./components/TicketsPage";
 import AdminPage from "./components/AdminPage";
 import AdminLogin from "./components/AdminLogin";
+import MyTickets from "./components/MyTickets";
 
 
 function App() {
@@ -51,6 +52,8 @@ function App() {
             </>
           }
         />
+
+        <Route path="/my-tickets" element={<MyTickets />} />
       </Routes>
     </Router>
   );
