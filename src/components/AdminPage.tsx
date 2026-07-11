@@ -10,16 +10,18 @@ interface Proof {
   amount: number;
   fileName: string;
   filePath: string;
-  paymentMethod: string; 
-  eventName: string;        // ← new
+  paymentMethod: string;
+  eventName: string;
   uploadedAt: string;
   approved: boolean;
+  ticketFileUrl?: string; // ← new
 }
 
 const AdminPage: React.FC = () => {
   const [proofs, setProofs] = useState<Proof[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [uploadingId, setUploadingId] = useState<number | null>(null);
 
   const navigate = useNavigate();
 
@@ -78,30 +80,54 @@ const AdminPage: React.FC = () => {
   );
 
   const handleApprove = async (id: number) => {
-  const confirm = await Swal.fire({
-    title: "Approve & Send Ticket?",
-    text: "This will send the ticket to the client's email",
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonColor: "#16a34a",
-    confirmButtonText: "Yes, Send Ticket",
-  });
+    const confirm = await Swal.fire({
+      title: "Approve & Send Ticket?",
+      text: "This will send the ticket to the client's email",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#16a34a",
+      confirmButtonText: "Yes, Send Ticket",
+    });
 
-  if (!confirm.isConfirmed) return;
+    if (!confirm.isConfirmed) return;
 
-  const res = await fetch(`https://ticketmasterb.onrender.com/api/proofs/${id}/approve`, {
-    method: "POST",
-  });
+    const res = await fetch(`https://ticketmasterb.onrender.com/api/proofs/${id}/approve`, {
+      method: "POST",
+    });
 
-  if (res.ok) {
-    setProofs(prev =>
-      prev.map(p => p.id === id ? { ...p, approved: true } : p)
-    );
-    Swal.fire("Sent!", "Ticket has been sent to the client's email", "success");
-  } else {
-    Swal.fire("Error", "Failed to approve and send ticket", "error");
-  }
-};
+    if (res.ok) {
+      setProofs(prev =>
+        prev.map(p => p.id === id ? { ...p, approved: true } : p)
+      );
+      Swal.fire("Sent!", "Ticket has been sent to the client's email", "success");
+    } else {
+      Swal.fire("Error", "Failed to approve and send ticket", "error");
+    }
+  };
+
+  // Upload the actual ticket file for an order
+  const handleTicketUpload = async (id: number, file: File) => {
+    setUploadingId(id);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch(
+        `https://ticketmasterb.onrender.com/api/proofs/${id}/upload-ticket`,
+        { method: "POST", body: formData }
+      );
+
+      if (!res.ok) throw new Error("Upload failed");
+
+      const updated = await res.json();
+      setProofs(prev => prev.map(p => (p.id === id ? updated : p)));
+      Swal.fire("Uploaded", "Ticket file attached to this order", "success");
+    } catch (err) {
+      Swal.fire("Error", "Failed to upload ticket file", "error");
+    } finally {
+      setUploadingId(null);
+    }
+  };
 
   return (
     <div style={{ padding: "2rem" }}>
@@ -203,7 +229,7 @@ const AdminPage: React.FC = () => {
               <p><strong>Total Paid:</strong> ${proof.amount}</p>
               <p><strong>Payment Method:</strong> {proof.paymentMethod}</p>
               <p><strong>Event:</strong> {proof.eventName}</p>
-<p><strong>Uploaded At:</strong> {new Date(proof.uploadedAt).toLocaleString()}</p>
+              <p><strong>Uploaded At:</strong> {new Date(proof.uploadedAt).toLocaleString()}</p>
 
               {/* Proof Image */}
               <img
@@ -242,6 +268,53 @@ const AdminPage: React.FC = () => {
                 Download Proof
               </a>
 
+              {/* ---- Ticket file upload ---- */}
+              <div
+                style={{
+                  marginTop: "10px",
+                  padding: "10px",
+                  background: "#f8fafc",
+                  border: "1px dashed #cbd5e1",
+                  borderRadius: "6px",
+                }}
+              >
+                <p style={{ margin: "0 0 6px", fontSize: "13px", fontWeight: 600 }}>
+                  Ticket file{proof.ticketFileUrl ? " (uploaded)" : ""}
+                </p>
+
+                {proof.ticketFileUrl && (
+                  <a
+                    href={proof.ticketFileUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: "inline-block",
+                      marginBottom: "6px",
+                      fontSize: "13px",
+                      color: "#026cdf",
+                    }}
+                  >
+                    View current ticket file
+                  </a>
+                )}
+
+                <input
+                  type="file"
+                  disabled={uploadingId === proof.id}
+                  onChange={e => {
+                    const file = e.target.files?.[0];
+                    if (file) handleTicketUpload(proof.id, file);
+                  }}
+                  style={{ width: "100%", fontSize: "13px" }}
+                />
+
+                {uploadingId === proof.id && (
+                  <p style={{ fontSize: "12px", color: "#666", marginTop: "4px" }}>
+                    Uploading...
+                  </p>
+                )}
+              </div>
+
               {/* Delete Button */}
               <button
                 onClick={() => handleDelete(proof.id)}
@@ -261,23 +334,23 @@ const AdminPage: React.FC = () => {
               </button>
 
               {/* Approve Button */}
-<button
-  onClick={() => handleApprove(proof.id)}
-  disabled={proof.approved}
-  style={{
-    marginTop: "10px",
-    padding: "8px 12px",
-    background: proof.approved ? "#6b7280" : "#16a34a",
-    color: "white",
-    border: "none",
-    borderRadius: "6px",
-    cursor: proof.approved ? "not-allowed" : "pointer",
-    fontWeight: 600,
-    width: "100%",
-  }}
->
-  {proof.approved ? "✓ Ticket Sent" : "✅ Approve & Send Ticket"}
-</button>
+              <button
+                onClick={() => handleApprove(proof.id)}
+                disabled={proof.approved}
+                style={{
+                  marginTop: "10px",
+                  padding: "8px 12px",
+                  background: proof.approved ? "#6b7280" : "#16a34a",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: proof.approved ? "not-allowed" : "pointer",
+                  fontWeight: 600,
+                  width: "100%",
+                }}
+              >
+                {proof.approved ? "✓ Ticket Sent" : "✅ Approve & Send Ticket"}
+              </button>
             </div>
           ))}
         </div>
