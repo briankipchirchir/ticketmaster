@@ -22,6 +22,7 @@ const AdminPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [uploadingId, setUploadingId] = useState<number | null>(null);
+  const [viewingTicket, setViewingTicket] = useState<{ url: string; label: string } | null>(null);
 
   const navigate = useNavigate();
 
@@ -283,19 +284,27 @@ const AdminPage: React.FC = () => {
                 </p>
 
                 {proof.ticketFileUrl && (
-                  <a
-                    href={proof.ticketFileUrl}
-                    target="_blank"
-                    rel="noreferrer"
+                  <button
+                    onClick={() =>
+                      setViewingTicket({
+                        url: proof.ticketFileUrl as string,
+                        label: `${proof.userName} — ${proof.eventName}`,
+                      })
+                    }
                     style={{
-                      display: "inline-block",
+                      display: "block",
                       marginBottom: "6px",
                       fontSize: "13px",
                       color: "#026cdf",
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      textDecoration: "underline",
+                      cursor: "pointer",
                     }}
                   >
                     View current ticket file
-                  </a>
+                  </button>
                 )}
 
                 <input
@@ -353,6 +362,106 @@ const AdminPage: React.FC = () => {
               </button>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Full-screen ticket viewer */}
+      {viewingTicket && (
+        <div
+          onClick={() => setViewingTicket(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.9)",
+            zIndex: 3000,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "2rem",
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: "100%",
+              maxWidth: "1000px",
+              maxHeight: "90vh",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                color: "#fff",
+                marginBottom: "0.75rem",
+              }}
+            >
+              <span style={{ fontWeight: 600, fontSize: "14px" }}>
+                {viewingTicket.label}
+              </span>
+              <button
+                onClick={() => setViewingTicket(null)}
+                style={{
+                  background: "rgba(255,255,255,0.15)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "6px",
+                  padding: "6px 14px",
+                  cursor: "pointer",
+                  fontWeight: 600,
+                }}
+              >
+                ✕ Close
+              </button>
+            </div>
+
+            {viewingTicket.url.toLowerCase().endsWith(".pdf") ? (
+              <iframe
+                src={viewingTicket.url}
+                title="Ticket file"
+                style={{
+                  width: "100%",
+                  height: "80vh",
+                  border: "none",
+                  borderRadius: "8px",
+                  background: "#fff",
+                }}
+              />
+            ) : (
+              <img
+                src={viewingTicket.url}
+                alt="Ticket file full view"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "80vh",
+                  objectFit: "contain",
+                  borderRadius: "8px",
+                }}
+              />
+            )}
+
+            <a
+              href={viewingTicket.url}
+              download
+              style={{
+                marginTop: "1rem",
+                padding: "10px 20px",
+                background: "#026cdf",
+                color: "#fff",
+                borderRadius: "8px",
+                textDecoration: "none",
+                fontWeight: 600,
+              }}
+            >
+              Download
+            </a>
+          </div>
         </div>
       )}
     </div>
