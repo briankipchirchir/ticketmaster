@@ -7,16 +7,16 @@ import cup from "../assets/cup.png"
 // ---------------------------------------------------------------------
 const MATCH = {
   matchNumber: "M101",
-  home: "Kiployi",
-  away: "Patnas",
+  home: "France",
+  away: "Spain",
   dateShort: "14 JUL 26", // shown on the small ticket badge
   dateFull: "14.07.2026",
   time: "2:00 PM",
-  venue: "Kipchirchir Grounds",
-  tournament: "Kipchirchir Cup 2026",
-  ticketsCount: 2,
+  venue: "Dallas Stadium",
+  tournament: "FIFA World Cup 2026",
+  ticketsCount: 4,
   category: "Category 1",
-  currency: "KES",
+  currency: "USD",
   section: "Section 12",
   row: "Row 8",
   seatsNote: "2 seats side by side",
