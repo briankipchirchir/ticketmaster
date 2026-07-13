@@ -86,15 +86,16 @@ export default function TicketTransferFlow({
     position: "relative" as const,
   };
 
-  const backdrop = {
-    minHeight: 640,
-    background: "rgba(0,0,0,0.55)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "2rem 0",
-  };
-
+const backdrop = {
+  minHeight: "100vh",
+  width: "100%",
+  background: "rgba(0,0,0,0.55)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "2rem 0",
+  boxSizing: "border-box" as const,
+};
   const tabBar = (
     <div style={{ display: "flex", borderBottom: `1px solid ${BORDER_DARK}` }}>
       <div
