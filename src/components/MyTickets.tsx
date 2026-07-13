@@ -6,24 +6,24 @@ import cup from "../assets/cup.png"
 // HARDCODED DATA — swap this out for real data once you have a backend.
 // ---------------------------------------------------------------------
 const MATCH = {
-  matchNumber: "M101",
-  home: "France",
-  away: "Spain",
-  dateShort: "14 JUL 26", // shown on the small ticket badge
-  dateFull: "14.07.2026",
-  time: "2:00 PM",
-  venue: "Dallas Stadium",
+  matchNumber: "M102",
+  home: "England",
+  away: "rgentina",
+  dateShort: "15 JUL 26", // shown on the small ticket badge
+  dateFull: "15.07.2026",
+  time: "4:00 PM",
+  venue: "Atlanta Stadium",
   tournament: "FIFA World Cup 2026",
   ticketsCount: 4,
   category: "Category 1",
   currency: "USD",
-  section: "Section 12",
-  row: "Row 8",
-  seatsNote: "2 seats side by side",
+  section: "Section 10",
+  row: "Row 3",
+  seatsNote: "3 seats side by side",
   approved: true, // false -> "not yet ready" state
 };
 
-const SEATS = ["Seat 1", "Seat 2", "Seat 3", "Seat 4"];
+const SEATS = ["Seat 5", "Seat 6", "Seat 7", "Seat 8"];
 
 // ---------------------------------------------------------------------
 // STYLES — plain style objects typed as React.CSSProperties. Literal
@@ -393,7 +393,7 @@ function TicketDetailScreen({ onBack, onViewTicket, onSend }: TicketDetailScreen
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800, maxWidth: 240 }}>
-              {MATCH.tournament} - Match 95 - {MATCH.home.toUpperCase()} VS {MATCH.away.toUpperCase()}
+              {MATCH.tournament} - Match 102 - {MATCH.home.toUpperCase()} VS {MATCH.away.toUpperCase()}
             </h2>
             <img
               src={tournamentBadge}
@@ -655,7 +655,7 @@ function SendTicketsScreen({ onBack }: SendTicketsScreenProps) {
               {MATCH.matchNumber} {MATCH.home} vs {MATCH.away}
             </p>
             <p style={{ margin: "2px 0 0", fontSize: 12, color: colors.subtext }}>
-              2026-07-14, 02:00 PM · {MATCH.venue}
+              2026-07-15, 04:00 PM · {MATCH.venue}
             </p>
           </div>
         </div>
