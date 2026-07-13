@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 
 const BLUE = "#026cdf";
 const BG_DARK = "#0d0d0f";
@@ -36,11 +36,13 @@ export default function TicketTransferFlow({
   seatList = [
     { id: 17, label: "SEAT 17" },
     { id: 18, label: "SEAT 18" },
-      { id: 19, label: "SEAT 19" },
+    { id: 19, label: "SEAT 19" },
     { id: 20, label: "SEAT 20" },
   ],
   onClose,
 }: TicketTransferFlowProps) {
+  const navigate = useNavigate();
+
   // "order"        -> ticket list screen
   // "selectTransfer" -> choose which seats to transfer
   // "transferForm"   -> enter recipient + note
@@ -49,6 +51,14 @@ export default function TicketTransferFlow({
   const [emailOrPhone, setEmailOrPhone] = useState("");
   const [note, setNote] = useState("");
   const [sent, setSent] = useState(false);
+
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      navigate(-1);
+    }
+  };
 
   const toggleSeat = (id: string | number) => {
     setSelected((prev) =>
@@ -75,28 +85,23 @@ export default function TicketTransferFlow({
     setSent(true);
   };
 
-  const shell = {
-    width: 375,
-    margin: "0 auto",
+  const page = {
+    minHeight: "100vh",
+    width: "100%",
     background: BG_DARK,
-    borderRadius: 16,
-    overflow: "hidden",
-    boxShadow: "0 2px 20px rgba(0,0,0,0.4)",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
     position: "relative" as const,
   };
 
-const backdrop = {
-  minHeight: "100vh",
-  width: "100%",
-  background: "rgba(0,0,0,0.55)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "2rem 0",
-  boxSizing: "border-box" as const,
-};
+  const shell = {
+    maxWidth: 480,
+    margin: "0 auto",
+    background: BG_DARK,
+    minHeight: "100vh",
+    position: "relative" as const,
+  };
+
   const tabBar = (
     <div style={{ display: "flex", borderBottom: `1px solid ${BORDER_DARK}` }}>
       <div
@@ -127,31 +132,29 @@ const backdrop = {
     </div>
   );
 
-  return  createPortal(
-    <div style={backdrop}>
+  return (
+    <div style={page}>
       <div style={shell}>
-        {onClose && (
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            style={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              zIndex: 20,
-              width: 28,
-              height: 28,
-              borderRadius: "50%",
-              border: "none",
-              background: "rgba(0,0,0,0.35)",
-              color: "#fff",
-              cursor: "pointer",
-              fontSize: 14,
-            }}
-          >
-            ✕
-          </button>
-        )}
+        <button
+          onClick={handleClose}
+          aria-label="Close"
+          style={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            zIndex: 20,
+            width: 28,
+            height: 28,
+            borderRadius: "50%",
+            border: "none",
+            background: "rgba(0,0,0,0.35)",
+            color: "#fff",
+            cursor: "pointer",
+            fontSize: 14,
+          }}
+        >
+          ✕
+        </button>
 
         {/* ---------------- SCREEN 1: ORDER / TICKET LIST ---------------- */}
         {screen === "order" && (
@@ -163,6 +166,7 @@ const backdrop = {
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
               <div
+                onClick={handleClose}
                 style={{
                   position: "absolute",
                   top: 12,
@@ -170,6 +174,7 @@ const backdrop = {
                   color: "#fff",
                   fontSize: 20,
                   textShadow: "0 1px 3px rgba(0,0,0,0.6)",
+                  cursor: "pointer",
                 }}
               >
                 ←
@@ -677,7 +682,6 @@ const backdrop = {
           </div>
         )}
       </div>
-    </div>,
-    document.body
+    </div>
   );
 }
