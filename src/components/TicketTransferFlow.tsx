@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 
 const BLUE = "#026cdf";
 const BG_DARK = "#0d0d0f";
@@ -126,7 +127,7 @@ const backdrop = {
     </div>
   );
 
-  return (
+  return  createPortal(
     <div style={backdrop}>
       <div style={shell}>
         {onClose && (
@@ -676,6 +677,7 @@ const backdrop = {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
