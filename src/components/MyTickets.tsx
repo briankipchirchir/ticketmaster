@@ -8,7 +8,7 @@ import cup from "../assets/cup.png"
 const MATCH = {
   matchNumber: "M102",
   home: "England",
-  away: "rgentina",
+  away: "Argentina",
   dateShort: "15 JUL 26", // shown on the small ticket badge
   dateFull: "15.07.2026",
   time: "4:00 PM",
