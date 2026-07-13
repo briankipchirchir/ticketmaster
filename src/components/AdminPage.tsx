@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import BTS from "../assets/BTS1.jpeg"; 
+import TicketTransferFlow from "./TicketTransferFlow";
 
 interface Proof {
   id: number;
@@ -23,6 +25,7 @@ const AdminPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [uploadingId, setUploadingId] = useState<number | null>(null);
   const [viewingTicket, setViewingTicket] = useState<{ url: string; label: string } | null>(null);
+  const [showTicketFlow, setShowTicketFlow] = useState(false);
 
   const navigate = useNavigate();
 
@@ -156,6 +159,21 @@ const AdminPage: React.FC = () => {
         >
           View My Tickets →
         </button>
+
+        <button
+  onClick={() => setShowTicketFlow(true)}
+  style={{
+    padding: "8px 16px",
+    background: "#026cdf",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    fontWeight: 600,
+    cursor: "pointer",
+  }}
+>
+  View Ticket Details
+</button>
       </div>
 
       {/* Search Bar */}
@@ -488,6 +506,23 @@ const AdminPage: React.FC = () => {
           </div>
         </div>
       )}
+
+
+      {showTicketFlow && (
+  <div style={{ position: "fixed", inset: 0, zIndex: 4000, overflow: "auto" }}>
+    <TicketTransferFlow
+      eventImage={BTS}
+      eventName="BTS WORLD TOUR 'ARIRANG' IN PARIS"
+      eventDate="Fri, Jul 17, 2026 · 20:00"
+      venue="Stade de France"
+      orderNumber="57-75274/INB"
+      section="118"
+      row="9"
+      seatList={[{ id: 17, label: "SEAT 17" }, { id: 18, label: "SEAT 18" }]}
+      onClose={() => setShowTicketFlow(false)}
+    />
+  </div>
+)}
     </div>
   );
 };
