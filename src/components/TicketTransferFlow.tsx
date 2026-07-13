@@ -560,127 +560,174 @@ export default function TicketTransferFlow({
             </div>
           </div>
         )}
+{/* ---------------- SCREEN 3: TRANSFER FORM ---------------- */}
+{screen === "transferForm" && (
+  <div>
+    <div style={{ position: "relative", height: 90 }}>
+      <img
+        src={eventImage}
+        alt={eventName}
+        style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.55)" }}
+      />
+      <div
+        onClick={() => setScreen("selectTransfer")}
+        style={{ position: "absolute", top: 10, left: 12, color: "#fff", fontSize: 18, cursor: "pointer" }}
+      >
+        ←
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 8,
+          left: 34,
+          right: 34,
+          color: "#fff",
+          fontSize: 12,
+          fontWeight: 700,
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
+        {eventName}
+      </div>
+    </div>
 
-        {/* ---------------- SCREEN 3: TRANSFER FORM ---------------- */}
-        {screen === "transferForm" && (
-          <div style={{ padding: "16px 20px 20px" }}>
-            {sent ? (
-              <div style={{ textAlign: "center", padding: "30px 10px" }}>
-                <div style={{ fontSize: 15, fontWeight: 700, color: TEXT_WHITE }}>Tickets sent</div>
-                <div style={{ fontSize: 13, color: TEXT_GRAY, marginTop: 6 }}>
-                  {emailOrPhone} will get an email to accept the transfer.
-                </div>
-                <button
-                  onClick={closeTransfer}
-                  style={{
-                    marginTop: 20,
-                    border: "none",
-                    background: BLUE,
-                    color: "#fff",
-                    fontWeight: 700,
-                    fontSize: 13,
-                    padding: "10px 20px",
-                    borderRadius: 6,
-                    cursor: "pointer",
-                  }}
-                >
-                  Done
-                </button>
-              </div>
-            ) : (
-              <>
-                <div
-                  style={{
-                    textAlign: "center",
-                    fontSize: 12,
-                    fontWeight: 700,
-                    letterSpacing: 0.5,
-                    color: TEXT_WHITE,
-                    marginBottom: 14,
-                  }}
-                >
-                  TRANSFER TICKETS
-                </div>
+    {tabBar}
 
-                <div style={{ fontSize: 14, fontWeight: 700, color: TEXT_WHITE }}>
-                  {selected.length} Tickets Selected
-                </div>
-                <div style={{ fontSize: 13, color: TEXT_GRAY, marginBottom: 18 }}>
-                  Sec {section} Row {row} Seat{" "}
-                  {seatList.filter((s) => selected.includes(s.id)).map((s) => s.id).join(", ")}
-                </div>
-
-                <label style={{ display: "block", fontSize: 13, fontWeight: 700, color: TEXT_WHITE, marginBottom: 6 }}>
-                  Email or Mobile Number
-                </label>
-                <input
-                  value={emailOrPhone}
-                  onChange={(e) => setEmailOrPhone(e.target.value)}
-                  placeholder="Email or Mobile Number"
-                  style={{
-                    width: "100%",
-                    boxSizing: "border-box",
-                    border: `1px solid ${BORDER_DARK}`,
-                    background: CARD_DARK,
-                    color: TEXT_WHITE,
-                    borderRadius: 6,
-                    padding: "10px 12px",
-                    fontSize: 13,
-                    marginBottom: 16,
-                  }}
-                />
-
-                <label style={{ display: "block", fontSize: 13, fontWeight: 700, color: TEXT_WHITE, marginBottom: 6 }}>
-                  Note
-                </label>
-                <textarea
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  placeholder="Note"
-                  rows={3}
-                  style={{
-                    width: "100%",
-                    boxSizing: "border-box",
-                    border: `1px solid ${BORDER_DARK}`,
-                    background: CARD_DARK,
-                    color: TEXT_WHITE,
-                    borderRadius: 6,
-                    padding: "10px 12px",
-                    fontSize: 13,
-                    marginBottom: 12,
-                    resize: "none",
-                    fontFamily: "inherit",
-                  }}
-                />
-
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <button
-                    onClick={() => setScreen("selectTransfer")}
-                    style={{ border: "none", background: "none", color: BLUE, fontWeight: 700, fontSize: 13, cursor: "pointer" }}
-                  >
-                    &lt; BACK
-                  </button>
-                  <button
-                    disabled={!emailOrPhone}
-                    onClick={handleSend}
-                    style={{
-                      border: "none",
-                      background: emailOrPhone ? BLUE : BORDER_DARK,
-                      color: "#fff",
-                      fontWeight: 700,
-                      fontSize: 12,
-                      padding: "10px 16px",
-                      borderRadius: 6,
-                      cursor: emailOrPhone ? "pointer" : "not-allowed",
-                    }}
-                  >
-                    TRANSFER {selected.length} TICKETS
-                  </button>
-                </div>
-              </>
-            )}
+    <div style={{ padding: "12px 16px 0" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div>
+          <div style={{ fontSize: 14, fontWeight: 700, color: TEXT_WHITE }}>
+            Order #{orderNumber}
           </div>
-        )}
+          <div style={{ fontSize: 12, color: TEXT_GRAY, marginTop: 2 }}>
+            x{seatList.length} Tickets
+          </div>
+        </div>
+        <span style={{ fontSize: 18, color: TEXT_WHITE }}>⋮</span>
+      </div>
+    </div>
+
+    <div style={{ padding: "16px 20px 20px" }}>
+      {sent ? (
+        <div style={{ textAlign: "center", padding: "30px 10px" }}>
+          <div style={{ fontSize: 15, fontWeight: 700, color: TEXT_WHITE }}>Tickets sent</div>
+          <div style={{ fontSize: 13, color: TEXT_GRAY, marginTop: 6 }}>
+            {emailOrPhone} will get an email to accept the transfer.
+          </div>
+          <button
+            onClick={closeTransfer}
+            style={{
+              marginTop: 20,
+              border: "none",
+              background: BLUE,
+              color: "#fff",
+              fontWeight: 700,
+              fontSize: 13,
+              padding: "10px 20px",
+              borderRadius: 6,
+              cursor: "pointer",
+            }}
+          >
+            Done
+          </button>
+        </div>
+      ) : (
+        <>
+          <div
+            style={{
+              textAlign: "center",
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: 0.5,
+              color: TEXT_WHITE,
+              marginBottom: 14,
+            }}
+          >
+            TRANSFER TICKETS
+          </div>
+
+          <div style={{ fontSize: 14, fontWeight: 700, color: TEXT_WHITE }}>
+            {selected.length} Tickets Selected
+          </div>
+          <div style={{ fontSize: 13, color: TEXT_GRAY, marginBottom: 18 }}>
+            Sec {section} Row {row} Seat{" "}
+            {seatList.filter((s) => selected.includes(s.id)).map((s) => s.id).join(", ")}
+          </div>
+
+          <label style={{ display: "block", fontSize: 13, fontWeight: 700, color: TEXT_WHITE, marginBottom: 6 }}>
+            Email or Mobile Number
+          </label>
+          <input
+            value={emailOrPhone}
+            onChange={(e) => setEmailOrPhone(e.target.value)}
+            placeholder="Email or Mobile Number"
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              border: `1px solid ${BORDER_DARK}`,
+              background: CARD_DARK,
+              color: TEXT_WHITE,
+              borderRadius: 6,
+              padding: "10px 12px",
+              fontSize: 13,
+              marginBottom: 16,
+            }}
+          />
+
+          <label style={{ display: "block", fontSize: 13, fontWeight: 700, color: TEXT_WHITE, marginBottom: 6 }}>
+            Note
+          </label>
+          <textarea
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="Note"
+            rows={3}
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              border: `1px solid ${BORDER_DARK}`,
+              background: CARD_DARK,
+              color: TEXT_WHITE,
+              borderRadius: 6,
+              padding: "10px 12px",
+              fontSize: 13,
+              marginBottom: 12,
+              resize: "none",
+              fontFamily: "inherit",
+            }}
+          />
+
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <button
+              onClick={() => setScreen("selectTransfer")}
+              style={{ border: "none", background: "none", color: BLUE, fontWeight: 700, fontSize: 13, cursor: "pointer" }}
+            >
+              &lt; BACK
+            </button>
+            <button
+              disabled={!emailOrPhone}
+              onClick={handleSend}
+              style={{
+                border: "none",
+                background: emailOrPhone ? BLUE : BORDER_DARK,
+                color: "#fff",
+                fontWeight: 700,
+                fontSize: 12,
+                padding: "10px 16px",
+                borderRadius: 6,
+                cursor: emailOrPhone ? "pointer" : "not-allowed",
+              }}
+            >
+              TRANSFER {selected.length} TICKETS
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+)}
       </div>
     </div>
   );
