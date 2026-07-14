@@ -171,6 +171,21 @@ const AdminPage: React.FC = () => {
         >
           View Ticket Details
         </button>
+
+        <button
+          onClick={() => navigate("/singapore")}
+          style={{
+            padding: "8px 16px",
+            background: "#026cdf",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          Singapore
+        </button>
       </div>
 
       {/* Search Bar */}
@@ -288,9 +303,8 @@ const AdminPage: React.FC = () => {
               />
 
               {/* Download Button */}
-              
-                <a
-                  href={proof.filePath}
+              <a
+                href={proof.filePath}
                 download={proof.fileName}
                 style={{
                   display: "inline-block",
@@ -486,9 +500,8 @@ const AdminPage: React.FC = () => {
               />
             )}
 
-            
-              <a
-                href={viewingTicket.url}
+            <a
+              href={viewingTicket.url}
               download
               style={{
                 marginTop: "1rem",

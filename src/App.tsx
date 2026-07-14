@@ -8,6 +8,7 @@ import AdminPage from "./components/AdminPage";
 import AdminLogin from "./components/AdminLogin";
 import MyTickets from "./components/MyTickets";
 import TicketDetails from "./components/TicketDetails";
+import Singapore from "./components/Singapore";
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
 
         <Route path="/my-tickets" element={<MyTickets />} />
         <Route path="/ticket-details" element={<TicketDetails />} />
+           <Route path="/singapore" element={<Singapore />} />
       </Routes>
     </Router>
   );
