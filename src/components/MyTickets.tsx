@@ -6,24 +6,24 @@ import cup from "../assets/cup.png"
 // HARDCODED DATA — swap this out for real data once you have a backend.
 // ---------------------------------------------------------------------
 const MATCH = {
-  matchNumber: "M102",
-  home: "England",
-  away: "Argentina",
-  dateShort: "15 JUL 26", // shown on the small ticket badge
-  dateFull: "15.07.2026",
-  time: "4:00 PM",
-  venue: "Atlanta Stadium",
+  matchNumber: "M101",
+  home: "France",
+  away: "Spain",
+  dateShort: "14 JUL 26", // shown on the small ticket badge
+  dateFull: "14.07.2026",
+  time: "2:00 PM",
+  venue: "Dallas Stadium",
   tournament: "FIFA World Cup 2026",
   ticketsCount: 4,
   category: "Category 1",
   currency: "USD",
-  section: "Section 10",
-  row: "Row 3",
+  section: "Section 12",
+  row: "Row 8",
   seatsNote: "3 seats side by side",
   approved: true, // false -> "not yet ready" state
 };
 
-const SEATS = ["Seat 5", "Seat 6", "Seat 7", "Seat 8"];
+const SEATS = ["Seat 1", "Seat 2", "Seat 3", "Seat 4"];
 
 // ---------------------------------------------------------------------
 // STYLES — plain style objects typed as React.CSSProperties. Literal
