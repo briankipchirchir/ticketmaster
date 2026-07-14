@@ -38,6 +38,32 @@ const MOCK_TICKETS: TicketOrder[] = [
     seat: "-",
     entrance: "A",
   },
+  {
+    id: "2",
+    eventImage: kualImg,
+    eventName: "The Neighbourhood - THE WOURLD TOUR",
+    dateLabel: "Thu, Jul 16, 8:00 PM",
+    venue: "Mega Star Arena KL, Mega star aren...",
+    status: "transferred",
+    ticketType: "STANDING",
+    section: "GENERAL STANDING",
+    row: "-",
+    seat: "-",
+    entrance: "A",
+  },
+   {
+    id: "3",
+    eventImage: kualImg,
+    eventName: "The Neighbourhood - THE WOURLD TOUR",
+    dateLabel: "Thu, Jul 16, 8:00 PM",
+    venue: "Mega Star Arena KL, Mega star aren...",
+    status: "transferred",
+    ticketType: "STANDING",
+    section: "GENERAL STANDING",
+    row: "-",
+    seat: "-",
+    entrance: "A",
+  },
 ];
 
 const TABS: { key: TicketStatus; label: string }[] = [
