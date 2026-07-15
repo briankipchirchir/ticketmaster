@@ -33,7 +33,7 @@ const MOCK_TICKETS: TicketOrder[] = [
     venue: "Mega Star Arena KL, Mega star aren...",
     status: "upcoming",
     ticketType: "STANDING",
-    section: "GENERAL STANDING",
+    section: "PRIORITY STANDING",
     row: "-",
     seat: "-",
     entrance: "A",
