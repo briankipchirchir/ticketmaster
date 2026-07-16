@@ -9,6 +9,7 @@ import AdminLogin from "./components/AdminLogin";
 import MyTickets from "./components/MyTickets";
 import TicketDetails from "./components/TicketDetails";
 import Singapore from "./components/Singapore";
+import MyTicketOrders from "./components/Myticketorders";
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
         <Route path="/my-tickets" element={<MyTickets />} />
         <Route path="/ticket-details" element={<TicketDetails />} />
            <Route path="/singapore" element={<Singapore />} />
+           <Route path="/my-ticket-orders" element={<MyTicketOrders />} />
       </Routes>
     </Router>
   );

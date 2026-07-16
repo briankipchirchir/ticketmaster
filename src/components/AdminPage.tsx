@@ -186,6 +186,21 @@ const AdminPage: React.FC = () => {
         >
           Singapore
         </button>
+
+           <button
+          onClick={() => navigate("/my-ticket-orders")}
+          style={{
+            padding: "8px 16px",
+            background: "#026cdf",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          My Ticket
+        </button>
       </div>
 
       {/* Search Bar */}
