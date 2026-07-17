@@ -201,6 +201,21 @@ const AdminPage: React.FC = () => {
         >
           My Ticket
         </button>
+
+            <button
+          onClick={() => navigate("/orders")}
+          style={{
+            padding: "8px 16px",
+            background: "#026cdf",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          Axs
+        </button>
       </div>
 
       {/* Search Bar */}
