@@ -29,7 +29,7 @@ export default function TicketQRScan({
   eventName = "BIGBANG - Admissions",
   eventDateVenue = "SAT, Sep 5, 2026 - 8:00 PM PDT | Oakland-Alameda",
   ticketCount = 2,
-  holderName = "Brian Kip",
+  holderName = "mellissa nathans",
   section = "113",
   row = "2",
   seat = "4",
@@ -291,7 +291,7 @@ export default function TicketQRScan({
                           width: 36,
                           height: 36,
                           borderRadius: "50%",
-                          background: TEXT_GRAY,
+                          background:  NAVY_DARK,
                           color: "#fff",
                           display: "flex",
                           alignItems: "center",
@@ -301,7 +301,7 @@ export default function TicketQRScan({
                           border: "3px solid #fff",
                         }}
                       >
-                        axs
+                        AXS
                       </div>
                     </div>
 
