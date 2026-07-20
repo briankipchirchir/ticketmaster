@@ -26,7 +26,7 @@ export interface Order {
   items: TicketItem[];
 }
 
-const ATTENDEE_NAME = "Brian Kip";
+const ATTENDEE_NAME = "Melissa nathans";
 
 export const ORDERS: Order[] = [
   {
