@@ -73,7 +73,7 @@ export const ORDERS: Order[] = [
         badgeLabel: "VIP SEATED",
         price: "$368.00",
         ticketCategory: "VIP SEATED PEN D",
-        section: "SEATED PEN D",
+        section: "Section 209",
         ticketInfoLines: ["Row  23 Seat 13"],
         gateDoor: "PREMIER WEST (L1)",
         levelTier: "L1",
