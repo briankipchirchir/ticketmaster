@@ -124,23 +124,7 @@ export default function MobileTicketPage() {
         }}
       >
         {/* Back link */}
-        <div style={{ padding: "16px 20px 0" }}>
-          <button
-            onClick={() => navigate(-1)}
-            style={{
-              background: "none",
-              border: "none",
-              color: BLUE,
-              fontSize: 14,
-              fontWeight: 700,
-              cursor: "pointer",
-              padding: 0,
-              marginBottom: 8,
-            }}
-          >
-            ← Back
-          </button>
-        </div>
+      
 
         {/* Header banner */}
         <div style={{ padding: "4px 20px 0" }}>
