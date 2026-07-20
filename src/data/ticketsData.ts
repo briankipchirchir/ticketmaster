@@ -87,7 +87,7 @@ export const ORDERS: Order[] = [
     status: "E-ticket Available",
     items: [
       {
-         id: "vip-2",
+         id: "vip-3",
         eventName: "EXO PLANET #6 - EXhOrizon in SINGAPORE",
         date: "24 Jul 2026 (Fri.) 08:00 pm",
         venue: "Singapore Indoor Stadium",
