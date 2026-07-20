@@ -368,23 +368,7 @@ export default function MobileTicketPage() {
             </div>
           </div>
 
-          <button
-            onClick={() => navigate(-1)}
-            style={{
-              width: "100%",
-              marginTop: 20,
-              padding: "12px 0",
-              background: TEXT_DARK,
-              color: "#fff",
-              border: "none",
-              borderRadius: 8,
-              fontSize: 14,
-              fontWeight: 700,
-              cursor: "pointer",
-            }}
-          >
-            Close
-          </button>
+        
         </div>
       </div>
     </div>
