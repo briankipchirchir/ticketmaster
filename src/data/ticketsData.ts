@@ -66,7 +66,7 @@ export const ORDERS: Order[] = [
         date: "24 Jul 2026 (Fri.) 08:00 pm",
         venue: "Singapore Indoor Stadium",
         seatInfoShort: "SEATED PEN C\nNo.0032",
-        ticketInfoShort: "VIP STANDING PEN D\nVIP $368.00",
+        ticketInfoShort: "VIP SEATED PEN D\nVIP $368.00",
         bookingFee: "$10.00",
         subtotal: "$378.00",
         qty: 1,
