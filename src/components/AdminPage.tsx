@@ -216,6 +216,21 @@ const AdminPage: React.FC = () => {
         >
           Axs
         </button>
+
+              <button
+          onClick={() => navigate("/purchase")}
+          style={{
+            padding: "8px 16px",
+            background: "#026cdf",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          Purchase
+        </button>
       </div>
 
       {/* Search Bar */}
