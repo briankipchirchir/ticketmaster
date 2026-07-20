@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { findTicketById } from "../data/ticketsData";
 
 const BLUE = "#026cdf";
@@ -6,6 +7,21 @@ const LIGHT_BG = "#f5f6f8";
 const BORDER_LIGHT = "#e5e7eb";
 const TEXT_DARK = "#111827";
 const TEXT_GRAY = "#6b7280";
+
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < breakpoint : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < breakpoint);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [breakpoint]);
+
+  return isMobile;
+}
 
 function PinIcon({ size = 14, color = TEXT_DARK }: { size?: number; color?: string }) {
   return (
@@ -49,6 +65,7 @@ export default function MobileTicketPage() {
   const { ticketId } = useParams<{ ticketId: string }>();
   const navigate = useNavigate();
   const ticket = findTicketById(ticketId);
+  const isMobile = useIsMobile();
 
   if (!ticket) {
     return (
@@ -86,15 +103,22 @@ export default function MobileTicketPage() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: LIGHT_BG, padding: "2rem 1rem" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: isMobile ? "#fff" : LIGHT_BG,
+        padding: isMobile ? 0 : "2rem 1rem",
+      }}
+    >
       <div
         style={{
           width: "100%",
-          maxWidth: 420,
+          maxWidth: isMobile ? "100%" : 420,
+          minHeight: isMobile ? "100vh" : "auto",
           margin: "0 auto",
           background: "#fff",
-          borderRadius: 12,
-          boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+          borderRadius: isMobile ? 0 : 12,
+          boxShadow: isMobile ? "none" : "0 4px 20px rgba(0,0,0,0.08)",
           fontFamily:
             "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
         }}
