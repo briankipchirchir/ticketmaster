@@ -116,7 +116,7 @@ const MAP_PIN_SVG = (color: string) => `
 
 // Filled map-pin icon used as a standalone React element (kept for any
 // other callers/backwards compatibility)
-function MapPinIcon({ size = 34, color = "#e11d2e" }: { size?: number; color?: string }) {
+export function  MapPinIcon({ size = 34, color = "#e11d2e" }: { size?: number; color?: string }) {
   return (
     <svg
       width={size}
