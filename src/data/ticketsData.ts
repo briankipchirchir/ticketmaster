@@ -63,7 +63,7 @@ export const ORDERS: Order[] = [
       {
         id: "vip-2",
         eventName: "EXO PLANET #6 - EXhOrizon in SINGAPORE",
-        date: "26 Jul 2026 (SUN.) 06:00 pm",
+        date: "24 Jul 2026 (SUN.) 08:00 pm",
         venue: "Singapore Indoor Stadium",
         seatInfoShort: "SEATED \nNo.0032",
         ticketInfoShort: "VIP SEATED \nVIP $368.00",
