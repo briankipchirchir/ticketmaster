@@ -8,13 +8,20 @@ export default function TicketDetails() {
   return (
     <TicketTransferFlow
       eventImage={BTS}
-      eventName="BTS WORLD TOUR 'ARIRANG' IN PARIS"
-      eventDate="Fri, Jul 17, 2026 · 20:00"
-      venue="Stade de France"
-      orderNumber="57-75274/INB"
-      section="118"
-      row="9"
-      seatList={[{ id: 17, label: "SEAT 17" }, { id: 18, label: "SEAT 18" }]}
+      eventName="BTS WORLD TOUR 'ARIRANG' IN LOS ANGELES"
+      eventDate="SAT, SEP 05, 2026, 08:00 PM"
+      venue="SoFi Stadium — Inglewood, CA"
+      venueMapLabel="SoFi Stadium"
+      orderNumber="52-286815/CA"
+      ticketTypeLabel="SOUNDCHECK VIP PACKAGE"
+      section="FLR A1"
+      row="4"
+      seatList={[
+        { id: 1, label: "SEAT 1" },
+        { id: 2, label: "SEAT 2" },
+        { id: 3, label: "SEAT 3" },
+        { id: 4, label: "SEAT 4" },
+      ]}
       onClose={() => navigate("/admin")}
     />
   );

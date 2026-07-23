@@ -37,7 +37,7 @@ export const ORDERS: Order[] = [
       {
         id: "vip-1",
         eventName: "EXO PLANET #6 - EXhOrizon in SINGAPORE",
-        date: "26 Jul 2026 (Sun.) 08:00 pm",
+        date: "26 Jul 2026 (Sun.) 06:00 pm",
         venue: "Singapore Indoor Stadium",
         seatInfoShort: "STANDING \nNo.0031",
         ticketInfoShort: "VIP STANDING \nVIP $368.00",
@@ -74,7 +74,7 @@ export const ORDERS: Order[] = [
         price: "$368.00",
         ticketCategory: "VIP SEATED ",
         section: "Section 209",
-        ticketInfoLines: ["Row  15 Seat 10"],
+        ticketInfoLines: ["Row  15 Seat 11"],
         gateDoor: "PREMIER WEST (L1)",
         levelTier: "L1",
         attendeeName: ATTENDEE_NAME,
