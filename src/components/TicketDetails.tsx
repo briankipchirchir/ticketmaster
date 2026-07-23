@@ -15,7 +15,7 @@ export default function TicketDetails() {
       orderNumber="52-286815/CA"
       ticketTypeLabel="SOUNDCHECK VIP PACKAGE"
       section="FLR A1"
-      row="4"
+      row="5"
       seatList={[
         { id: 1, label: "SEAT 1" },
         { id: 2, label: "SEAT 2" },
