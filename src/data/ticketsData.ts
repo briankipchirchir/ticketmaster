@@ -48,7 +48,7 @@ export const ORDERS: Order[] = [
         price: "$368.00",
         ticketCategory: "VIP STANDING PEN C",
         section: "STANDING PEN C",
-        ticketInfoLines: ["STANDIN PEN C"],
+        ticketInfoLines: ["Queue 0034"],
         gateDoor: "PREMIER WEST (L1)",
         levelTier: "L1",
         attendeeName: ATTENDEE_NAME,
