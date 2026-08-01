@@ -61,6 +61,42 @@ function CalendarIcon({ size = 14, color = TEXT_DARK }: { size?: number; color?:
   );
 }
 
+// A "Blue label + value" row, used for Seat Info / Ticket Info /
+// Booking Fee / Subtotal
+function DetailRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <div
+        style={{
+          fontSize: 13,
+          fontWeight: 700,
+          color: BLUE,
+          marginBottom: 4,
+        }}
+      >
+        {label}
+      </div>
+      <div
+        style={{
+          fontSize: 15,
+          fontWeight: 700,
+          color: TEXT_DARK,
+          whiteSpace: "pre-line",
+          lineHeight: 1.4,
+        }}
+      >
+        {value}
+      </div>
+    </div>
+  );
+}
+
 export default function MobileTicketPage() {
   const { ticketId } = useParams<{ ticketId: string }>();
   const navigate = useNavigate();
@@ -123,11 +159,8 @@ export default function MobileTicketPage() {
             "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
         }}
       >
-        {/* Back link */}
-      
-
         {/* Header banner */}
-        <div style={{ padding: "4px 20px 0" }}>
+        <div style={{ padding: "20px 20px 0" }}>
           <div
             style={{
               fontSize: 20,
@@ -186,6 +219,8 @@ export default function MobileTicketPage() {
               fontSize: 16,
               fontWeight: 700,
               color: TEXT_DARK,
+              whiteSpace: "pre-line",
+              lineHeight: 1.4,
               marginBottom: 10,
             }}
           >
@@ -201,8 +236,8 @@ export default function MobileTicketPage() {
               marginBottom: 4,
             }}
           >
-            <PinIcon />
-            <span>{ticket.venue}</span>
+            <CalendarIcon />
+            <span>{ticket.date}</span>
           </div>
           <div
             style={{
@@ -211,145 +246,18 @@ export default function MobileTicketPage() {
               gap: 6,
               fontSize: 13,
               color: TEXT_DARK,
-              marginBottom: 16,
+              marginBottom: 18,
             }}
           >
-            <CalendarIcon />
-            <span>{ticket.date}</span>
+            <PinIcon />
+            <span>{ticket.venue}</span>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "12px 0",
-              borderTop: `1px solid ${BORDER_LIGHT}`,
-              borderBottom: `1px solid ${BORDER_LIGHT}`,
-              marginBottom: 16,
-            }}
-          >
-            <span
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: "50%",
-                background: BLUE,
-                display: "inline-block",
-              }}
-            />
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: TEXT_DARK }}>
-                {ticket.badgeLabel}
-              </div>
-              <div style={{ fontSize: 13, color: TEXT_DARK }}>{ticket.price}</div>
-            </div>
-          </div>
-
-          <div style={{ marginBottom: 16 }}>
-            <div
-              style={{
-                fontSize: 11,
-                fontWeight: 700,
-                color: BLUE,
-                letterSpacing: 0.5,
-                marginBottom: 4,
-              }}
-            >
-              TICKET CATEGORY
-            </div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: TEXT_DARK }}>
-              {ticket.ticketCategory}
-            </div>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 16,
-              marginBottom: 16,
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: BLUE,
-                  letterSpacing: 0.5,
-                  marginBottom: 4,
-                }}
-              >
-                SECTION
-              </div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: TEXT_DARK }}>
-                {ticket.section}
-              </div>
-            </div>
-            <div>
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: BLUE,
-                  letterSpacing: 0.5,
-                  marginBottom: 4,
-                }}
-              >
-                TICKET INFO
-              </div>
-              {ticket.ticketInfoLines.map((line, i) => (
-                <div
-                  key={i}
-                  style={{ fontSize: 14, fontWeight: 700, color: TEXT_DARK }}
-                >
-                  {line}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 16,
-              marginBottom: 16,
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: BLUE,
-                  letterSpacing: 0.5,
-                  marginBottom: 4,
-                }}
-              >
-                GATE / DOOR
-              </div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: TEXT_DARK }}>
-                {ticket.gateDoor}
-              </div>
-            </div>
-            <div>
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: BLUE,
-                  letterSpacing: 0.5,
-                  marginBottom: 4,
-                }}
-              >
-                LEVEL / TIER
-              </div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: TEXT_DARK }}>
-                {ticket.levelTier}
-              </div>
-            </div>
+          <div style={{ borderTop: `1px solid ${BORDER_LIGHT}`, paddingTop: 16 }}>
+            <DetailRow label="Seat Info" value={ticket.seatInfoShort} />
+            <DetailRow label="Ticket Info" value={ticket.ticketInfoShort} />
+            <DetailRow label="Booking Fee" value={ticket.bookingFee} />
+            <DetailRow label="Subtotal" value={ticket.subtotal} />
           </div>
 
           <div style={{ borderTop: `1px solid ${BORDER_LIGHT}`, paddingTop: 14 }}>
@@ -367,8 +275,6 @@ export default function MobileTicketPage() {
               {ticket.attendeeName}
             </div>
           </div>
-
-        
         </div>
       </div>
     </div>

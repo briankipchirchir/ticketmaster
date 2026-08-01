@@ -27,83 +27,34 @@ export interface Order {
 }
 
 const ATTENDEE_NAME = "Melissa nathans";
-const EVENT_NAME = "MAMAMOO 2026 WORLD TOUR <4WARD> in SINGAPORE";
-const VENUE = "Singapore Indoor Stadium";
-const EVENT_DATE = "31 Jul 2026 (Fri.) 07:30 pm";
+
+const FFOREVER_EVENT_NAME =
+  "F✦FOREVER 1st World Tour in Singapore\nF✦FOREVER 恒星之城 世界巡回演唱会 - 新加坡站";
+const FFOREVER_VENUE = "Singapore Indoor Stadium";
+const FFOREVER_ORDER_TIME = "16-06-2026\n02:09pm";
 
 export const ORDERS: Order[] = [
+  // ---------------- F✦FOREVER 1st World Tour in Singapore ----------------
   {
     orderNo: "BK",
-    orderTime: "20-05-2026\n12:12pm",
+    orderTime: FFOREVER_ORDER_TIME,
     status: "E-ticket Available",
     items: [
       {
-        id: "vip-seated-1",
-        eventName: EVENT_NAME,
-        date: EVENT_DATE,
-        venue: VENUE,
-        seatInfoShort: "SEATED PC1 \nNo.09",
-        ticketInfoShort: "VIP SEATED\n$358.00",
+        id: "fforever-cat2-1",
+        eventName: FFOREVER_EVENT_NAME,
+        date: "15 Aug 2026 (Sat.) 08:00 pm",
+        venue: FFOREVER_VENUE,
+        seatInfoShort: "Section 221\nRow 21",
+        ticketInfoShort: "CAT 2\n$408.00",
         bookingFee: "$10.00",
-        subtotal: "$368.00",
+        subtotal: "$418.00",
         qty: 1,
-        badgeLabel: "VIP SEATED",
-        price: "$358.00",
-        ticketCategory: "VIP SEATED PC1",
-        section: "SEATED PC1",
-        ticketInfoLines: ["Row 2 Seat 09"],
-        gateDoor: "PREMIER WEST (L1)",
-        levelTier: "L1",
-        attendeeName: ATTENDEE_NAME,
-      },
-    ],
-  },
-  {
-    orderNo: "BK",
-    orderTime: "20-05-2026\n12:12pm",
-    status: "E-ticket Available",
-    items: [
-      {
-        id: "vip-standing-1",
-        eventName: EVENT_NAME,
-        date: EVENT_DATE,
-        venue: VENUE,
-        seatInfoShort: "STANDING PEN B\nNo.0032",
-        ticketInfoShort: "VIP STANDING\n$358.00",
-        bookingFee: "$10.00",
-        subtotal: "$368.00",
-        qty: 1,
-        badgeLabel: "VIP Standing",
-        price: "$358.00",
-        ticketCategory: "VIP STANDING PEN B",
-        section: "STANDING PEN B",
-        ticketInfoLines: ["Queue No. 0032"],
-        gateDoor: "PREMIER WEST (L1)",
-        levelTier: "L1",
-        attendeeName: ATTENDEE_NAME,
-      },
-    ],
-  },
-  {
-    orderNo: "BK",
-    orderTime: "20-05-2026\n12:12pm",
-    status: "E-ticket Available",
-    items: [
-      {
-        id: "cat1-1",
-        eventName: EVENT_NAME,
-        date: EVENT_DATE,
-        venue: VENUE,
-        seatInfoShort: "Section 223\nRow 5",
-        ticketInfoShort: "CAT 1\n$318.00",
-        bookingFee: "$10.00",
-        subtotal: "$328.00",
-        qty: 1,
-        badgeLabel: "CAT 1",
-        price: "$318.00",
-        ticketCategory: "CAT 1",
-        section: "Section 223",
-        ticketInfoLines: ["Row 5 Seat 12"],
+        badgeLabel: "CAT 2",
+        price: "$408.00",
+        ticketCategory: "CAT 2 — Live Nation + 恒星不忘尊荣礼包",
+        section: "221",
+        ticketInfoLines: ["Row 21 Seat 5"],
         gateDoor: "NORTH (L2)",
         levelTier: "L2",
         attendeeName: ATTENDEE_NAME,
@@ -112,26 +63,52 @@ export const ORDERS: Order[] = [
   },
   {
     orderNo: "BK",
-    orderTime: "20-05-2026\n12:12pm",
+    orderTime: FFOREVER_ORDER_TIME,
     status: "E-ticket Available",
     items: [
       {
-        id: "cat1-2",
-        eventName: EVENT_NAME,
-        date: EVENT_DATE,
-        venue: VENUE,
-        seatInfoShort: "Section 224\nRow 5",
-        ticketInfoShort: "CAT 1\n$318.00",
+        id: "fforever-cat1-1",
+        eventName: FFOREVER_EVENT_NAME,
+        date: "16 Aug 2026 (Sun.) 08:00 pm",
+        venue: FFOREVER_VENUE,
+        seatInfoShort: "Section 121A\nRow A",
+        ticketInfoShort: "CAT 1\n$458.00",
         bookingFee: "$10.00",
-        subtotal: "$328.00",
+        subtotal: "$468.00",
         qty: 1,
         badgeLabel: "CAT 1",
-        price: "$318.00",
-        ticketCategory: "CAT 1",
-        section: "Section 224",
-        ticketInfoLines: ["Row 5 Seat 13"],
-        gateDoor: "NORTH (L2)",
-        levelTier: "L2",
+        price: "$458.00",
+        ticketCategory: "CAT 1 — Live Nation + 恒星不忘尊荣礼包",
+        section: "121A",
+        ticketInfoLines: ["Row A Seat 1"],
+        gateDoor: "PREMIER WEST (L1)",
+        levelTier: "L1",
+        attendeeName: ATTENDEE_NAME,
+      },
+    ],
+  },
+  {
+    orderNo: "BK",
+    orderTime: FFOREVER_ORDER_TIME,
+    status: "E-ticket Available",
+    items: [
+      {
+        id: "fforever-cat1-2",
+        eventName: FFOREVER_EVENT_NAME,
+        date: "16 Aug 2026 (Sun.) 08:00 pm",
+        venue: FFOREVER_VENUE,
+        seatInfoShort: "Section 121A\nRow A",
+        ticketInfoShort: "CAT 1\n$458.00",
+        bookingFee: "$10.00",
+        subtotal: "$468.00",
+        qty: 1,
+        badgeLabel: "CAT 1",
+        price: "$458.00",
+        ticketCategory: "CAT 1 — Live Nation + 恒星不忘尊荣礼包",
+        section: "121A",
+        ticketInfoLines: ["Row A Seat 2"],
+        gateDoor: "PREMIER WEST (L1)",
+        levelTier: "L1",
         attendeeName: ATTENDEE_NAME,
       },
     ],
@@ -146,4 +123,10 @@ export function findTicketById(id: string | undefined): TicketItem | undefined {
     if (found) return found;
   }
   return undefined;
+}
+
+// Flattened list of every ticket across every order, used by the
+// multi-select "Ticket Transfer" page
+export function getAllTickets(): TicketItem[] {
+  return ORDERS.flatMap((order) => order.items);
 }

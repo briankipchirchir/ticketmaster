@@ -5,11 +5,10 @@ import { ORDERS } from "../data/ticketsData";
 const BLUE = "#026cdf";
 const LIGHT_BG = "#f5f6f8";
 const CARD_WHITE = "#ffffff";
-const HEADER_DARK = "#1a1a1a";
+const LABEL_BG = "#f3f4f6";
 const BORDER_LIGHT = "#e5e7eb";
 const TEXT_DARK = "#111827";
 const TEXT_GRAY = "#6b7280";
-const RED_TOTAL = "#dc2626";
 
 const SIDEBAR_LINKS = [
   "My Profile",
@@ -18,7 +17,6 @@ const SIDEBAR_LINKS = [
   "Back to Top",
 ];
 
-// Simple hook to track viewport width so inline styles can respond to it.
 function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" ? window.innerWidth < breakpoint : false
@@ -34,27 +32,37 @@ function useIsMobile(breakpoint = 768) {
   return isMobile;
 }
 
-export default function PurchaseHistory() {
-  const [expandedOrders, setExpandedOrders] = useState<Set<number>>(
-    new Set(ORDERS.map((_, i) => i))
+// A single "Label bar + content" section, reused for Order Date /
+// Purchase Information / Order Status
+function InfoSection({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <div
+        style={{
+          background: LABEL_BG,
+          color: TEXT_GRAY,
+          fontSize: 12,
+          fontWeight: 600,
+          padding: "8px 16px",
+        }}
+      >
+        {label}
+      </div>
+      <div style={{ padding: "14px 16px" }}>{children}</div>
+    </div>
   );
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+}
+
+export default function PurchaseHistory() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-
-  const toggleOrder = (index: number) => {
-    setExpandedOrders((prev) => {
-      const next = new Set(prev);
-      if (next.has(index)) next.delete(index);
-      else next.add(index);
-      return next;
-    });
-  };
-
-  // Column layouts collapse to a single column on mobile so cards stack
-  // instead of forcing a fixed 700px-wide table.
-  const headerGridColumns = isMobile ? "1fr" : "1fr 1fr 2fr 1fr";
-  const itemGridColumns = isMobile ? "1fr" : "2fr 1fr 1fr 1fr 1fr";
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div style={{ minHeight: "100vh", background: LIGHT_BG, display: "flex" }}>
@@ -98,7 +106,6 @@ export default function PurchaseHistory() {
       {/* ---------------- SIDEBAR ---------------- */}
       {isMobile ? (
         <>
-          {/* Backdrop */}
           {sidebarOpen && (
             <div
               onClick={() => setSidebarOpen(false)}
@@ -110,7 +117,6 @@ export default function PurchaseHistory() {
               }}
             />
           )}
-          {/* Slide-in drawer */}
           <div
             style={{
               position: "fixed",
@@ -192,379 +198,124 @@ export default function PurchaseHistory() {
           flex: 1,
           padding: isMobile ? "16px 12px" : "24px",
           paddingTop: isMobile ? 68 : 24,
-          overflowX: isMobile ? "hidden" : "auto",
           maxWidth: "100vw",
         }}
       >
-        {ORDERS.map((order, orderIndex) => {
-          const isExpanded = expandedOrders.has(orderIndex);
-          return (
-            <div
-              key={orderIndex}
-              style={{
-                background: CARD_WHITE,
-                border: `1px solid ${BORDER_LIGHT}`,
-                borderRadius: 6,
-                marginBottom: 20,
-                minWidth: isMobile ? 0 : 700,
-                width: "100%",
-                overflow: "hidden",
-              }}
-            >
-              {/* Order header row */}
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: headerGridColumns,
-                }}
-              >
-                <div
-                  style={{
-                    background: HEADER_DARK,
-                    color: "#fff",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    padding: "12px 14px",
-                    borderRight: isMobile ? "none" : "1px solid #333",
-                    borderBottom: isMobile ? "1px solid #333" : "none",
-                  }}
-                >
-                  Order No.
-                </div>
-                <div
-                  style={{
-                    background: HEADER_DARK,
-                    color: "#fff",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    padding: "12px 14px",
-                    borderRight: isMobile ? "none" : "1px solid #333",
-                    borderBottom: isMobile ? "1px solid #333" : "none",
-                  }}
-                >
-                  Order Time
-                </div>
-                <div
-                  style={{
-                    background: HEADER_DARK,
-                    color: "#fff",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    padding: "12px 14px",
-                    borderRight: isMobile ? "none" : "1px solid #333",
-                    borderBottom: isMobile ? "1px solid #333" : "none",
-                  }}
-                >
-                  Purchase Information
-                </div>
-                <div
-                  style={{
-                    background: HEADER_DARK,
-                    color: "#fff",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    padding: "12px 14px",
-                  }}
-                >
-                  Order Status
-                </div>
-              </div>
+        <div style={{ maxWidth: 560, margin: "0 auto" }}>
+          {ORDERS.map((order, orderIndex) => {
+            const primaryItem = order.items[0];
+            const orderDateDisplay = order.orderTime.replace("\n", " ");
 
+            return (
               <div
+                key={orderIndex}
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: headerGridColumns,
-                  borderBottom: `1px solid ${BORDER_LIGHT}`,
+                  background: CARD_WHITE,
+                  border: `1px solid ${BORDER_LIGHT}`,
+                  borderRadius: 8,
+                  marginBottom: 20,
+                  overflow: "hidden",
                 }}
               >
-                <div
-                  style={{
-                    padding: "16px 14px",
-                    fontSize: 14,
-                    fontWeight: 700,
-                    color: TEXT_DARK,
-                    borderRight: isMobile ? "none" : `1px solid ${BORDER_LIGHT}`,
-                    borderBottom: isMobile ? `1px solid ${BORDER_LIGHT}` : "none",
-                  }}
-                >
-                  {order.orderNo}
-                </div>
-                <div
-                  style={{
-                    padding: "16px 14px",
-                    fontSize: 13,
-                    color: TEXT_DARK,
-                    whiteSpace: "pre-line",
-                    borderRight: isMobile ? "none" : `1px solid ${BORDER_LIGHT}`,
-                    borderBottom: isMobile ? `1px solid ${BORDER_LIGHT}` : "none",
-                  }}
-                >
-                  {order.orderTime}
-                </div>
-                <div
-                  style={{
-                    padding: "16px 14px",
-                    borderRight: isMobile ? "none" : `1px solid ${BORDER_LIGHT}`,
-                    borderBottom: isMobile ? `1px solid ${BORDER_LIGHT}` : "none",
-                  }}
-                >
+                <InfoSection label="Order Date">
+                  <span style={{ fontSize: 16, fontWeight: 700, color: TEXT_DARK }}>
+                    {orderDateDisplay}
+                  </span>
+                </InfoSection>
+
+                <div style={{ borderTop: `1px solid ${BORDER_LIGHT}` }} />
+
+                <InfoSection label="Purchase Information">
                   <div
                     style={{
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: 700,
                       color: TEXT_DARK,
-                      marginBottom: 6,
-                    }}
-                  >
-                    {order.items[0].eventName}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: TEXT_GRAY,
-                      marginBottom: 2,
-                    }}
-                  >
-                    💳 Payment
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: TEXT_GRAY,
+                      whiteSpace: "pre-line",
+                      lineHeight: 1.4,
                       marginBottom: 10,
                     }}
                   >
-                    📱 Mobile Ticket
+                    {primaryItem.eventName}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      fontSize: 13,
+                      color: TEXT_DARK,
+                      marginBottom: 4,
+                    }}
+                  >
+                    <span>💳</span>
+                    <span>Payment</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      fontSize: 13,
+                      marginBottom: 12,
+                    }}
+                  >
+                    <span>🚚</span>
+                    <span style={{ color: BLUE, fontWeight: 600 }}>Mobile Ticket</span>
                   </div>
                   <button
-                    onClick={() => navigate(`/mobile-ticket/${order.items[0].id}`)}
+                    onClick={() => navigate(`/mobile-ticket/${primaryItem.id}`)}
                     style={{
+                      width: "100%",
                       background: BLUE,
                       color: "#fff",
                       border: "none",
-                      borderRadius: 4,
-                      padding: "8px 14px",
-                      fontSize: 12,
+                      borderRadius: 6,
+                      padding: "12px 0",
+                      fontSize: 14,
                       fontWeight: 700,
                       cursor: "pointer",
                     }}
                   >
                     View Mobile Ticket
                   </button>
-                </div>
-                <div style={{ padding: "16px 14px" }}>
+                </InfoSection>
+
+                <div style={{ borderTop: `1px solid ${BORDER_LIGHT}` }} />
+
+                <InfoSection label="Order Status">
                   <div
                     style={{
-                      fontSize: 13,
+                      fontSize: 14,
                       color: TEXT_DARK,
-                      marginBottom: 12,
+                      marginBottom: 14,
                     }}
                   >
                     {order.status}
                   </div>
                   <button
+                    onClick={() =>
+                      navigate(`/ticket-transfer?ticketId=${primaryItem.id}`)
+                    }
                     style={{
-                      display: "block",
                       width: "100%",
                       background: "#fff",
-                      color: TEXT_DARK,
-                      border: `1px solid ${BORDER_LIGHT}`,
-                      borderRadius: 4,
-                      padding: "8px 0",
-                      fontSize: 12,
+                      color: BLUE,
+                      border: `1px solid ${BLUE}`,
+                      borderRadius: 6,
+                      padding: "12px 0",
+                      fontSize: 14,
                       fontWeight: 700,
                       cursor: "pointer",
-                      marginBottom: 8,
                     }}
                   >
                     Transfer ↗
                   </button>
-                  <button
-                    onClick={() => toggleOrder(orderIndex)}
-                    style={{
-                      display: "block",
-                      width: "100%",
-                      background: "#fff",
-                      color: TEXT_DARK,
-                      border: `1px solid ${BORDER_LIGHT}`,
-                      borderRadius: 4,
-                      padding: "8px 0",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      cursor: "pointer",
-                    }}
-                  >
-                    {isExpanded ? "Hide Details −" : "Show Details +"}
-                  </button>
-                </div>
+                </InfoSection>
               </div>
-
-              {/* Expandable item breakdown */}
-              {isExpanded && (
-                <div>
-                  {!isMobile && (
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: itemGridColumns,
-                        background: LIGHT_BG,
-                      }}
-                    >
-                      {["Item", "Seat Info", "Ticket Info", "Booking Fee", "Subtotal"].map(
-                        (h) => (
-                          <div
-                            key={h}
-                            style={{
-                              fontSize: 12,
-                              fontWeight: 700,
-                              color: TEXT_DARK,
-                              padding: "10px 14px",
-                              borderBottom: `1px solid ${BORDER_LIGHT}`,
-                            }}
-                          >
-                            {h}
-                          </div>
-                        )
-                      )}
-                    </div>
-                  )}
-
-                  {order.items.map((item) => (
-                    <div
-                      key={item.id}
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: itemGridColumns,
-                        borderBottom: `1px solid ${BORDER_LIGHT}`,
-                      }}
-                    >
-                      <div style={{ padding: "14px" }}>
-                        <div
-                          style={{
-                            fontSize: 13,
-                            fontWeight: 700,
-                            color: TEXT_DARK,
-                            marginBottom: 4,
-                          }}
-                        >
-                          {item.eventName}
-                        </div>
-                        <div style={{ fontSize: 12, color: TEXT_GRAY }}>
-                          📅 {item.date}
-                        </div>
-                        <div style={{ fontSize: 12, color: TEXT_GRAY }}>
-                          📍 {item.venue}
-                        </div>
-                      </div>
-
-                      {isMobile ? (
-                        <>
-                          <div style={{ padding: "0 14px 14px", fontSize: 12, color: TEXT_DARK }}>
-                            <span style={{ color: TEXT_GRAY, fontWeight: 600 }}>Seat: </span>
-                            <span style={{ whiteSpace: "pre-line" }}>{item.seatInfoShort}</span>
-                          </div>
-                          <div style={{ padding: "0 14px 14px", fontSize: 12, color: TEXT_DARK }}>
-                            <span style={{ color: TEXT_GRAY, fontWeight: 600 }}>Ticket: </span>
-                            <span style={{ whiteSpace: "pre-line" }}>{item.ticketInfoShort}</span>
-                          </div>
-                          <div style={{ padding: "0 14px 14px", fontSize: 12, color: TEXT_DARK }}>
-                            <span style={{ color: TEXT_GRAY, fontWeight: 600 }}>Booking Fee: </span>
-                            {item.bookingFee}
-                          </div>
-                          <div
-                            style={{
-                              padding: "0 14px 14px",
-                              fontSize: 12,
-                              fontWeight: 700,
-                              color: TEXT_DARK,
-                            }}
-                          >
-                            <span style={{ color: TEXT_GRAY, fontWeight: 600 }}>Subtotal: </span>
-                            {item.subtotal}
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div
-                            style={{
-                              padding: "14px",
-                              fontSize: 12,
-                              color: TEXT_DARK,
-                              whiteSpace: "pre-line",
-                            }}
-                          >
-                            {item.seatInfoShort}
-                          </div>
-                          <div
-                            style={{
-                              padding: "14px",
-                              fontSize: 12,
-                              color: TEXT_DARK,
-                              whiteSpace: "pre-line",
-                            }}
-                          >
-                            {item.ticketInfoShort}
-                          </div>
-                          <div
-                            style={{
-                              padding: "14px",
-                              fontSize: 12,
-                              color: TEXT_DARK,
-                            }}
-                          >
-                            {item.bookingFee}
-                          </div>
-                          <div
-                            style={{
-                              padding: "14px",
-                              fontSize: 12,
-                              fontWeight: 700,
-                              color: TEXT_DARK,
-                            }}
-                          >
-                            {item.subtotal}
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  ))}
-
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      gap: 40,
-                      padding: "10px 14px",
-                      borderBottom: `1px solid ${BORDER_LIGHT}`,
-                    }}
-                  >
-                    <span style={{ fontSize: 12, color: TEXT_GRAY }}>
-                      Ticket Qty.
-                    </span>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: BLUE }}>
-                      {order.items.reduce((sum, i) => sum + i.qty, 0)} ticket(s)
-                    </span>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      gap: 40,
-                      padding: "10px 14px",
-                    }}
-                  >
-                    <span style={{ fontSize: 12, color: TEXT_GRAY }}>Total</span>
-                    <span
-                      style={{ fontSize: 13, fontWeight: 700, color: RED_TOTAL }}
-                    >
-                      {order.items[0].subtotal}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import MyTicketOrders from "./components/Myticketorders";
 import TicketQRScan from "./components/Ticketqrscan";
 import PurchaseHistory from "./components/Purchasehistory";
 import MobileTicketPage from "./components/Mobileticketpage";
+import TicketTransfer from "./components/Tickettransfer";
 
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
             <Route path="/purchase" element={<PurchaseHistory />} />
 
             <Route path="/mobile-ticket/:ticketId" element={<MobileTicketPage />} />
+            <Route path="/ticket-transfer" element={<TicketTransfer />} />
       </Routes>
     </Router>
   );
