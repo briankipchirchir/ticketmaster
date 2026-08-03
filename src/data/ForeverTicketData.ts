@@ -11,7 +11,7 @@ export const FFOREVER_MAP_URL =
   "https://maps.google.com/?q=Unifi+Arena+Bukit+Jalil";
 
 // Replace with the real purchaser name for each ticket if it differs.
-const DEFAULT_PURCHASER_NAME = "AIN ZURIN BINTI LIZAN";
+const DEFAULT_PURCHASER_NAME = "MELISSA ZURIN ";
 
 export type ForeverCategory = "P1" | "P2" | "P3";
 

@@ -1,52 +1,50 @@
 // src/components/ForeverMobileTicket.tsx
-//
-// Standalone mobile-ticket view for F+FOREVER tickets, styled to match
-// the BookMyShow e-ticket card layout. Uses inline styles only (no
-// external CSS file needed). Reads only from data/foreverTicketsData.ts —
-// does not touch Mobileticketpage.tsx, MyTickets.tsx, or the existing
-// Order/ticketsData.ts.
 
 import { useParams } from "react-router-dom";
 import type { CSSProperties } from "react";
 
-// If forever.jpeg already lives in src/assets, this import will resolve.
-// Adjust the path if your assets folder is elsewhere.
 import foreverPoster from "../assets/forever.jpeg";
 import { getForeverTicketById } from "../data/ForeverTicketData";
 
 const styles: Record<string, CSSProperties> = {
   page: {
     minHeight: "100vh",
-    background: "#0e0e12",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    padding: "32px 16px",
+    width: "100%",
+    background: "#ffffff",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
   },
   card: {
     width: "100%",
-    maxWidth: 420,
+    minHeight: "100vh",
     background: "#ffffff",
-    borderRadius: 10,
-    overflow: "hidden",
-    boxShadow: "0 8px 30px rgba(0, 0, 0, 0.35)",
+    display: "flex",
+    flexDirection: "column",
   },
   header: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     background: "#2b2b3d",
-    padding: "14px 18px",
+    padding: "16px 20px",
   },
   logo: {
     fontWeight: 700,
     fontSize: 20,
     color: "#ffffff",
+    letterSpacing: "-0.3px",
+    display: "flex",
+    alignItems: "center",
   },
   logoAccent: {
-    color: "#e0313f",
+    color: "#ffffff",
+    background: "#e0313f",
+    padding: "1px 6px",
+    margin: "0 1px",
+    borderRadius: "50% 50% 50% 4px / 60% 60% 40% 40%",
+    display: "inline-block",
+    lineHeight: 1.1,
+    transform: "rotate(-2deg)",
   },
   priceTag: {
     textAlign: "right",
@@ -59,6 +57,7 @@ const styles: Record<string, CSSProperties> = {
   },
   body: {
     padding: 20,
+    flex: 1,
   },
   top: {
     display: "flex",
@@ -85,6 +84,13 @@ const styles: Record<string, CSSProperties> = {
     margin: "10px 0",
     fontSize: 14,
     color: "#333",
+  },
+  iconWrap: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+    marginTop: 2,
   },
   metaLink: {
     color: "#e0313f",
@@ -122,12 +128,43 @@ const styles: Record<string, CSSProperties> = {
     lineHeight: 1.5,
   },
   notFound: {
-    color: "#ffffff",
+    color: "#1a1a1a",
     textAlign: "center",
     paddingTop: 60,
     fontSize: 15,
   },
 };
+
+// --- Icons matching the BookMyShow e-ticket style (red outline) ---
+
+function ClockIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="9" stroke="#e0313f" strokeWidth="1.8" />
+      <path
+        d="M12 7v5l3.5 2"
+        stroke="#e0313f"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function PinIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"
+        stroke="#e0313f"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="9" r="2.3" stroke="#e0313f" strokeWidth="1.8" />
+    </svg>
+  );
+}
 
 function ForeverMobileTicket() {
   const { ticketId } = useParams<{ ticketId: string }>();
@@ -166,10 +203,19 @@ function ForeverMobileTicket() {
             <div style={styles.title}>{ticket.eventName}</div>
           </div>
 
-          <div style={styles.meta}>🕐 {ticket.date}</div>
           <div style={styles.meta}>
+            <span style={styles.iconWrap}>
+              <ClockIcon />
+            </span>
+            <span>{ticket.date}</span>
+          </div>
+
+          <div style={styles.meta}>
+            <span style={styles.iconWrap}>
+              <PinIcon />
+            </span>
             <span>
-              📍 {ticket.venue}
+              {ticket.venue}
               <br />
               <a
                 href={ticket.venueMapUrl}
@@ -214,15 +260,13 @@ function ForeverMobileTicket() {
 
           <div style={styles.purchaser}>
             <div style={styles.gridCellLabel}>Purchaser Full Name</div>
-            <div style={styles.gridCellValue}>
-              {ticket.purchaserFullName}
-            </div>
+            <div style={styles.gridCellValue}>{ticket.purchaserFullName}</div>
           </div>
 
           <div style={styles.notice}>
             Screenshot / image format of e-ticket(s) will NOT be accepted.
             <br />
-            电子门票一律不接受截图 / 图片格式。
+            电子门票一律不接受截图/图片格式。
           </div>
         </div>
       </div>
