@@ -231,6 +231,21 @@ const AdminPage: React.FC = () => {
         >
           Purchase
         </button>
+
+        <button
+  onClick={() => navigate("/forever-tickets")}
+  style={{
+    padding: "8px 16px",
+    background: "#026cdf",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    fontWeight: 600,
+    cursor: "pointer",
+  }}
+>
+  Forever
+</button>
       </div>
 
       {/* Search Bar */}

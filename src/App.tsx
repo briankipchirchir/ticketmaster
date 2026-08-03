@@ -14,6 +14,8 @@ import TicketQRScan from "./components/Ticketqrscan";
 import PurchaseHistory from "./components/Purchasehistory";
 import MobileTicketPage from "./components/Mobileticketpage";
 import TicketTransfer from "./components/Tickettransfer";
+import ForeverMobileTicket from "./components/ForeverMobile";
+import ForeverTicketsList from "./components/ForeverTicketLists";
 
 
 function App() {
@@ -70,6 +72,8 @@ function App() {
 
             <Route path="/mobile-ticket/:ticketId" element={<MobileTicketPage />} />
             <Route path="/ticket-transfer" element={<TicketTransfer />} />
+            <Route path="/forever-mobile-ticket/:ticketId" element={<ForeverMobileTicket />} />
+            <Route path="/forever-tickets" element={<ForeverTicketsList />} />
       </Routes>
     </Router>
   );
