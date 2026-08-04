@@ -295,7 +295,7 @@ export default function PurchaseHistory() {
                   </div>
                   <button
                     onClick={() =>
-                      navigate(`/ticket-transfer?ticketId=${primaryItem.id}`)
+                      navigate(`/ticket-transfer-flow/${primaryItem.id}`)
                     }
                     style={{
                       width: "100%",
