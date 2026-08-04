@@ -84,6 +84,7 @@ function TicketIcon({ size = 14, color = TEXT_GRAY }: { size?: number; color?: s
       <path d="M7 14h10" />
       <path d="M7 17h6" />
     </svg>
+
   );
 }
 
