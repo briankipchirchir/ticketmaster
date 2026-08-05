@@ -26,7 +26,7 @@ export interface Order {
   items: TicketItem[];
 }
 
-const ATTENDEE_NAME = "Melissa nathans";
+const ATTENDEE_NAME = "Victoria Green";
 
 const FFOREVER_EVENT_NAME =
   "F✦FOREVER 1st World Tour in Singapore\nF✦FOREVER 恒星之城 世界巡回演唱会 - 新加坡站";
@@ -106,7 +106,7 @@ export const ORDERS: Order[] = [
         price: "$458.00",
         ticketCategory: "CAT 1 — Live Nation + 恒星不忘尊荣礼包",
         section: "121A",
-        ticketInfoLines: ["Row A Seat 2"],
+        ticketInfoLines: ["Row A Seat 5"],
         gateDoor: "PREMIER WEST (L1)",
         levelTier: "L1",
         attendeeName: ATTENDEE_NAME,
