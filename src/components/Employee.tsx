@@ -195,7 +195,7 @@ export default function EmployeeAppreciation() {
           <div style={{ borderBottom: "1px solid #f1f3f4" }}>
             {[
               { from: "Facilities Team", subject: "Office closed Monday for maintenance", time: "Wed" },
-              { from: "People & Culture Team", subject: "🎉 Happy Employee Appreciation Day!", time: "9:14 AM", open: true },
+              { from: "People & Culture Team", subject: "🎉 Happy Employee Appreciation Day!", time: "Wed", open: true },
               { from: "IT Helpdesk", subject: "Scheduled password reset reminder", time: "Tue" },
               { from: "Payroll", subject: "Your August payslip is available", time: "Mon" },
             ].map((row, i) => (
