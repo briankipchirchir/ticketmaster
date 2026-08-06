@@ -246,6 +246,21 @@ const AdminPage: React.FC = () => {
 >
   Forever
 </button>
+
+<button
+  onClick={() => navigate("/employee-appreciation")}
+  style={{
+    padding: "8px 16px",
+    background: "#026cdf",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    fontWeight: 600,
+    cursor: "pointer",
+  }}
+>
+  Employee Appreciation
+</button>
       </div>
 
       {/* Search Bar */}

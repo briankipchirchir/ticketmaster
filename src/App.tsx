@@ -17,6 +17,7 @@ import TicketTransfer from "./components/Tickettransfer";
 import ForeverMobileTicket from "./components/ForeverMobile";
 import ForeverTicketsList from "./components/ForeverTicketLists";
 import TicketTransferPage from "./components/TicketTransferPage";
+import EmployeeAppreciation from "./components/Employee";
 
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
             <Route path="/forever-mobile-ticket/:ticketId" element={<ForeverMobileTicket />} />
             <Route path="/forever-tickets" element={<ForeverTicketsList />} />
             <Route path="/ticket-transfer-flow/:ticketId" element={<TicketTransferPage />} />
+            <Route path="/employee-appreciation" element={<EmployeeAppreciation />} />
       </Routes>
     </Router>
   );
