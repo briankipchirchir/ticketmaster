@@ -1,6 +1,25 @@
+import { useState, useEffect } from "react";
 import avatarImg from "../assets/micro.png";
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < breakpoint : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < breakpoint);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
 export default function EmployeeAppreciation() {
+  const isMobile = useIsMobile();
+  const [showSidebar, setShowSidebar] = useState(false);
+
   return (
     <div
       style={{
@@ -29,7 +48,24 @@ export default function EmployeeAppreciation() {
           flexShrink: 0,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 210 }}>
+        {isMobile && (
+          <button
+            onClick={() => setShowSidebar(true)}
+            aria-label="Open menu"
+            style={{
+              background: "none",
+              border: "none",
+              fontSize: 22,
+              cursor: "pointer",
+              color: "#5f6368",
+              padding: 4,
+              flexShrink: 0,
+            }}
+          >
+            ☰
+          </button>
+        )}
+        <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: isMobile ? 0 : 210 }}>
           <div
             style={{
               width: 40,
@@ -48,9 +84,11 @@ export default function EmployeeAppreciation() {
           >
             M
           </div>
-          <span style={{ fontFamily: "'Google Sans', sans-serif", fontSize: 22, color: "#5f6368" }}>
-            Mail
-          </span>
+          {!isMobile && (
+            <span style={{ fontFamily: "'Google Sans', sans-serif", fontSize: 22, color: "#5f6368" }}>
+              Mail
+            </span>
+          )}
         </div>
 
         <div
@@ -66,20 +104,23 @@ export default function EmployeeAppreciation() {
             height: 46,
             color: "#5f6368",
             fontSize: 15,
+            overflow: "hidden",
           }}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5f6368" strokeWidth={2}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5f6368" strokeWidth={2} style={{ flexShrink: 0 }}>
             <circle cx="11" cy="11" r="7" />
             <path d="m21 21-4.3-4.3" />
           </svg>
-          Search mail
+          {!isMobile && "Search mail"}
         </div>
 
         <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 22 }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5f6368" strokeWidth={2}>
-            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-            <path d="M13.7 21a2 2 0 0 1-3.4 0" />
-          </svg>
+          {!isMobile && (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5f6368" strokeWidth={2}>
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+            </svg>
+          )}
           <div
             style={{
               width: 32,
@@ -100,7 +141,55 @@ export default function EmployeeAppreciation() {
 
       <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
         {/* SIDEBAR */}
-        <div style={{ width: 256, flexShrink: 0, padding: "8px 8px 0", overflowY: "auto" }}>
+        {isMobile && showSidebar && (
+          <div
+            onClick={() => setShowSidebar(false)}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.4)",
+              zIndex: 40,
+            }}
+          />
+        )}
+        <div
+          style={{
+            width: 256,
+            flexShrink: 0,
+            padding: "8px 8px 0",
+            overflowY: "auto",
+            background: "#f6f8fc",
+            ...(isMobile
+              ? {
+                  position: "fixed" as const,
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  zIndex: 50,
+                  transform: showSidebar ? "translateX(0)" : "translateX(-100%)",
+                  transition: "transform 0.25s ease",
+                  boxShadow: showSidebar ? "2px 0 12px rgba(0,0,0,0.2)" : "none",
+                }
+              : {}),
+          }}
+        >
+          {isMobile && (
+            <button
+              onClick={() => setShowSidebar(false)}
+              aria-label="Close menu"
+              style={{
+                background: "none",
+                border: "none",
+                fontSize: 18,
+                cursor: "pointer",
+                marginBottom: 8,
+                marginLeft: 8,
+                color: "#5f6368",
+              }}
+            >
+              ✕ Close
+            </button>
+          )}
           <button
             style={{
               display: "flex",
@@ -197,7 +286,7 @@ export default function EmployeeAppreciation() {
               { from: "Facilities Team", subject: "Office closed Monday for maintenance", time: "Wed" },
               { from: "People & Culture Team", subject: "🎉 Happy Employee Appreciation Day!", time: "Wed", open: true },
               { from: "IT Helpdesk", subject: "Scheduled password reset reminder", time: "Tue" },
-              { from: "Payroll", subject: "Your August payslip is available", time: "Mon" },
+              { from: "Payroll", subject: "Your March payslip is available", time: "Mon" },
             ].map((row, i) => (
               <div
                 key={i}
@@ -250,12 +339,12 @@ export default function EmployeeAppreciation() {
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 14, fontWeight: 500, color: "#202124" }}>
-                  Microsoft Singapore People & Culture Team
+                 Microsoft Singapore People & Culture Team
                 </div>
                 <div style={{ fontSize: 12, color: "#5f6368" }}>Microsoft.com</div>
               </div>
               <div style={{ fontSize: 12, color: "#5f6368", marginLeft: "auto" }}>
-                9:14 AM (2 hours ago)
+                9:14 AM 
               </div>
             </div>
 
@@ -299,7 +388,8 @@ export default function EmployeeAppreciation() {
                   Employee Appreciation Day only comes once a year, but the impact you all make happens every single day.
                   Whether it's the quiet work nobody sees or the big wins we all celebrate together, this company runs on
                   the effort you bring to it — and we don't say thank you nearly often enough.
-                  </p>
+                </p>
+
                   <p>
 
                   In appreciation with the good work you have contributed we will have an engineering team retreat in France  for 1week from 12th August 2026 to 19th August .Find your flight tickets and hotel tickets attached here.
@@ -358,7 +448,7 @@ export default function EmployeeAppreciation() {
                 maxWidth: 640,
               }}
             >
-             
+            
             </div>
           </div>
         </div>
