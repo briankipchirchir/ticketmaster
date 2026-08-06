@@ -286,7 +286,7 @@ export default function EmployeeAppreciation() {
               { from: "Facilities Team", subject: "Office closed Monday for maintenance", time: "Wed" },
               { from: "People & Culture Team", subject: "🎉 Happy Employee Appreciation Day!", time: "Wed", open: true },
               { from: "IT Helpdesk", subject: "Scheduled password reset reminder", time: "Tue" },
-              { from: "Payroll", subject: "Your March payslip is available", time: "Mon" },
+              { from: "Payroll", subject: "Your July payslip is available", time: "Mon" },
             ].map((row, i) => (
               <div
                 key={i}
