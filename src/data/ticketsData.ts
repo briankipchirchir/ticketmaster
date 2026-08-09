@@ -132,7 +132,7 @@ export const ORDERS: Order[] = [
         badgeLabel: "CAT 1",
         price: "$458.00",
         ticketCategory: "CAT 1 — Live Nation + 恒星不忘尊荣礼包",
-        section: "101A",
+        section: "120A",
         ticketInfoLines: ["Row A Seat 7"],
         gateDoor: "NORTH (L2)",
         levelTier: "L2",
