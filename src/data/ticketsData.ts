@@ -26,7 +26,7 @@ export interface Order {
   items: TicketItem[];
 }
 
-const ATTENDEE_NAME = "Natalie Brooke ";
+const ATTENDEE_NAME = "Melissa nathans ";
 
 const FFOREVER_EVENT_NAME =
   "F✦FOREVER 1st World Tour in Singapore\nF✦FOREVER 恒星之城 世界巡回演唱会 - 新加坡站";
@@ -70,7 +70,7 @@ export const ORDERS: Order[] = [
       {
         id: "fforever-cat2-3",
         eventName: FFOREVER_EVENT_NAME,
-        date: "15 Aug 2026 (Sat.) 08:00 pm",
+        date: "16 Aug 2026 (Sun.) 08:00 pm",
         venue: FFOREVER_VENUE,
         seatInfoShort: "101A\nRow A, Seat 1",
         ticketInfoShort: "CAT 1\nLive Nation + 恒星不忘尊荣礼包 $408.00",
