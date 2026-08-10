@@ -26,7 +26,7 @@ export interface Order {
   items: TicketItem[];
 }
 
-const ATTENDEE_NAME = "Melissa nathans ";
+const ATTENDEE_NAME = "Genicious Maria ";
 
 const FFOREVER_EVENT_NAME =
   "F✦FOREVER 1st World Tour in Singapore\nF✦FOREVER 恒星之城 世界巡回演唱会 - 新加坡站";
@@ -72,7 +72,7 @@ export const ORDERS: Order[] = [
         eventName: FFOREVER_EVENT_NAME,
         date: "16 Aug 2026 (Sun.) 08:00 pm",
         venue: FFOREVER_VENUE,
-        seatInfoShort: "101A\nRow A, Seat 1",
+        seatInfoShort: "112A\nRow A, Seat 1",
         ticketInfoShort: "CAT 1\nLive Nation + 恒星不忘尊荣礼包 $408.00",
         bookingFee: "$10.00",
         subtotal: "$468.00",
@@ -80,8 +80,34 @@ export const ORDERS: Order[] = [
         badgeLabel: "CAT 1",
         price: "$458.00",
         ticketCategory: "CAT 1 — Live Nation + 恒星不忘尊荣礼包",
-        section: "101A",
+        section: "112A",
         ticketInfoLines: ["Row A Seat 1"],
+        gateDoor: "NORTH (L2)",
+        levelTier: "L2",
+        attendeeName: ATTENDEE_NAME,
+      },
+    ],
+  },
+  {
+    orderNo: "BK",
+    orderTime: FFOREVER_ORDER_TIME,
+    status: "E-ticket Available",
+    items: [
+      {
+        id: "fforever-cat2-7",
+        eventName: FFOREVER_EVENT_NAME,
+        date: "16 Aug 2026 (Sun.) 08:00 pm",
+        venue: FFOREVER_VENUE,
+        seatInfoShort: "112A\nRow A, Seat 2",
+        ticketInfoShort: "CAT 1\nLive Nation + 恒星不忘尊荣礼包 $408.00",
+        bookingFee: "$10.00",
+        subtotal: "$468.00",
+        qty: 1,
+        badgeLabel: "CAT 1",
+        price: "$458.00",
+        ticketCategory: "CAT 1 — Live Nation + 恒星不忘尊荣礼包",
+        section: "112A",
+        ticketInfoLines: ["Row A Seat 2"],
         gateDoor: "NORTH (L2)",
         levelTier: "L2",
         attendeeName: ATTENDEE_NAME,
