@@ -12,6 +12,9 @@ const BORDER_DARK = "#2c2c2e";
 const TEXT_WHITE = "#ffffff";
 const TEXT_GRAY = "#8e8e93";
 
+// Backend base URL — swap for your Render URL once deployed
+const API_BASE = "https://masters-ha0q.onrender.com";
+
 interface Seat {
   id: number | string;
   label: string;
@@ -185,6 +188,11 @@ export default function TicketTransferFlow({
   const [otpCode, setOtpCode] = useState("");
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
+  // NEW — backend call state
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
+  const [unlockCode, setUnlockCode] = useState("");
+
   const handleClose = () => {
     if (onClose) {
       onClose();
@@ -230,11 +238,52 @@ export default function TicketTransferFlow({
     setEmailOrPhone("");
     setNote("");
     setSent(false);
+    setUnlockCode("");
+    setSendError("");
   };
 
-  const handleSend = () => {
+  // NEW — calls the real backend instead of just flipping a flag
+  const handleSend = async () => {
     if (!emailOrPhone) return;
-    setSent(true);
+    setSending(true);
+    setSendError("");
+
+    const selectedSeatLabels = seatList
+      .filter((s) => selected.includes(s.id))
+      .map((s) => s.label);
+
+    try {
+      const res = await fetch(`${API_BASE}/api/tickets/transfer`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          eventName,
+          eventDate,
+          venue,
+          orderNumber,
+          ticketTypeLabel,
+          section,
+          row,
+          seatLabels: selectedSeatLabels,
+          note,
+          recipientEmailOrPhone: emailOrPhone,
+          eventImageUrl: eventImage,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Failed to send transfer email");
+      }
+
+      const data = await res.json();
+      setUnlockCode(data.unlockCode || "");
+      setSent(true);
+    } catch (err: any) {
+      setSendError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const page = {
@@ -1367,8 +1416,31 @@ export default function TicketTransferFlow({
               <div style={{ textAlign: "center", padding: "30px 10px" }}>
                 <div style={{ fontSize: 15, fontWeight: 700, color: TEXT_WHITE }}>Tickets sent</div>
                 <div style={{ fontSize: 13, color: TEXT_GRAY, marginTop: 6 }}>
-                  {emailOrPhone} will get an email to accept the transfer.
+                  {emailOrPhone} will get an email with instructions to view their ticket.
                 </div>
+
+                {unlockCode && (
+                  <div
+                    style={{
+                      marginTop: 20,
+                      background: CARD_DARK,
+                      border: `1px solid ${BORDER_DARK}`,
+                      borderRadius: 8,
+                      padding: "16px 20px",
+                    }}
+                  >
+                    <div style={{ fontSize: 11, fontWeight: 700, color: TEXT_GRAY, letterSpacing: 0.5 }}>
+                      UNLOCK CODE — SHARE THIS WITH THE RECIPIENT
+                    </div>
+                    <div style={{ fontSize: 28, fontWeight: 800, color: TEXT_WHITE, letterSpacing: 6, marginTop: 8 }}>
+                      {unlockCode}
+                    </div>
+                    <div style={{ fontSize: 11, color: TEXT_GRAY, marginTop: 8 }}>
+                      They'll need this code to reveal their QR code. Don't send it until you've confirmed payment.
+                    </div>
+                  </div>
+                )}
+
                 <button
                   onClick={closeTransfer}
                   style={{
@@ -1452,6 +1524,10 @@ export default function TicketTransferFlow({
                   }}
                 />
 
+                {sendError && (
+                  <div style={{ fontSize: 12, color: "#f87171", marginBottom: 12 }}>{sendError}</div>
+                )}
+
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <button
                     onClick={() => setScreen("selectTransfer")}
@@ -1460,20 +1536,20 @@ export default function TicketTransferFlow({
                     &lt; BACK
                   </button>
                   <button
-                    disabled={!emailOrPhone}
+                    disabled={!emailOrPhone || sending}
                     onClick={handleSend}
                     style={{
                       border: "none",
-                      background: emailOrPhone ? BLUE : BORDER_DARK,
+                      background: emailOrPhone && !sending ? BLUE : BORDER_DARK,
                       color: "#fff",
                       fontWeight: 700,
                       fontSize: 12,
                       padding: "10px 16px",
                       borderRadius: 6,
-                      cursor: emailOrPhone ? "pointer" : "not-allowed",
+                      cursor: emailOrPhone && !sending ? "pointer" : "not-allowed",
                     }}
                   >
-                    TRANSFER {selected.length} TICKETS
+                    {sending ? "Sending..." : `TRANSFER ${selected.length} TICKETS`}
                   </button>
                 </div>
               </>
