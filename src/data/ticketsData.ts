@@ -26,7 +26,7 @@ export interface Order {
   items: TicketItem[];
 }
 
-const ATTENDEE_NAME = "Mei Ling ";
+const ATTENDEE_NAME = "Nicole Seah";
 
 const FFOREVER_EVENT_NAME =
   "F✦FOREVER 1st World Tour in Singapore\nF✦FOREVER 恒星之城 世界巡回演唱会 - 新加坡站";
