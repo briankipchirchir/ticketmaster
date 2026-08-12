@@ -26,7 +26,7 @@ export interface Order {
   items: TicketItem[];
 }
 
-const ATTENDEE_NAME = "Genicious Maria ";
+const ATTENDEE_NAME = "Mei Ling ";
 
 const FFOREVER_EVENT_NAME =
   "F✦FOREVER 1st World Tour in Singapore\nF✦FOREVER 恒星之城 世界巡回演唱会 - 新加坡站";
@@ -45,7 +45,7 @@ export const ORDERS: Order[] = [
         eventName: FFOREVER_EVENT_NAME,
         date: "15 Aug 2026 (Sat.) 08:00 pm",
         venue: FFOREVER_VENUE,
-        seatInfoShort: "101A\nRow A, Seat 3",
+        seatInfoShort: "123A\nRow A, Seat 1",
         ticketInfoShort: "CAT 1\nLive Nation + 恒星不忘尊荣礼包 $408.00",
         bookingFee: "$10.00",
         subtotal: "$468.00",
@@ -53,8 +53,8 @@ export const ORDERS: Order[] = [
         badgeLabel: "CAT 1",
         price: "$458.00",
         ticketCategory: "CAT 1 — Live Nation + 恒星不忘尊荣礼包",
-        section: "101A",
-        ticketInfoLines: ["Row A Seat 3"],
+        section: "123A",
+        ticketInfoLines: ["Row A Seat 1"],
         gateDoor: "NORTH (L2)",
         levelTier: "L2",
         attendeeName: ATTENDEE_NAME,
@@ -72,7 +72,7 @@ export const ORDERS: Order[] = [
         eventName: FFOREVER_EVENT_NAME,
         date: "16 Aug 2026 (Sun.) 08:00 pm",
         venue: FFOREVER_VENUE,
-        seatInfoShort: "112A\nRow A, Seat 1",
+        seatInfoShort: "123A\nRow A, Seat 2",
         ticketInfoShort: "CAT 1\nLive Nation + 恒星不忘尊荣礼包 $408.00",
         bookingFee: "$10.00",
         subtotal: "$468.00",
@@ -80,8 +80,8 @@ export const ORDERS: Order[] = [
         badgeLabel: "CAT 1",
         price: "$458.00",
         ticketCategory: "CAT 1 — Live Nation + 恒星不忘尊荣礼包",
-        section: "112A",
-        ticketInfoLines: ["Row A Seat 1"],
+        section: "123A",
+        ticketInfoLines: ["Row A Seat 2"],
         gateDoor: "NORTH (L2)",
         levelTier: "L2",
         attendeeName: ATTENDEE_NAME,
