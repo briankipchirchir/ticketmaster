@@ -43,7 +43,7 @@ export const ORDERS: Order[] = [
       {
         id: "fforever-cat2-1",
         eventName: FFOREVER_EVENT_NAME,
-        date: "15 Aug 2026 (Sat.) 08:00 pm",
+        date: "14 Aug 2026 (Fri.) 08:00 pm",
         venue: FFOREVER_VENUE,
         seatInfoShort: "123A\nRow A, Seat 1",
         ticketInfoShort: "CAT 1\nLive Nation + 恒星不忘尊荣礼包 $408.00",
@@ -70,7 +70,7 @@ export const ORDERS: Order[] = [
       {
         id: "fforever-cat2-3",
         eventName: FFOREVER_EVENT_NAME,
-        date: "16 Aug 2026 (Sun.) 08:00 pm",
+        date: "14 Aug 2026 (Fri.) 08:00 pm",
         venue: FFOREVER_VENUE,
         seatInfoShort: "123A\nRow A, Seat 2",
         ticketInfoShort: "CAT 1\nLive Nation + 恒星不忘尊荣礼包 $408.00",
