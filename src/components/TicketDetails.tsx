@@ -9,18 +9,18 @@ export default function TicketDetails() {
     <TicketTransferFlow
       eventImage={BTS}
       eventName="BTS WORLD TOUR 'ARIRANG' IN LOS ANGELES"
-      eventDate="SAT, SEP 05, 2026, 08:00 PM"
+      eventDate="Tue, SEP 01, 2026, 08:00 PM"
       venue="SoFi Stadium — Inglewood, CA"
       venueMapLabel="SoFi Stadium"
       orderNumber="52-286815/CA"
       ticketTypeLabel="SOUNDCHECK VIP PACKAGE"
-      section="FLR A1"
-      row="5"
+      section="B3"
+      row="1"
       seatList={[
-        { id: 1, label: "SEAT 1" },
-        { id: 2, label: "SEAT 2" },
-        { id: 3, label: "SEAT 3" },
-        { id: 4, label: "SEAT 4" },
+        { id: 7, label: "SEAT 7" },
+        // { id: 16, label: "SEAT 16" },
+        // { id: 3, label: "SEAT 3" },
+        // { id: 4, label: "SEAT 4" },
       ]}
       onClose={() => navigate("/admin")}
     />
